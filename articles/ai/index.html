@@ -1,1 +1,640 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A publication-quality engineering article about using GitHub Copilot effectively in the AI Credits era, with practical examples for Java and Spring Boot teams.">
+<meta name="author" content="Showkath">
+<meta property="og:title" content="Beyond Prompts: Engineering with GitHub Copilot in the AI Credits Era">
+<meta property="og:description" content="A practical engineering guide to GitHub Copilot AI Credits, context management, Java/Spring Boot prompts, review workflows, enterprise governance, and responsible AI usage.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Engineering Articles by Showkath">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Beyond Prompts: Engineering with GitHub Copilot in the AI Credits Era">
+<meta name="twitter:description" content="A practical engineering guide to GitHub Copilot AI Credits, context management, Java/Spring Boot prompts, review workflows, enterprise governance, and responsible AI usage.">
+<title>Beyond Prompts: Engineering with GitHub Copilot in the AI Credits Era</title>
+<style>
+:root{
+  --bg:#f5f7fb;
+  --surface:#ffffff;
+  --surface-soft:#eef6ff;
+  --text:#1f2937;
+  --muted:#5f6b7a;
+  --primary:#0b5cab;
+  --primary-dark:#063f79;
+  --accent:#31a8ff;
+  --success:#0f766e;
+  --warning:#b45309;
+  --danger:#b91c1c;
+  --border:#d9e2ef;
+  --code-bg:#0d1117;
+  --code-text:#e6edf3;
+  --shadow:0 20px 60px rgba(15,23,42,.12);
+  --radius:22px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top left,rgba(49,168,255,.18),transparent 34rem),
+    linear-gradient(180deg,#ffffff 0%,var(--bg) 42%,#ffffff 100%);
+  line-height:1.72;
+}
+a{color:var(--primary);text-decoration:none;font-weight:600}
+a:hover{text-decoration:underline}
+.page{max-width:1180px;margin:0 auto;padding:32px 22px 64px}
+.hero{
+  position:relative;
+  overflow:hidden;
+  min-height:560px;
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(320px,.75fr);
+  gap:34px;
+  align-items:center;
+  padding:58px;
+  border-radius:32px;
+  color:#fff;
+  background:
+    linear-gradient(135deg,rgba(6,63,121,.98),rgba(11,92,171,.92)),
+    radial-gradient(circle at 84% 18%,rgba(49,168,255,.44),transparent 26rem);
+  box-shadow:var(--shadow);
+}
+.hero:before{
+  content:"";
+  position:absolute;
+  inset:auto -90px -130px auto;
+  width:380px;
+  height:380px;
+  border-radius:50%;
+  background:rgba(255,255,255,.1);
+}
+.eyebrow{letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;font-weight:800;color:#c9e8ff}
+h1{font-size:clamp(2.45rem,5vw,4.8rem);line-height:1.04;margin:14px 0 20px;letter-spacing:-.05em}
+.subtitle{font-size:1.24rem;max-width:780px;color:#e6f3ff;margin:0 0 28px}
+.meta{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 0;padding:0;list-style:none;color:#d9efff}
+.meta li,.tag{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.11);padding:8px 12px;border-radius:999px;font-size:.9rem}
+.cover-card{position:relative;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(14px);border-radius:28px;padding:26px;box-shadow:0 24px 80px rgba(0,0,0,.18)}
+.cover-card h2{color:#fff;margin:0 0 14px;font-size:1.25rem}
+.credit-meter{height:16px;border-radius:999px;background:rgba(255,255,255,.18);overflow:hidden;margin:16px 0}
+.credit-meter span{display:block;height:100%;width:66%;background:linear-gradient(90deg,#6ee7b7,#31a8ff);border-radius:999px}
+.cover-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.metric{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:16px}
+.metric strong{display:block;font-size:1.55rem;line-height:1;color:#fff}.metric span{font-size:.84rem;color:#d9efff}
+.section{margin-top:34px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:34px;box-shadow:0 10px 36px rgba(15,23,42,.06)}
+.section h2{font-size:2rem;line-height:1.2;margin:0 0 16px;color:var(--primary-dark);letter-spacing:-.03em}.section h3{margin:28px 0 10px;color:#12385f;font-size:1.28rem}.section p{margin:0 0 16px}.lead{font-size:1.12rem;color:#314155}
+.toc{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:20px;padding:0;list-style:none}.toc a{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--border);background:#fbfdff;padding:14px 16px;border-radius:16px;color:var(--text)}.toc a:hover{border-color:var(--accent);text-decoration:none;box-shadow:0 8px 28px rgba(49,168,255,.14)}.toc .num{font-weight:800;color:var(--primary);min-width:28px}
+.summary-grid,.principles,.review-grid,.prompt-grid,.improvement-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{background:#fbfdff;border:1px solid var(--border);border-radius:18px;padding:20px}.card h3{margin-top:0}.card p:last-child,.callout p:last-child{margin-bottom:0}
+.callout{border-radius:18px;padding:20px 22px;margin:22px 0;border-left:6px solid var(--primary);background:var(--surface-soft)}.callout.warning{border-color:var(--warning);background:#fff7ed}.callout.success{border-color:var(--success);background:#ecfdf5}.callout.danger{border-color:var(--danger);background:#fef2f2}
+table{width:100%;border-collapse:separate;border-spacing:0;margin:18px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden}th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}th{background:#eff6ff;color:#12385f;font-size:.92rem;text-transform:uppercase;letter-spacing:.04em}tr:last-child td{border-bottom:none}tbody tr:nth-child(even) td{background:#fbfdff}
+.diagram{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:stretch;margin:24px 0}.node{position:relative;text-align:center;background:#f8fbff;border:1px solid var(--border);border-radius:18px;padding:18px 12px;font-weight:700;color:#12385f}.node span{display:block;margin-top:6px;font-weight:500;font-size:.86rem;color:var(--muted)}.node:not(:last-child):after{content:"→";position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:var(--primary);font-weight:900;background:#fff;border-radius:50%}
+.formula{font-family:"Segoe UI",Arial,sans-serif;background:#f8fbff;border:1px dashed #9cc8f5;border-radius:18px;padding:18px;margin:18px 0;color:#12385f;font-weight:700}.formula code{background:#e8f3ff;color:#063f79}
+code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;background:#eef2f7;color:#263445;border-radius:6px;padding:2px 6px;font-size:.92em}.codeblock{background:var(--code-bg);color:var(--code-text);border-radius:18px;padding:20px;margin:18px 0;overflow:auto;border:1px solid #30363d}.codeblock code{display:block;background:transparent;color:inherit;padding:0;white-space:pre;font-size:.9rem;line-height:1.55}.code-title{display:flex;justify-content:space-between;gap:12px;align-items:center;background:#161b22;color:#c9d1d9;border:1px solid #30363d;border-bottom:none;border-radius:18px 18px 0 0;padding:10px 16px;margin:18px 0 -18px;font-size:.86rem}.code-title span:last-child{color:#7ee787}
+.quote{font-size:1.35rem;line-height:1.45;color:#12385f;border-left:6px solid var(--accent);padding-left:22px;margin:24px 0;font-weight:700}.hashtags{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.hashtags span{background:#eef6ff;color:#0b5cab;border:1px solid #cfe7ff;border-radius:999px;padding:8px 12px;font-weight:700;font-size:.9rem}.references li{margin-bottom:10px}.footer-note{color:var(--muted);font-size:.95rem;margin-top:18px}
+@media (max-width:860px){.hero{grid-template-columns:1fr;padding:36px 24px}.toc,.summary-grid,.principles,.review-grid,.prompt-grid,.improvement-grid{grid-template-columns:1fr}.diagram{grid-template-columns:1fr}.node:not(:last-child):after{content:"↓";right:50%;top:auto;bottom:-20px;transform:translateX(50%)}.page{padding:18px 14px 44px}.section{padding:24px}}
+@media print{body{background:#fff}.hero,.section{box-shadow:none}.toc a{break-inside:avoid}.page{max-width:100%;padding:0}.section{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<main class="page">
+  <header class="hero" id="top">
+    <div>
+      <div class="eyebrow">GitHub Copilot • AI Credits • Engineering Leadership</div>
+      <h1>Beyond Prompts: Engineering with GitHub Copilot in the AI Credits Era</h1>
+      <p class="subtitle">A practical guide for developers and engineering teams who want to use GitHub Copilot more intentionally: better prompts, better context, better validation, and better engineering outcomes.</p>
+      <div>
+        <span class="tag">Publication-ready article</span>
+        <span class="tag">Java / Spring Boot examples</span>
+        <span class="tag">Cost-aware AI usage</span>
+      </div>
+      <ul class="meta" aria-label="Article metadata">
+        <li>Estimated read: 12–15 minutes</li>
+        <li>Audience: Developers, Tech Leads, Engineering Managers</li>
+        <li>Updated: July 2026</li>
+      </ul>
+    </div>
+    <aside class="cover-card" aria-label="Cover summary card">
+      <h2>The core idea</h2>
+      <p>Usage-based billing does not just change cost management. It changes how teams should think about AI-assisted software engineering.</p>
+      <div class="credit-meter" aria-hidden="true"><span></span></div>
+      <div class="cover-grid">
+        <div class="metric"><strong>Context</strong><span>Provide only what matters</span></div>
+        <div class="metric"><strong>Model</strong><span>Choose deliberately</span></div>
+        <div class="metric"><strong>Prompt</strong><span>Ask like an engineer</span></div>
+        <div class="metric"><strong>Verify</strong><span>Tests, review, metrics</span></div>
+      </div>
+    </aside>
+  </header>
+
+  <section class="section" id="executive-summary">
+    <h2>Executive Summary</h2>
+    <div class="summary-grid">
+      <div class="card">
+        <h3>AI Credits are a usage signal</h3>
+        <p>GitHub Copilot's usage-based billing encourages developers to think about AI requests the same way they think about cloud resources: useful, powerful, and worth managing intentionally.</p>
+      </div>
+      <div class="card">
+        <h3>Tokens are not the whole story</h3>
+        <p>AI Credit usage depends on the model and AI processing involved, including input, output, cached context, tool calls, and the amount of repository context being analyzed.</p>
+      </div>
+      <div class="card">
+        <h3>Prompting is now engineering work</h3>
+        <p>Strong prompts define scope, constraints, files, expected output, validation criteria, and what should not be changed.</p>
+      </div>
+      <div class="card">
+        <h3>Teams scale through workflows</h3>
+        <p>The most valuable thing to share is not a single magic prompt. It is the reasoning, workflow, verification strategy, and decision-making behind AI-assisted work.</p>
+      </div>
+    </div>
+    <div class="callout success">
+      <strong>Bottom line:</strong> The goal is not to use fewer AI Credits at all costs. The goal is to use AI Credits for high-value engineering outcomes: faster understanding, safer changes, better reviews, and better knowledge sharing.
+    </div>
+  </section>
+
+  <nav class="section" id="table-of-contents" aria-label="Table of contents">
+    <h2>Table of Contents</h2>
+    <ol class="toc">
+      <li><a href="#why-this-matters"><span class="num">01</span><span>Why this matters now</span></a></li>
+      <li><a href="#credits-vs-tokens"><span class="num">02</span><span>AI Credits vs. tokens</span></a></li>
+      <li><a href="#cost-examples"><span class="num">03</span><span>Cost calculation examples</span></a></li>
+      <li><a href="#prompt-engineering"><span class="num">04</span><span>Prompt smarter, not bigger</span></a></li>
+      <li><a href="#java-spring-prompts"><span class="num">05</span><span>Java and Spring Boot prompt examples</span></a></li>
+      <li><a href="#review-workflows"><span class="num">06</span><span>Performance, architecture, and security reviews</span></a></li>
+      <li><a href="#engineering-principles"><span class="num">07</span><span>Engineering principles</span></a></li>
+      <li><a href="#leadership"><span class="num">08</span><span>Knowledge sharing and leadership</span></a></li>
+      <li><a href="#enterprise-perspective"><span class="num">09</span><span>Enterprise perspective and maturity model</span></a></li>
+      <li><a href="#github-improvements"><span class="num">10</span><span>What I would like GitHub to improve</span></a></li>
+      <li><a href="#references"><span class="num">11</span><span>References and hashtags</span></a></li>
+    </ol>
+  </nav>
+
+  <section class="section" id="why-this-matters">
+    <h2>Why This Matters Now</h2>
+    <p class="lead">The transition to usage-based billing for some GitHub Copilot capabilities has sparked active developer conversations around transparency, predictability, and how different models consume AI Credits.</p>
+    <p>While learning about GitHub Copilot's usage-based billing, I realized the real question is not simply <strong>"How many AI Credits do I have?"</strong> The better engineering question is <strong>"Am I using those credits effectively?"</strong></p>
+    <div class="callout">
+      <strong>Important billing clarification:</strong> Increasing an approved spending limit does not mean an organization is automatically charged the maximum amount. Billing is based on actual AI usage, subject to the approved spending limit. Always confirm the current details in the official <a href="https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals" target="_blank" rel="noopener noreferrer">GitHub Copilot usage-based billing documentation</a> and your organization's billing settings.
+    </div>
+    <p>This is similar to cloud computing. A higher cloud budget does not mean you instantly spend the full amount. It means your system has permission to consume resources up to that limit. Engineering discipline still decides whether the usage is valuable.</p>
+  </section>
+
+  <section class="section" id="credits-vs-tokens">
+    <h2>AI Credits vs. Tokens</h2>
+    <p class="lead">AI Credits and tokens are related concepts, but they are not the same thing.</p>
+    <table>
+      <thead>
+        <tr><th>Concept</th><th>What it means</th><th>Why engineers should care</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Input tokens</strong></td>
+          <td>The prompt, selected files, chat history, repository context, logs, and instructions sent to the model.</td>
+          <td>Large context can increase processing even before the model generates an answer.</td>
+        </tr>
+        <tr>
+          <td><strong>Output tokens</strong></td>
+          <td>The generated explanation, code, test cases, summary, or plan returned by the model.</td>
+          <td>Requesting long, broad answers can increase output size and review effort.</td>
+        </tr>
+        <tr>
+          <td><strong>Cached context</strong></td>
+          <td>Previously processed context that may be reused by the system depending on the product flow and model behavior.</td>
+          <td>Caching can influence processing cost, but developers should still keep context focused.</td>
+        </tr>
+        <tr>
+          <td><strong>AI Credits</strong></td>
+          <td>A billing and usage abstraction that can depend on the selected model and the AI processing involved.</td>
+          <td>Credits help teams reason about cost, usage patterns, and governance.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="diagram" aria-label="AI request processing diagram">
+      <div class="node">Prompt<span>Goal, scope, constraints</span></div>
+      <div class="node">Context<span>Files, logs, history</span></div>
+      <div class="node">Model<span>Capability and cost profile</span></div>
+      <div class="node">Processing<span>Reasoning, tools, generation</span></div>
+      <div class="node">AI Credits<span>Usage-based accounting</span></div>
+    </div>
+    <div class="callout warning">
+      <strong>Practical interpretation:</strong> A repository-wide architecture analysis generally processes much more context than reviewing one Java class. The broader the request, the more important it becomes to manage scope and expected output.
+    </div>
+  </section>
+
+  <section class="section" id="cost-examples">
+    <h2>Cost Calculation Examples</h2>
+    <p class="lead">Exact AI Credit consumption depends on GitHub's current billing rules, the model selected, and the product feature used. The examples below are intentionally conceptual, so teams can reason about cost patterns without pretending to know GitHub's internal metering formula.</p>
+    <div class="formula">
+      Conceptual usage pattern: <code>AI Credit usage ≈ model cost profile × amount of context processed × output depth × tool/workflow complexity</code>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Scenario</th><th>Likely context size</th><th>Engineering value</th><th>Cost-aware approach</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Explain one Spring service</td>
+          <td>Low to medium</td>
+          <td>Fast onboarding and code comprehension</td>
+          <td>Attach the service, related interface, and relevant test only.</td>
+        </tr>
+        <tr>
+          <td>Review repository architecture</td>
+          <td>High</td>
+          <td>Useful for modernization and design review</td>
+          <td>Start with module map, build files, and package structure before asking for full analysis.</td>
+        </tr>
+        <tr>
+          <td>Generate unit tests for one method</td>
+          <td>Low</td>
+          <td>Focused improvement with clear verification</td>
+          <td>Provide the method, dependencies, and existing test style.</td>
+        </tr>
+        <tr>
+          <td>Debug production incident logs</td>
+          <td>Medium to high</td>
+          <td>Potentially high impact</td>
+          <td>Redact secrets, include only relevant log windows, error stack traces, and recent changes.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout danger">
+      <strong>Do not optimize only for lower usage.</strong> The cheapest AI request is not always the best one. A well-scoped request that uses a stronger model for a critical architecture, performance, or security decision may be more valuable than several low-quality attempts.
+    </div>
+  </section>
+
+  <section class="section" id="prompt-engineering">
+    <h2>Prompt Smarter, Not Bigger</h2>
+    <p class="lead">A strong prompt is not just a longer prompt. A strong prompt behaves like a precise engineering task definition.</p>
+    <table>
+      <thead>
+        <tr><th>Instead of asking</th><th>Ask like an engineer</th><th>Why this is better</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Optimize my application.</td>
+          <td>Review <code>OrderService.java</code> for performance bottlenecks without changing business logic. Focus on database calls, loops, memory allocation, and logging.</td>
+          <td>Defines scope, file, constraints, and review dimensions.</td>
+        </tr>
+        <tr>
+          <td>Scan my repository.</td>
+          <td>Identify possible N+1 query patterns in the repository and service layers. Return file names, suspected methods, and verification steps.</td>
+          <td>Turns a broad scan into a targeted investigation.</td>
+        </tr>
+        <tr>
+          <td>Improve my code.</td>
+          <td>Review this method for thread safety, null handling, exception handling, and transaction boundaries. Suggest minimal changes only.</td>
+          <td>Prevents unnecessary rewrites and keeps changes reviewable.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="diagram" aria-label="Prompt design workflow">
+      <div class="node">Goal<span>What outcome?</span></div>
+      <div class="node">Scope<span>Which files?</span></div>
+      <div class="node">Constraints<span>What not to change?</span></div>
+      <div class="node">Output<span>What format?</span></div>
+      <div class="node">Validation<span>How to verify?</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="java-spring-prompts">
+    <h2>Prompt Examples for Java and Spring Boot</h2>
+    <p class="lead">The best prompts are specific enough to guide the model, but not so restrictive that they hide important findings.</p>
+    <div class="prompt-grid">
+      <div class="card">
+        <h3>Performance Review</h3>
+        <div class="code-title"><span>Copilot Chat prompt</span><span>performance</span></div>
+        <pre class="codeblock"><code>Review OrderService.java for performance risks.
+Focus on:
+- N+1 database queries
+- unnecessary object allocation
+- repeated remote calls
+- logging inside loops
+- transaction boundaries
+
+Do not rewrite the class. Return findings with severity,
+evidence, and suggested verification steps.</code></pre>
+      </div>
+      <div class="card">
+        <h3>Spring Boot Architecture Review</h3>
+        <div class="code-title"><span>Copilot Chat prompt</span><span>architecture</span></div>
+        <pre class="codeblock"><code>Analyze this Spring Boot module for architecture concerns.
+Check whether controllers, services, repositories, DTOs,
+and domain logic are separated clearly.
+
+Return:
+1. current responsibility boundaries
+2. coupling risks
+3. refactoring options with trade-offs
+4. changes that should be avoided</code></pre>
+      </div>
+      <div class="card">
+        <h3>Security Review</h3>
+        <div class="code-title"><span>Copilot Chat prompt</span><span>security</span></div>
+        <pre class="codeblock"><code>Review this Spring REST controller for security issues.
+Focus on:
+- authentication assumptions
+- authorization checks
+- input validation
+- sensitive data exposure
+- unsafe logging
+- exception messages returned to clients
+
+Provide concrete findings and safe remediation ideas.</code></pre>
+      </div>
+      <div class="card">
+        <h3>Test Generation</h3>
+        <div class="code-title"><span>Copilot Chat prompt</span><span>testing</span></div>
+        <pre class="codeblock"><code>Create JUnit 5 tests for this method using Mockito.
+Follow the existing test style in OrderServiceTest.java.
+
+Cover:
+- successful path
+- validation failure
+- repository exception
+- edge case for empty input
+
+Do not change production code unless a testability issue is found.</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="github-style-code">
+    <h2>GitHub-Style Code Example</h2>
+    <p class="lead">When asking Copilot to review code, include enough surrounding context to understand intent, but avoid dumping unrelated files.</p>
+    <div class="code-title"><span>OrderService.java</span><span>review target</span></div>
+    <pre class="codeblock"><code>@Service
+public class OrderService {
+    private final OrderRepository orderRepository;
+    private final CustomerClient customerClient;
+
+    @Transactional(readOnly = true)
+    public List&lt;OrderSummary&gt; getRecentOrders(List&lt;Long&gt; customerIds) {
+        return customerIds.stream()
+            .flatMap(customerId -&gt; orderRepository.findRecentByCustomerId(customerId).stream())
+            .map(order -&gt; new OrderSummary(
+                order.getId(),
+                customerClient.getCustomer(order.getCustomerId()).getDisplayName(),
+                order.getTotal()))
+            .toList();
+    }
+}</code></pre>
+    <div class="callout">
+      <strong>Better review request:</strong> Ask Copilot to check for repeated database calls and repeated remote customer lookups, then ask it to propose a minimal refactoring that preserves transaction behavior and public API compatibility.
+    </div>
+  </section>
+
+  <section class="section" id="review-workflows">
+    <h2>Performance, Architecture, and Security Review Examples</h2>
+    <div class="review-grid">
+      <div class="card">
+        <h3>Performance workflow</h3>
+        <ol>
+          <li>Ask Copilot to identify suspected bottlenecks.</li>
+          <li>Ask for evidence and why each issue matters.</li>
+          <li>Validate with profiling, metrics, or targeted tests.</li>
+          <li>Apply the smallest safe change.</li>
+          <li>Compare before and after latency, CPU, memory, and database calls.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Architecture workflow</h3>
+        <ol>
+          <li>Start with package structure and module boundaries.</li>
+          <li>Ask for coupling, cohesion, and responsibility concerns.</li>
+          <li>Request trade-offs, not only recommendations.</li>
+          <li>Convert findings into small refactoring steps.</li>
+          <li>Document the architectural decision in the pull request.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Security workflow</h3>
+        <ol>
+          <li>Review authentication, authorization, input validation, and logging.</li>
+          <li>Check generated code for secret exposure and unsafe defaults.</li>
+          <li>Validate with tests and security scanning where available.</li>
+          <li>Ask for abuse cases, not only happy-path fixes.</li>
+          <li>Get human security review for high-risk changes.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Pull request workflow</h3>
+        <ol>
+          <li>Ask Copilot to summarize intent and risk areas.</li>
+          <li>Ask it to identify missing tests and migration concerns.</li>
+          <li>Use the output as a checklist, not an approval.</li>
+          <li>Record what was verified manually.</li>
+          <li>Keep final accountability with the engineering team.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="engineering-principles">
+    <h2>Engineering Principles for AI-Assisted Development</h2>
+    <div class="principles">
+      <div class="card"><h3>Cost Awareness</h3><p>Treat AI Credits like CPU, memory, database capacity, and cloud budget. Usage is not bad; unmanaged usage is the problem.</p></div>
+      <div class="card"><h3>Context Management</h3><p>Provide only the files, logs, requirements, and constraints needed for the task. More context is not always better.</p></div>
+      <div class="card"><h3>Model Selection</h3><p>Use advanced models for architecture, complex debugging, and security reasoning. Use lighter models for routine explanations and mechanical edits when appropriate.</p></div>
+      <div class="card"><h3>Incremental Problem Solving</h3><p>Break large requests into smaller tasks that can be reviewed, tested, and measured independently.</p></div>
+      <div class="card"><h3>Security First</h3><p>Review AI-generated code for secrets, authentication, authorization, data exposure, dependency risk, and input validation.</p></div>
+      <div class="card"><h3>Validation Over Blind Trust</h3><p>AI suggests; engineers decide. Validate with tests, profiling, logs, peer review, and production-safe rollout practices.</p></div>
+      <div class="card"><h3>Document AI-Assisted Changes</h3><p>Explain why a change was made, what was generated, what was modified, and what was verified during review.</p></div>
+      <div class="card"><h3>Measure Results</h3><p>For performance work, compare response time, CPU, memory, throughput, database round trips, and error rates before and after changes.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="leadership">
+    <h2>Knowledge Sharing and Leadership</h2>
+    <p class="lead">One of the biggest strengths of an engineering team is knowledge sharing. As developers grow in their careers, impact comes not only from solving complex problems, but also from helping others understand the reasoning and workflow behind the solution.</p>
+    <p>In the AI-assisted development era, leadership includes teaching teams how to ask better questions, choose the right amount of context, evaluate generated output, and document decisions. Sharing only the final prompt is less valuable than sharing the entire workflow.</p>
+    <div class="callout success">
+      <strong>A better team habit:</strong> In pull requests or engineering notes, include a short "AI-assisted workflow" section: what was asked, what context was provided, what was accepted, what was rejected, and how the result was validated.
+    </div>
+    <table>
+      <thead><tr><th>Share less of</th><th>Share more of</th></tr></thead>
+      <tbody>
+        <tr><td>One magic prompt</td><td>The task framing, constraints, review checklist, and validation method</td></tr>
+        <tr><td>Generated output only</td><td>The reasoning used to accept, modify, or reject the output</td></tr>
+        <tr><td>AI as a shortcut</td><td>AI as a pair programmer that still requires engineering judgment</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="enterprise-perspective">
+    <h2>Enterprise Perspective: AI Credits in Large Organizations</h2>
+    <p class="lead">Usage-based billing is not only a developer concern. In large enterprises, AI Credit usage may ultimately be allocated to a cost center, department, project, platform team, or engineering budget.</p>
+    <p>That means AI usage becomes both a technical and financial consideration. The objective should not be to limit AI usage blindly. The objective should be to ensure that AI usage creates meaningful engineering value.</p>
+
+    <div class="callout">
+      <strong>Enterprise framing:</strong> AI Credits should be managed like any other engineering investment: with visibility, accountability, enablement, governance, and measurable outcomes.
+    </div>
+
+    <div class="improvement-grid">
+      <div class="card">
+        <h3>For Developers</h3>
+        <p>Your goal is not simply to reduce AI usage. Your goal is to maximize value from each request.</p>
+        <ul>
+          <li>Start with focused prompts instead of repository-wide analysis.</li>
+          <li>Provide only the necessary files and context.</li>
+          <li>Choose the appropriate model for the task.</li>
+          <li>Validate AI recommendations before implementation.</li>
+          <li>Use AI to accelerate engineering, not replace engineering judgment.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>For Technical Leads</h3>
+        <p>Technical leads help teams use AI consistently, safely, and effectively.</p>
+        <ul>
+          <li>Create prompt templates for common engineering tasks.</li>
+          <li>Share successful workflows across the team.</li>
+          <li>Encourage validation through code reviews.</li>
+          <li>Select appropriate AI models for different use cases.</li>
+          <li>Track where AI genuinely improves productivity.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>For Engineering Managers</h3>
+        <p>Engineering managers balance productivity, quality, developer experience, and operational costs.</p>
+        <ul>
+          <li>Measure time saved and review efficiency.</li>
+          <li>Track defects prevented and quality improvements.</li>
+          <li>Consider faster onboarding and knowledge transfer.</li>
+          <li>Include developer satisfaction in the discussion.</li>
+          <li>Accept higher AI cost when it creates clearly higher engineering value.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>For Cost Center Owners</h3>
+        <p>Cost owners should optimize return on investment, not simply minimize spending.</p>
+        <ul>
+          <li>Identify which teams derive the most value.</li>
+          <li>Understand which models are used most frequently.</li>
+          <li>Check whether simpler models can handle routine tasks.</li>
+          <li>Invest in prompt engineering training.</li>
+          <li>Monitor usage trends over time.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>For Enterprise Architects</h3>
+        <p>Enterprise AI adoption should include governance, not just tooling.</p>
+        <ul>
+          <li>Define AI usage guidelines and approved models.</li>
+          <li>Align with security, compliance, and data classification rules.</li>
+          <li>Establish prompt engineering standards.</li>
+          <li>Promote knowledge sharing and reusable patterns.</li>
+          <li>Build cost visibility and responsible AI practices into the SDLC.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Shared Responsibility</h3>
+        <p>Developers, leads, managers, architects, and budget owners each see a different part of the same system.</p>
+        <p>When they align, AI becomes more than a productivity tool. It becomes an engineering capability with measurable value.</p>
+      </div>
+    </div>
+
+    <h3>Example: Same Problem, Different Operating Model</h3>
+    <table>
+      <thead><tr><th>Team A</th><th>Team B</th><th>Likely outcome</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Runs repository-wide AI analysis every day.</td>
+          <td>Reviews one service at a time with targeted prompts.</td>
+          <td>Team B usually gets lower AI consumption and easier validation.</td>
+        </tr>
+        <tr>
+          <td>Each developer invents prompts independently.</td>
+          <td>Reuses successful prompt templates and shares findings internally.</td>
+          <td>Team B creates better knowledge sharing and more predictable results.</td>
+        </tr>
+        <tr>
+          <td>Measures usage only by monthly AI spend.</td>
+          <td>Measures value through quality, onboarding, review speed, and productivity.</td>
+          <td>Team B has higher confidence in AI-generated changes and ROI.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout success">
+      <strong>One question every organization should ask:</strong> Instead of asking, "How many AI Credits did we consume this month?" ask, "How much engineering value did those AI Credits create?" That is a much more meaningful KPI.
+    </div>
+
+    <h3>AI Usage Maturity Model</h3>
+    <table>
+      <thead><tr><th>Level</th><th>Organization behavior</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Level 1 – Experimenting</strong></td><td>Developers use AI individually without shared practices.</td></tr>
+        <tr><td><strong>Level 2 – Standardizing</strong></td><td>Teams begin sharing prompts, workflows, and repeatable review patterns.</td></tr>
+        <tr><td><strong>Level 3 – Optimizing</strong></td><td>Model selection, context management, and cost awareness become part of engineering practices.</td></tr>
+        <tr><td><strong>Level 4 – Governing</strong></td><td>Organizations establish AI governance, security standards, usage metrics, and cost visibility.</td></tr>
+        <tr><td><strong>Level 5 – Engineering with AI</strong></td><td>AI is integrated into the software development lifecycle with measurable productivity improvements and continuous optimization.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section" id="github-improvements">
+    <h2>What I Would Like GitHub to Improve</h2>
+    <div class="improvement-grid">
+      <div class="card">
+        <h3>Estimated AI Credit cost before execution</h3>
+        <p>A pre-flight estimate, similar to cloud cost estimators, would help developers decide whether to narrow context, choose another model, or split a task.</p>
+      </div>
+      <div class="card">
+        <h3>Usage breakdown by workflow</h3>
+        <p>Teams would benefit from seeing whether credits are mostly used for chat, repository analysis, pull request review, CLI, or other workflows.</p>
+      </div>
+      <div class="card">
+        <h3>Context size visibility</h3>
+        <p>A simple indicator showing approximate context size before sending a request would encourage better context management.</p>
+      </div>
+      <div class="card">
+        <h3>Team-level best practice insights</h3>
+        <p>Aggregated recommendations could help organizations learn which usage patterns produce the best outcomes without exposing private code or sensitive prompts.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="monitoring-usage">
+    <h2>Monitoring Usage</h2>
+    <p>If your organization exposes billing information, check your organization's <strong>Billing &amp; Licensing</strong> or <strong>Copilot</strong> settings. If you do not see those options, access may be restricted to administrators.</p>
+    <p>For CLI usage, GitHub also documents session-limit controls in the <a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/set-session-limit" target="_blank" rel="noopener noreferrer">Copilot CLI session limit documentation</a>. This is useful for developers who want guardrails while experimenting with command-line AI workflows.</p>
+  </section>
+
+  <section class="section" id="closing-thoughts">
+    <h2>Closing Thoughts</h2>
+    <p class="quote">The future is not AI versus developers. It is developers, architects, technical leads, engineering managers, and organizations learning how to engineer effectively with AI.</p>
+    <p>Success will not be measured only by how much AI we use. It will be measured by how responsibly we use it, how effectively we validate it, how well we share knowledge, and the value it creates for our teams and customers.</p>
+  </section>
+
+  <section class="section" id="references">
+    <h2>References</h2>
+    <ol class="references">
+      <li><a href="https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals" target="_blank" rel="noopener noreferrer">GitHub Docs: Usage-based billing for GitHub Copilot</a></li>
+      <li><a href="https://docs.github.com/en/copilot/reference/copilot-billing/models-and-pricing" target="_blank" rel="noopener noreferrer">GitHub Docs: GitHub Copilot models and pricing</a></li>
+      <li><a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/set-session-limit" target="_blank" rel="noopener noreferrer">GitHub Docs: Set a session limit for GitHub Copilot CLI</a></li>
+      <li><a href="https://github.com/orgs/community/discussions/198015" target="_blank" rel="noopener noreferrer">GitHub Community Discussion #198015: Copilot AI Credits discussion</a></li>
+      <li><a href="https://docs.github.com/en/copilot" target="_blank" rel="noopener noreferrer">GitHub Docs: GitHub Copilot documentation</a></li>
+    </ol>
+    <h3>Connect</h3>
+    <p>Author LinkedIn: <a href="https://www.linkedin.com/in/showkath/" target="_blank" rel="noopener noreferrer">linkedin.com/in/showkath</a></p>
+    <h3>LinkedIn Hashtags</h3>
+    <div class="hashtags" aria-label="LinkedIn hashtags">
+      <span>#GitHubCopilot</span>
+      <span>#AICredits</span>
+      <span>#SoftwareEngineering</span>
+      <span>#DeveloperProductivity</span>
+      <span>#GenerativeAI</span>
+      <span>#Java</span>
+      <span>#SpringBoot</span>
+      <span>#SAPBTP</span>
+      <span>#EngineeringLeadership</span>
+      <span>#DevTools</span>
+      <span>#PromptEngineering</span>
+    </div>
+    <p class="footer-note"><a href="#top">Back to top</a></p>
+  </section>
+</main>
+</body>
+</html>
