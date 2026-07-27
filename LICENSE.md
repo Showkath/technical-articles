@@ -1,4 +1,3 @@
-
 # License
 
 This repository contains written articles, diagrams, examples, and occasional code snippets. Different parts of the repository are licensed differently as described below.

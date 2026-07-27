@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">AI-Native Developer Stack: Vibe Coding, Agents, IDEs, Models, KPIs, and Cost</title>
+  <desc id="desc">A LinkedIn-ready infographic for developers showing how modern AI-assisted engineering combines vibe coding guardrails, AI-native IDEs, Cursor, Copilot, Antigravity, Windsurf, MCP, on-demand models, chat agents, coding agents, validation, KPIs, context budgeting, and cost governance.</desc>
+  <defs>
+    <radialGradient id="glowA" cx="20%" cy="10%" r="70%">
+      <stop offset="0" stop-color="#60a5fa" stop-opacity="0.55"/>
+      <stop offset="0.55" stop-color="#1d4ed8" stop-opacity="0.1"/>
+      <stop offset="1" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="88%" cy="22%" r="60%">
+      <stop offset="0" stop-color="#a78bfa" stop-opacity="0.5"/>
+      <stop offset="0.55" stop-color="#7c3aed" stop-opacity="0.09"/>
+      <stop offset="1" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="0.45" stop-color="#0b5cab"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a78bfa"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbbf24"/>
+      <stop offset="1" stop-color="#f97316"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#000" flood-opacity="0.28"/>
+    </filter>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#020617" flood-opacity="0.22"/>
+    </filter>
+    <style>
+      .bg{fill:#020617}.panel{fill:rgba(15,23,42,.82);stroke:#334155;stroke-width:2;filter:url(#shadow)}.card{fill:#0f172a;stroke:#334155;stroke-width:2;filter:url(#softShadow)}.card2{fill:#111827;stroke:#475569;stroke-width:2;filter:url(#softShadow)}.title{font-family:Segoe UI,Arial,sans-serif;font-size:58px;font-weight:900;fill:#fff;letter-spacing:-1px}.subtitle{font-family:Segoe UI,Arial,sans-serif;font-size:25px;fill:#dbeafe}.eyebrow{font-family:Segoe UI,Arial,sans-serif;font-size:19px;font-weight:850;letter-spacing:3.4px;fill:#bfdbfe}.h2{font-family:Segoe UI,Arial,sans-serif;font-size:30px;font-weight:900;fill:#fff}.h3{font-family:Segoe UI,Arial,sans-serif;font-size:23px;font-weight:850;fill:#e0f2fe}.body{font-family:Segoe UI,Arial,sans-serif;font-size:20px;fill:#cbd5e1}.small{font-family:Segoe UI,Arial,sans-serif;font-size:17px;fill:#94a3b8}.tiny{font-family:Segoe UI,Arial,sans-serif;font-size:15px;fill:#cbd5e1}.num{font-family:Segoe UI,Arial,sans-serif;font-size:26px;font-weight:900;fill:#fff}.pillText{font-family:Segoe UI,Arial,sans-serif;font-size:18px;font-weight:850;fill:#fff}.kpi{font-family:Segoe UI,Arial,sans-serif;font-size:22px;font-weight:850;fill:#d1fae5}.cost{font-family:Segoe UI,Arial,sans-serif;font-size:22px;font-weight:850;fill:#ffedd5}.footer{font-family:Segoe UI,Arial,sans-serif;font-size:18px;fill:#94a3b8}.line{stroke:#38bdf8;stroke-width:4;stroke-linecap:round;opacity:.65}.dash{stroke:#64748b;stroke-width:2;stroke-dasharray:8 9;opacity:.7}.chip{filter:url(#softShadow)}
+    </style>
+  </defs>
+
+  <rect class="bg" width="1600" height="900"/>
+  <rect width="1600" height="900" fill="url(#glowA)"/>
+  <rect width="1600" height="900" fill="url(#glowB)"/>
+  <path d="M0 760 C280 610 410 850 710 700 C1000 555 1160 690 1600 520 L1600 900 L0 900 Z" fill="#0b1220" opacity="0.9"/>
+
+  <rect x="55" y="42" width="1490" height="190" rx="36" fill="url(#hero)" filter="url(#shadow)"/>
+  <text x="95" y="99" class="eyebrow">LINKEDIN QUICK VISUAL • AI-ASSISTED SOFTWARE ENGINEERING</text>
+  <text x="95" y="160" class="title">The AI-Native Developer Stack</text>
+  <text x="95" y="204" class="subtitle">Vibe Coding + Agentic IDEs + MCP + Models + Validation + KPIs + Cost Awareness</text>
+
+  <g transform="translate(1110 78)">
+    <rect x="0" y="0" width="365" height="112" rx="26" fill="rgba(255,255,255,.13)" stroke="rgba(255,255,255,.28)"/>
+    <text x="26" y="42" class="h3">Audience hook</text>
+    <text x="26" y="78" class="body">Tools change fast.</text>
+    <text x="26" y="104" class="body">Engineering habits compound.</text>
+  </g>
+
+  <rect x="70" y="270" width="350" height="255" rx="28" class="panel"/>
+  <text x="105" y="322" class="h2">1. Model Routing</text>
+  <text x="105" y="360" class="small">Match model strength to task risk.</text>
+  <g transform="translate(105 392)">
+    <rect x="0" y="0" width="122" height="42" rx="21" fill="url(#cyan)" class="chip"/><text x="24" y="28" class="pillText">GPT</text>
+    <rect x="140" y="0" width="142" height="42" rx="21" fill="url(#violet)" class="chip"/><text x="164" y="28" class="pillText">Claude</text>
+    <rect x="0" y="56" width="132" height="42" rx="21" fill="url(#green)" class="chip"/><text x="24" y="84" class="pillText">Gemini</text>
+    <rect x="150" y="56" width="170" height="42" rx="21" fill="#334155" class="chip"/><text x="174" y="84" class="pillText">Llama / OSS</text>
+  </g>
+  <text x="105" y="502" class="tiny">Use advanced models for architecture,</text>
+  <text x="105" y="524" class="tiny">security, incidents, and trade-offs.</text>
+
+  <rect x="455" y="270" width="350" height="255" rx="28" class="panel"/>
+  <text x="490" y="322" class="h2">2. AI-Native IDEs</text>
+  <text x="490" y="360" class="small">Where coding agents meet context.</text>
+  <g transform="translate(490 388)">
+    <rect x="0" y="0" width="285" height="36" rx="14" class="card2"/>
+    <text x="20" y="24" class="body">Copilot / Cursor / Windsurf</text>
+    <rect x="0" y="45" width="285" height="36" rx="14" class="card2"/>
+    <text x="20" y="69" class="body">Antigravity + agentic IDEs</text>
+    <rect x="0" y="90" width="285" height="36" rx="14" class="card2"/>
+    <text x="20" y="114" class="body">MCP + tools + repo context</text>
+    <rect x="0" y="135" width="285" height="36" rx="14" class="card2"/>
+    <text x="20" y="159" class="body">Context budget + selected files</text>
+  </g>
+
+  <rect x="840" y="270" width="350" height="255" rx="28" class="panel"/>
+  <text x="875" y="322" class="h2">3. Agents + Vibe Coding</text>
+  <text x="875" y="360" class="small">Explore fast, then validate like engineers.</text>
+  <g transform="translate(875 394)">
+    <circle cx="18" cy="12" r="12" fill="#38bdf8"/><text x="46" y="19" class="body">Vibe code prototypes</text>
+    <circle cx="18" cy="52" r="12" fill="#a78bfa"/><text x="46" y="59" class="body">Plan → edit → test loops</text>
+    <circle cx="18" cy="92" r="12" fill="#34d399"/><text x="46" y="99" class="body">Review bots + CI agents</text>
+    <circle cx="18" cy="132" r="12" fill="#fbbf24"/><text x="46" y="139" class="body">Human approval gates</text>
+  </g>
+
+  <rect x="1225" y="270" width="305" height="255" rx="28" class="panel"/>
+  <text x="1260" y="322" class="h2">4. Cost Controls</text>
+  <text x="1260" y="360" class="small">Cost-aware, not cost-afraid.</text>
+  <g transform="translate(1260 396)">
+    <text x="0" y="0" class="cost">✓ Focused prompts</text>
+    <text x="0" y="38" class="cost">✓ Right model tier</text>
+    <text x="0" y="76" class="cost">✓ Context budget</text>
+    <text x="0" y="114" class="cost">✓ Cost per outcome</text>
+  </g>
+
+  <line x1="420" y1="398" x2="455" y2="398" class="line"/>
+  <line x1="805" y1="398" x2="840" y2="398" class="line"/>
+  <line x1="1190" y1="398" x2="1225" y2="398" class="line"/>
+
+  <rect x="70" y="570" width="710" height="230" rx="30" class="panel"/>
+  <text x="105" y="622" class="h2">Developer KPIs That Matter</text>
+  <text x="105" y="660" class="small">Measure engineering outcomes, not only AI activity.</text>
+  <g transform="translate(105 700)">
+    <text x="0" y="0" class="kpi">✓ PR cycle time</text>
+    <text x="245" y="0" class="kpi">✓ Review efficiency</text>
+    <text x="0" y="42" class="kpi">✓ Defects prevented</text>
+    <text x="245" y="42" class="kpi">✓ Test coverage lift</text>
+    <text x="0" y="84" class="kpi">✓ Onboarding speed</text>
+    <text x="245" y="84" class="kpi">✓ Cost per useful outcome</text>
+  </g>
+
+  <rect x="820" y="570" width="710" height="230" rx="30" class="panel"/>
+  <text x="855" y="622" class="h2">Best Practice Pattern</text>
+  <text x="855" y="662" class="body">Vibe → Spec → Agent → Review → Measure.</text>
+  <text x="855" y="699" class="body">Use MCP/tools for context, not blind repo dumps.</text>
+  <text x="855" y="736" class="body">Validate with tests, review, metrics, and security.</text>
+  <rect x="855" y="760" width="610" height="48" rx="24" fill="url(#green)"/>
+  <text x="894" y="792" class="whiteH" style="font-size:21px">Best KPI: verified engineering value per AI-assisted workflow</text>
+
+  <line x1="420" y1="525" x2="425" y2="570" class="dash"/>
+  <line x1="1015" y1="525" x2="1015" y2="570" class="dash"/>
+
+  <text x="70" y="855" class="footer">Showkath • linkedin.com/in/showkath • #Claude #Cursor #GitHubCopilot #AgenticAI #VibeCoding #AIEngineering</text>
+</svg>
