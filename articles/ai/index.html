@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="A publication-quality engineering article about using GitHub Copilot effectively in the AI Credits era, with practical examples for Java and Spring Boot teams.">
+<meta name="description" content="A publication-quality engineering article about using GitHub Copilot effectively in the AI Credits era, with practical examples for Java, Python, and TypeScript teams.">
 <meta name="author" content="Showkath">
 <meta property="og:title" content="Beyond Prompts: Engineering with GitHub Copilot in the AI Credits Era">
-<meta property="og:description" content="A practical engineering guide to GitHub Copilot AI Credits, context management, Java/Spring Boot prompts, review workflows, enterprise governance, and responsible AI usage.">
+<meta property="og:description" content="A practical engineering guide to GitHub Copilot AI Credits, context management, Java, Python, and TypeScript prompts, review workflows, enterprise governance, and responsible AI usage.">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Engineering Articles by Showkath">
 <meta property="og:image" content="https://showkath.github.io/technical-articles/assets/images/ai-credits-enterprise-summary.png">
 <meta property="og:image:alt" content="Enterprise AI Credits quick-read infographic for managers">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Beyond Prompts: Engineering with GitHub Copilot in the AI Credits Era">
-<meta name="twitter:description" content="A practical engineering guide to GitHub Copilot AI Credits, context management, Java/Spring Boot prompts, review workflows, enterprise governance, and responsible AI usage.">
+<meta name="twitter:description" content="A practical engineering guide to GitHub Copilot AI Credits, context management, Java, Python, and TypeScript prompts, review workflows, enterprise governance, and responsible AI usage.">
 <meta name="twitter:image" content="https://showkath.github.io/technical-articles/assets/images/ai-credits-enterprise-summary.png">
 <title>Beyond Prompts: Engineering with GitHub Copilot in the AI Credits Era</title>
 <style>
@@ -109,7 +109,7 @@ code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;backgroun
       <p class="subtitle">A practical guide for developers and engineering teams who want to use GitHub Copilot more intentionally: better prompts, better context, better validation, and better engineering outcomes.</p>
       <div>
         <span class="tag">Publication-ready article</span>
-        <span class="tag">Java / Spring Boot examples</span>
+        <span class="tag">Java / Python / TypeScript examples</span>
         <span class="tag">Cost-aware AI usage</span>
       </div>
       <ul class="meta" aria-label="Article metadata">
@@ -216,7 +216,7 @@ When finished, stop and wait for my confirmation before reviewing additional fil
       <li><a href="#cost-examples"><span class="num">03</span><span>Cost calculation examples</span></a></li>
       <li><a href="#prompt-engineering"><span class="num">04</span><span>Prompt smarter, not bigger</span></a></li>
       <li><a href="#modern-ai-patterns"><span class="num">05</span><span>Beyond vibe coding: modern AI patterns</span></a></li>
-      <li><a href="#java-spring-prompts"><span class="num">06</span><span>Java and Spring Boot prompt examples</span></a></li>
+      <li><a href="#java-spring-prompts"><span class="num">06</span><span>Java, Python, and TypeScript prompt examples</span></a></li>
       <li><a href="#review-workflows"><span class="num">07</span><span>Performance, architecture, and security reviews</span></a></li>
       <li><a href="#engineering-principles"><span class="num">08</span><span>Engineering principles</span></a></li>
       <li><a href="#leadership"><span class="num">09</span><span>Knowledge sharing and leadership</span></a></li>
@@ -352,6 +352,102 @@ When finished, stop and wait for my confirmation before reviewing additional fil
       <div class="node">Output<span>What format?</span></div>
       <div class="node">Validation<span>How to verify?</span></div>
     </div>
+    <h3>GitHub Copilot AI Credits: Prompt Like an Engineer, Not Just a User</h3>
+    <p>With GitHub Copilot's usage-based billing, effective AI usage is no longer only about getting a useful answer. It is also about using AI resources wisely. AI Credit consumption can depend on the selected model, the feature used, the amount of context processed, tool activity, and output depth. It is not determined only by the number of words typed into the prompt.</p>
+    <table>
+      <thead><tr><th>Common habit</th><th>Engineering habit</th><th>Why it helps</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>Analyze my entire repository and optimize everything.</code></td>
+          <td>Break the task into focused requests: explain one module, review one service, identify N+1 query patterns, check thread safety, or suggest memory optimizations without changing business logic.</td>
+          <td>Smaller requests are easier to review, validate, and implement.</td>
+        </tr>
+        <tr>
+          <td><code>Optimize my application.</code></td>
+          <td>Review <code>OrderService.java</code> for database query efficiency, memory usage, response-time optimization, exception handling, and logging improvements.</td>
+          <td>Specific prompts produce more actionable recommendations with clearer evidence.</td>
+        </tr>
+        <tr>
+          <td>Expect one magic prompt to solve everything.</td>
+          <td>Follow an engineering workflow: understand the problem, ask focused questions, validate every recommendation, measure results, and iterate.</td>
+          <td>AI accelerates analysis, but engineering judgment decides what should be implemented.</td>
+        </tr>
+        <tr>
+          <td>Use the same model and mode for every task.</td>
+          <td>Use lighter assistance for explanations, routine coding, small bug fixes, and unit tests. Reserve stronger models or Agent Mode for architecture reviews, complex debugging, multi-file refactoring, and repository-wide changes.</td>
+          <td>Model and workflow selection can balance capability, review effort, and AI Credit usage.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout success">
+      <strong>Practical takeaway:</strong> The goal is not simply to use fewer AI Credits. The goal is to maximize the engineering value of every AI interaction by choosing the right model, providing the right context, asking focused questions, validating recommendations, and measuring results.
+    </div>
+    <h3>Vague Prompt vs. Effective Prompt Examples</h3>
+
+<p><strong>Vague</strong> <em>(unclear or lacking sufficient detail)</em> prompts usually increase ambiguity, which can lead to broader or less relevant responses, additional follow-up interactions, and more effort to validate the recommendations. In environments using GitHub Copilot's usage-based billing, broader context processing or multiple iterations may also increase AI resource consumption. Effective prompts clearly define the target file or component, the engineering objective (for example, performance, security, scalability, maintainability, or code quality), any constraints (such as preserving business logic), and the expected output format. This generally produces more focused, actionable, and easier-to-validate recommendations while promoting more efficient use of AI resources.</p>
+<div class="prompt-grid">
+      <div class="card">
+        <h3>Java / Spring Boot</h3>
+        <div class="code-title"><span>Vague prompt</span><span>too broad</span></div>
+        <pre class="codeblock"><code>Optimize my Spring Boot application.</code></pre>
+        <div class="code-title"><span>Effective prompt</span><span>focused review</span></div>
+        <pre class="codeblock"><code>Review OrderService.java for performance issues.
+Focus only on:
+- N+1 database queries
+- repeated remote customer calls
+- transaction boundaries
+- logging inside loops
+
+Do not change business logic or public APIs.
+Return findings with severity, evidence, and verification steps.</code></pre>
+      </div>
+      <div class="card">
+        <h3>Python / FastAPI</h3>
+        <div class="code-title"><span>Vague prompt</span><span>unclear scope</span></div>
+        <pre class="codeblock"><code>Make this Python API faster.</code></pre>
+        <div class="code-title"><span>Effective prompt</span><span>focused review</span></div>
+        <pre class="codeblock"><code>Review this FastAPI route and its service function.
+Focus on:
+- blocking I/O inside async handlers
+- unnecessary database queries
+- missing pagination
+- repeated external API calls
+
+Suggest minimal changes only.
+Include how to validate with tests, logs, or metrics.</code></pre>
+      </div>
+      <div class="card">
+        <h3>TypeScript / Node.js</h3>
+        <div class="code-title"><span>Vague prompt</span><span>generic</span></div>
+        <pre class="codeblock"><code>Improve this Express code.</code></pre>
+        <div class="code-title"><span>Effective prompt</span><span>production-ready</span></div>
+        <pre class="codeblock"><code>Review this Express route and service for production risk.
+Focus on:
+- input validation
+- async error handling
+- sensitive data in logs
+- repeated database or HTTP calls
+- request and response type safety
+
+Return a checklist of issues and minimal code-change recommendations.</code></pre>
+      </div>
+      <div class="card">
+        <h3>Repository Analysis</h3>
+        <div class="code-title"><span>Vague prompt</span><span>high context</span></div>
+        <pre class="codeblock"><code>Analyze the entire repository and fix everything.</code></pre>
+        <div class="code-title"><span>Effective prompt</span><span>incremental</span></div>
+        <pre class="codeblock"><code>First identify the main modules and entry points.
+Then review only the service layer for performance risks.
+
+For each finding include:
+- file or component
+- suspected root cause
+- evidence to verify
+- recommended next step
+
+Stop after the first review pass and wait for confirmation.</code></pre>
+      </div>
+    </div>
   </section>
 
   <section class="section" id="modern-ai-patterns">
@@ -363,11 +459,11 @@ When finished, stop and wait for my confirmation before reviewing additional fil
     <div class="prompt-grid">
       <div class="card">
         <h3>Context Budgeting</h3>
-        <p>Set a mental budget before asking: one file, one module, one stack trace, or one design decision. Avoid attaching the whole repository unless the task truly requires it.</p>
+        <p>Set a mental budget before asking: one file, one module, one stack trace, or one design decision. Avoid attaching the whole repository unless the task truly requires it. If a conversation has shifted significantly, start a fresh session to keep context focused on the current problem.</p>
       </div>
       <div class="card">
         <h3>Agentic Workflow</h3>
-        <p>Let chat or coding agents plan, inspect, edit, and validate in small steps. Ask for checkpoints instead of one giant rewrite.</p>
+        <p>Let chat or coding agents plan, inspect, edit, and validate in small steps. Agent Mode is valuable for large refactoring, multi-file feature work, complex debugging, and repository-wide changes. For explaining one method or reviewing one class, a focused chat request is often enough.</p>
       </div>
       <div class="card">
         <h3>Model Routing</h3>
@@ -395,8 +491,8 @@ When finished, stop and wait for my confirmation before reviewing additional fil
   </section>
 
   <section class="section" id="java-spring-prompts">
-    <h2>Prompt Examples for Java and Spring Boot</h2>
-    <p class="lead">The best prompts are specific enough to guide the model, but not so restrictive that they hide important findings.</p>
+    <h2>Prompt Examples for Java, Python, and TypeScript</h2>
+    <p class="lead">The same engineering principles apply across programming languages: define scope, describe constraints, ask for evidence, and validate the result with tests or runtime signals.</p>
     <div class="prompt-grid">
       <div class="card">
         <h3>Performance Review</h3>
@@ -453,6 +549,33 @@ Cover:
 
 Do not change production code unless a testability issue is found.</code></pre>
       </div>
+  <div class="card">
+    <h3>Python API Performance Review</h3>
+    <div class="code-title"><span>Copilot Chat prompt</span><span>python</span></div>
+    <pre class="codeblock"><code>Review this FastAPI endpoint and service function for performance risks.
+Focus on:
+- unnecessary database queries
+- blocking I/O inside async routes
+- large in-memory transformations
+- repeated external API calls
+- missing pagination or caching
+
+Do not rewrite the whole module. Return findings with severity,
+evidence, minimal code-change options, and validation steps.</code></pre>
+  </div>
+  <div class="card">
+    <h3>TypeScript / Node.js Review</h3>
+    <div class="code-title"><span>Copilot Chat prompt</span><span>typescript</span></div>
+    <pre class="codeblock"><code>Review this TypeScript Express route and service for production risks.
+Focus on:
+- input validation
+- async error handling
+- unsafe logging of sensitive data
+- repeated database or HTTP calls
+- type safety around request and response objects
+
+Suggest minimal changes only and include tests or verification steps.</code></pre>
+  </div>
     </div>
   </section>
 
@@ -723,6 +846,8 @@ public class OrderService {
       <span>#GenerativeAI</span>
       <span>#Java</span>
       <span>#SpringBoot</span>
+      <span>#Python</span>
+      <span>#TypeScript</span>
       <span>#SAPBTP</span>
       <span>#EngineeringLeadership</span>
       <span>#DevTools</span>
