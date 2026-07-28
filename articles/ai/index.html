@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="A publication-quality engineering article about using GitHub Copilot effectively in the AI Credits era, with practical examples for Java, Python, and TypeScript teams.">
+<meta name="description" content="A publication-quality engineering article about using GitHub Copilot effectively in the AI Credits era, with practical examples for Java, Python, TypeScript, Go, context engineering, and agentic workflows.">
 <meta name="author" content="Showkath">
 <meta property="og:title" content="Beyond Prompts: Engineering with GitHub Copilot in the AI Credits Era">
-<meta property="og:description" content="A practical engineering guide to GitHub Copilot AI Credits, context management, Java, Python, and TypeScript prompts, review workflows, enterprise governance, and responsible AI usage.">
+<meta property="og:description" content="A practical engineering guide to GitHub Copilot AI Credits, context engineering, Java, Python, TypeScript, Go prompts, review workflows, enterprise governance, and responsible AI usage.">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Engineering Articles by Showkath">
 <meta property="og:image" content="https://showkath.github.io/technical-articles/assets/images/ai-credits-simple-developer-story.png">
 <meta property="og:image:alt" content="AI Credits developer behavior comparison infographic">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Beyond Prompts: Engineering with GitHub Copilot in the AI Credits Era">
-<meta name="twitter:description" content="A practical engineering guide to GitHub Copilot AI Credits, context management, Java, Python, and TypeScript prompts, review workflows, enterprise governance, and responsible AI usage.">
+<meta name="twitter:description" content="A practical engineering guide to GitHub Copilot AI Credits, context engineering, Java, Python, TypeScript, Go prompts, review workflows, enterprise governance, and responsible AI usage.">
 <meta name="twitter:image" content="https://showkath.github.io/technical-articles/assets/images/ai-credits-simple-developer-story.png">
 <title>Beyond Prompts: Engineering with GitHub Copilot in the AI Credits Era</title>
 <style>
@@ -109,7 +109,7 @@ code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;backgroun
       <p class="subtitle">A practical guide for developers and engineering teams who want to use GitHub Copilot more intentionally: better prompts, better context, better validation, and better engineering outcomes.</p>
       <div>
         <span class="tag">Publication-ready article</span>
-        <span class="tag">Java / Python / TypeScript examples</span>
+        <span class="tag">Java / Python / TypeScript / Go examples</span>
         <span class="tag">Cost-aware AI usage</span>
       </div>
       <ul class="meta" aria-label="Article metadata">
@@ -168,7 +168,7 @@ code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;backgroun
       <li><a href="#credits-vs-tokens"><span class="num">02</span><span>AI Credits, tokens, and context</span></a></li>
       <li><a href="#cost-examples"><span class="num">03</span><span>How AI Credit usage adds up</span></a></li>
       <li><a href="#prompt-engineering"><span class="num">04</span><span>Prompt like an engineer</span></a></li>
-      <li><a href="#modern-ai-patterns"><span class="num">05</span><span>Modern AI workflows beyond vibe coding</span></a></li>
+      <li><a href="#modern-ai-patterns"><span class="num">05</span><span>From prompt engineering to context engineering</span></a></li>
       <li><a href="#java-spring-prompts"><span class="num">06</span><span>Prompt examples across languages</span></a></li>
       <li><a href="#review-workflows"><span class="num">07</span><span>Performance, architecture, and security reviews</span></a></li>
       <li><a href="#engineering-principles"><span class="num">08</span><span>Engineering principles</span></a></li>
@@ -435,14 +435,14 @@ Return findings with severity, evidence, and verification steps.</code></pre>
         <pre class="codeblock"><code>Improve my recommendation API.</code></pre>
         <div class="code-title"><span>Effective prompt</span><span>focused review</span></div>
         <pre class="codeblock"><code>Review this FastAPI product recommendation route and service.
-      Focus on:
-      - blocking I/O inside async handlers
-      - unnecessary database queries
-      - large in-memory filtering
-      - repeated external API calls
+Focus on:
+- blocking I/O inside async handlers
+- unnecessary database queries
+- large in-memory filtering
+- repeated external API calls
 
-      Suggest minimal changes only.
-      Include how to validate with tests, logs, or metrics.</code></pre>
+Suggest minimal changes only.
+Include how to validate with tests, logs, or metrics.</code></pre>
       </div>
       <div class="card">
         <h3>TypeScript / Node.js</h3>
@@ -465,20 +465,20 @@ Return a checklist of issues and minimal code-change recommendations.</code></pr
         <pre class="codeblock"><code>Analyze my Go service and improve reliability.</code></pre>
         <div class="code-title"><span>Effective prompt</span><span>incremental</span></div>
         <pre class="codeblock"><code>Review this Go HTTP handler and repository function.
-      Focus on:
-      - context cancellation
-      - timeout handling
-      - database error handling
-      - retry behavior
-      - structured logging
+Focus on:
+- context cancellation
+- timeout handling
+- database error handling
+- retry behavior
+- structured logging
 
-      For each finding include:
-      - severity
-      - root cause
-      - minimal code change
-      - test or observability check
+For each finding include:
+- severity
+- root cause
+- minimal code change
+- test or observability check
 
-      Do not change public API behavior.</code></pre>
+Do not change public API behavior.</code></pre>
       </div>
     </div>
   </section>
@@ -488,6 +488,37 @@ Return a checklist of issues and minimal code-change recommendations.</code></pr
     <p class="lead">"Vibe coding" is useful for exploration, prototypes, and learning. But production engineering needs more than vibes: clear intent, controlled context, repeatable workflows, validation, and cost awareness.</p>
     <div class="callout warning">
       <strong>Practical guardrail:</strong> Use vibe coding to discover possibilities, then switch to engineering mode before code reaches production: define requirements, inspect diffs, run tests, review security, and measure impact.
+    </div>
+    <h3>AI Engineering Trend: From Prompts to Context to Cognitive Architecture</h3>
+    <p>Recent AI engineering discussions are moving beyond clever prompt wording. The bigger trend is designing the full system around the model: what context it receives, what tools it can use, how memory is managed, how loops are controlled, and how outputs are validated.</p>
+    <table>
+      <thead><tr><th>Era</th><th>Core paradigm</th><th>Human role</th><th>Primary bottleneck</th><th>Simple example</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>2023 – 2024</td>
+          <td><strong>Prompt Engineering</strong></td>
+          <td>Writing clear instructions, role prompts, formatting rules, and reusable prompt templates.</td>
+          <td>Phrasing quality and model sensitivity.</td>
+          <td>Ask Copilot to review one service with clear constraints and output format.</td>
+        </tr>
+        <tr>
+          <td>2025 – 2026</td>
+          <td><strong>Context Engineering</strong></td>
+          <td>Designing information pipelines, retrieval, memory layers, selected files, logs, examples, and tool spaces.</td>
+          <td>Context quality, stale information, noisy data, and data maturity.</td>
+          <td>Provide only the module map, failing test, related files, recent logs, and expected behavior.</td>
+        </tr>
+        <tr>
+          <td>Moving forward</td>
+          <td><strong>Cognitive Architecture</strong></td>
+          <td>Auditing autonomous loops, defining tool contracts, setting stop conditions, and validating system logic.</td>
+          <td>Loop orchestration, token budgets, tool reliability, evaluation quality, and system safety.</td>
+          <td>Let an agent plan, edit, run tests, inspect failures, and stop at human review checkpoints.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <strong>Why this matters for AI Credits:</strong> Poor context makes the model work harder and often produces weaker results. Good context engineering helps teams reduce noisy requests, avoid unnecessary repository-wide analysis, and spend AI Credits on decisions that create real engineering value.
     </div>
     <div class="prompt-grid">
       <div class="card">
@@ -879,6 +910,8 @@ Suggest minimal changes only and include tests or verification steps.</code></pr
       <li><a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/set-session-limit" target="_blank" rel="noopener noreferrer">GitHub Docs: Set a session limit for GitHub Copilot CLI</a></li>
       <li><a href="https://github.com/orgs/community/discussions/198015" target="_blank" rel="noopener noreferrer">GitHub Community Discussion #198015: Copilot AI Credits discussion</a></li>
       <li><a href="https://docs.github.com/en/copilot" target="_blank" rel="noopener noreferrer">GitHub Docs: GitHub Copilot documentation</a></li>
+      <li><a href="https://www.langchain.com/blog/the-rise-of-context-engineering" target="_blank" rel="noopener noreferrer">LangChain Blog: The rise of context engineering</a></li>
+      <li><a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener noreferrer">Anthropic Engineering: Building effective agents</a></li>
     </ol>
     <h3>Connect</h3>
     <p>Author LinkedIn: <a href="https://www.linkedin.com/in/showkath/" target="_blank" rel="noopener noreferrer">linkedin.com/in/showkath</a></p>
