@@ -159,66 +159,25 @@ code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;backgroun
       <img src="../../assets/images/ai-credits-simple-developer-story.svg" alt="AI Credits developer behavior comparison: prompting without visibility uses broad prompts and risks higher dollar or euro cost, while engineering with AI Credits uses focused prompts, scoped context, and evidence-based validation.">
       <figcaption>A simple contrast: vague prompts can turn AI Credits into noisy usage, while focused engineering prompts turn credits into measurable value.</figcaption>
     </figure>
-    <h3>Cost-Effective Prompting: Review Incrementally</h3>
-    <p>If your goal is to get strong results while using fewer GitHub Copilot AI Credits, ask Copilot to analyze incrementally instead of reviewing the entire repository in one request.</p>
-    <div class="callout danger">
-      <strong>High AI Credit cost:</strong> <code>Analyze the entire repository and find every performance issue.</code> This can send a large amount of code to the model and make the output harder to validate.
-    </div>
-    <div class="code-title"><span>Cost-effective prompt</span><span>performance review</span></div>
-    <pre class="codeblock"><code>Act as a senior Java and performance engineer.
-
-First understand the project architecture.
-Identify only the components most likely to impact production performance:
-- REST controllers
-- Service layer
-- Database access
-- HTTP clients
-- Async processing
-- Caching
-- Thread pools
-
-Review only those components first.
-
-For each finding provide:
-- File
-- Severity
-- Root cause
-- Recommended code change
-- Expected impact
-
-When finished, stop and wait for my confirmation before reviewing additional files.</code></pre>
-    <p>This is cheaper because it reviews a subset of files at a time, lets the conversation reuse context, and allows you to stop once you have enough useful findings.</p>
-    <table>
-      <thead><tr><th>Practice</th><th>AI Credit usage</th><th>Quality</th></tr></thead>
-      <tbody>
-        <tr><td>Review entire repository at once</td><td>Very high</td><td>High, but hard to validate</td></tr>
-        <tr><td>Review one module at a time</td><td>Low</td><td>High</td></tr>
-        <tr><td>Review one package at a time</td><td>Very low</td><td>High</td></tr>
-        <tr><td>Review one class at a time</td><td>Lowest</td><td>Very high</td></tr>
-        <tr><td>Ask for fixes after issues are found</td><td>Efficient</td><td>Very high</td></tr>
-        <tr><td>Keep the same chat for follow-up reviews</td><td>Lower</td><td>Better context</td></tr>
-      </tbody>
-    </table>
-    <div class="callout success">
-      <strong>Best fit for enterprise Java and Spring Boot projects:</strong> Review one module or package at a time in the same Copilot chat. This usually gives the best balance of AI Credit consumption, context retention, and review quality.
-    </div>
   </section>
 
   <nav class="section" id="table-of-contents" aria-label="Table of contents">
     <h2>Table of Contents</h2>
     <ol class="toc">
       <li><a href="#why-this-matters"><span class="num">01</span><span>Why this matters now</span></a></li>
-      <li><a href="#credits-vs-tokens"><span class="num">02</span><span>AI Credits vs. tokens</span></a></li>
-      <li><a href="#cost-examples"><span class="num">03</span><span>Cost calculation examples</span></a></li>
-      <li><a href="#prompt-engineering"><span class="num">04</span><span>Prompt smarter, not bigger</span></a></li>
-      <li><a href="#modern-ai-patterns"><span class="num">05</span><span>Beyond vibe coding: modern AI patterns</span></a></li>
-      <li><a href="#java-spring-prompts"><span class="num">06</span><span>Java, Python, and TypeScript prompt examples</span></a></li>
+      <li><a href="#credits-vs-tokens"><span class="num">02</span><span>AI Credits, tokens, and context</span></a></li>
+      <li><a href="#cost-examples"><span class="num">03</span><span>How AI Credit usage adds up</span></a></li>
+      <li><a href="#prompt-engineering"><span class="num">04</span><span>Prompt like an engineer</span></a></li>
+      <li><a href="#modern-ai-patterns"><span class="num">05</span><span>Modern AI workflows beyond vibe coding</span></a></li>
+      <li><a href="#java-spring-prompts"><span class="num">06</span><span>Prompt examples across languages</span></a></li>
       <li><a href="#review-workflows"><span class="num">07</span><span>Performance, architecture, and security reviews</span></a></li>
       <li><a href="#engineering-principles"><span class="num">08</span><span>Engineering principles</span></a></li>
       <li><a href="#leadership"><span class="num">09</span><span>Knowledge sharing and leadership</span></a></li>
-      <li><a href="#enterprise-perspective"><span class="num">10</span><span>Enterprise perspective and maturity model</span></a></li>
-      <li><a href="#github-improvements"><span class="num">11</span><span>What I would like GitHub to improve</span></a></li>
-      <li><a href="#references"><span class="num">12</span><span>References and hashtags</span></a></li>
+      <li><a href="#enterprise-perspective"><span class="num">10</span><span>Enterprise cost centers and maturity model</span></a></li>
+      <li><a href="#github-improvements"><span class="num">11</span><span>GitHub product improvements</span></a></li>
+      <li><a href="#monitoring-usage"><span class="num">12</span><span>Monitoring AI Credit usage</span></a></li>
+      <li><a href="#closing-thoughts"><span class="num">13</span><span>Closing thoughts</span></a></li>
+      <li><a href="#references"><span class="num">14</span><span>References and hashtags</span></a></li>
     </ol>
   </nav>
 
@@ -233,7 +192,7 @@ When finished, stop and wait for my confirmation before reviewing additional fil
   </section>
 
   <section class="section" id="credits-vs-tokens">
-    <h2>AI Credits vs. Tokens</h2>
+    <h2>AI Credits, Tokens, and Context</h2>
     <p class="lead">AI Credits and tokens are related concepts, but they are not the same thing. A common developer question is: <strong>"What exactly am I being charged for?"</strong></p>
     <p>The short answer: GitHub Copilot usage-based billing is based on the AI resources required to process your request, not simply the number of words you type. Usage can depend on the model, the feature used, the amount of context processed, tool activity, and the response generated. Always refer to GitHub's official documentation for the latest pricing details.</p>
     <table>
@@ -302,7 +261,7 @@ When finished, stop and wait for my confirmation before reviewing additional fil
   </section>
 
   <section class="section" id="cost-examples">
-    <h2>Cost Calculation Examples</h2>
+    <h2>How AI Credit Usage Adds Up</h2>
     <p class="lead">Exact AI Credit consumption depends on GitHub's current billing rules, the model selected, and the product feature used. The examples below are intentionally conceptual, so teams can reason about cost patterns without pretending to know GitHub's internal metering formula.</p>
     <div class="formula">
       Conceptual usage pattern: <code>AI Credit usage ≈ model cost profile × amount of context processed × output depth × tool/workflow complexity</code>
@@ -348,7 +307,7 @@ When finished, stop and wait for my confirmation before reviewing additional fil
   </section>
 
   <section class="section" id="prompt-engineering">
-    <h2>Prompt Smarter, Not Bigger</h2>
+    <h2>Prompt Like an Engineer</h2>
     <p class="lead">A strong prompt is not just a longer prompt. A strong prompt behaves like a precise engineering task definition.</p>
     <table>
       <thead>
@@ -378,6 +337,49 @@ When finished, stop and wait for my confirmation before reviewing additional fil
       <div class="node">Constraints<span>What not to change?</span></div>
       <div class="node">Output<span>What format?</span></div>
       <div class="node">Validation<span>How to verify?</span></div>
+    </div>
+    <h3>Review Incrementally to Save Credits</h3>
+    <p>If your goal is to get strong results while using fewer GitHub Copilot AI Credits, ask Copilot to analyze incrementally instead of reviewing the entire repository in one request.</p>
+    <div class="callout danger">
+      <strong>High AI Credit cost:</strong> <code>Analyze the entire repository and find every performance issue.</code> This can send a large amount of code to the model and make the output harder to validate.
+    </div>
+    <div class="code-title"><span>Cost-effective prompt</span><span>performance review</span></div>
+    <pre class="codeblock"><code>Act as a senior Java and performance engineer.
+
+First understand the project architecture.
+Identify only the components most likely to impact production performance:
+- REST controllers
+- Service layer
+- Database access
+- HTTP clients
+- Async processing
+- Caching
+- Thread pools
+
+Review only those components first.
+
+For each finding provide:
+- File
+- Severity
+- Root cause
+- Recommended code change
+- Expected impact
+
+When finished, stop and wait for my confirmation before reviewing additional files.</code></pre>
+    <p>This is cheaper because it reviews a subset of files at a time, lets the conversation reuse context, and allows you to stop once you have enough useful findings.</p>
+    <table>
+      <thead><tr><th>Practice</th><th>AI Credit usage</th><th>Quality</th></tr></thead>
+      <tbody>
+        <tr><td>Review entire repository at once</td><td>Very high</td><td>High, but hard to validate</td></tr>
+        <tr><td>Review one module at a time</td><td>Low</td><td>High</td></tr>
+        <tr><td>Review one package at a time</td><td>Very low</td><td>High</td></tr>
+        <tr><td>Review one class at a time</td><td>Lowest</td><td>Very high</td></tr>
+        <tr><td>Ask for fixes after issues are found</td><td>Efficient</td><td>Very high</td></tr>
+        <tr><td>Keep the same chat for follow-up reviews</td><td>Lower</td><td>Better context</td></tr>
+      </tbody>
+    </table>
+    <div class="callout success">
+      <strong>Best fit for enterprise Java and Spring Boot projects:</strong> Review one module or package at a time in the same Copilot chat. This usually gives the best balance of AI Credit consumption, context retention, and review quality.
     </div>
     <h3>GitHub Copilot AI Credits: Prompt Like an Engineer, Not Just a User</h3>
     <p>With GitHub Copilot's usage-based billing, effective AI usage is no longer only about getting a useful answer. It is also about using AI resources wisely. AI Credit consumption can depend on the selected model, the feature used, the amount of context processed, tool activity, and output depth. It is not determined only by the number of words typed into the prompt.</p>
@@ -482,7 +484,7 @@ Return a checklist of issues and minimal code-change recommendations.</code></pr
   </section>
 
   <section class="section" id="modern-ai-patterns">
-    <h2>Beyond Vibe Coding: Modern AI Patterns for Developers</h2>
+    <h2>Modern AI Workflows Beyond Vibe Coding</h2>
     <p class="lead">"Vibe coding" is useful for exploration, prototypes, and learning. But production engineering needs more than vibes: clear intent, controlled context, repeatable workflows, validation, and cost awareness.</p>
     <div class="callout warning">
       <strong>Practical guardrail:</strong> Use vibe coding to discover possibilities, then switch to engineering mode before code reaches production: define requirements, inspect diffs, run tests, review security, and measure impact.
@@ -522,7 +524,7 @@ Return a checklist of issues and minimal code-change recommendations.</code></pr
   </section>
 
   <section class="section" id="java-spring-prompts">
-    <h2>Prompt Examples for Java, Python, and TypeScript</h2>
+    <h2>Prompt Examples Across Languages</h2>
     <p class="lead">The same engineering principles apply across programming languages: define scope, describe constraints, ask for evidence, and validate the result with tests or runtime signals.</p>
     <div class="prompt-grid">
       <div class="card">
@@ -711,7 +713,7 @@ Suggest minimal changes only and include tests or verification steps.</code></pr
   </section>
 
   <section class="section" id="enterprise-perspective">
-    <h2>Enterprise Perspective: AI Credits in Large Organizations</h2>
+    <h2>Enterprise Cost Centers and AI Maturity</h2>
     <p class="lead">Usage-based billing is not only a developer concern. In large enterprises, actual AI Credit consumption can be charged back monthly to a cost center, department, project, platform team, or engineering budget.</p>
     <p>That means AI usage becomes both a technical and financial consideration. The objective should not be to limit AI usage blindly. The objective should be to ensure that AI usage creates meaningful engineering value.</p>
 
@@ -826,7 +828,7 @@ Suggest minimal changes only and include tests or verification steps.</code></pr
   </section>
 
   <section class="section" id="github-improvements">
-    <h2>What I Would Like GitHub to Improve</h2>
+    <h2>GitHub Product Improvements I Would Like to See</h2>
     <div class="improvement-grid">
       <div class="card">
         <h3>Estimated AI Credit cost before execution</h3>
@@ -848,7 +850,7 @@ Suggest minimal changes only and include tests or verification steps.</code></pr
   </section>
 
   <section class="section" id="monitoring-usage">
-    <h2>Monitoring Usage</h2>
+    <h2>Monitoring AI Credit Usage</h2>
     <p>If your organization exposes billing information, check your organization's <strong>Billing &amp; Licensing</strong> or <strong>Copilot</strong> settings. If you do not see those options, access may be restricted to administrators.</p>
     <div class="summary-grid">
       <div class="card">
