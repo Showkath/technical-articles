@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">AI Credit chargeback flow</title>
+  <desc id="desc">A simple flow diagram showing that the approved AI Credit limit is a cap, actual AI Credit consumption is measured, and monthly cost-center chargeback is based on consumed credits.</desc>
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.12"/></filter>
+    <style>
+      .bg{fill:#fbfdff}.board{fill:#fff;stroke:#cfe0f5;stroke-width:3;filter:url(#shadow)}.box{fill:#f8fbff;stroke:#9cc8f5;stroke-width:3}.limit{fill:#fff7ed;stroke:#f97316;stroke-width:3}.charge{fill:#ecfdf5;stroke:#0f766e;stroke-width:3}.title{font-family:Segoe UI,Arial,sans-serif;font-size:38px;font-weight:850;fill:#063f79}.label{font-family:Segoe UI,Arial,sans-serif;font-size:24px;font-weight:900;fill:#12385f}.text{font-family:Segoe UI,Arial,sans-serif;font-size:20px;fill:#314155}.small{font-family:Segoe UI,Arial,sans-serif;font-size:18px;fill:#5f6b7a}.formula{font-family:Segoe UI,Arial,sans-serif;font-size:26px;font-weight:900;fill:#0f766e}.arrow{stroke:#0b5cab;stroke-width:5;stroke-linecap:round;fill:none}.coin{fill:#fbbf24;stroke:#d97706;stroke-width:3}.coinText{font-family:Segoe UI,Arial,sans-serif;font-size:24px;font-weight:900;fill:#78350f}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="620"/>
+  <rect class="board" x="36" y="34" width="1128" height="552" rx="28"/>
+  <text class="title" x="70" y="92">How AI Credit chargeback works</text>
+  <text class="small" x="70" y="126">The limit controls access. The monthly charge is based on actual consumption.</text>
+
+  <rect class="limit" x="72" y="190" width="245" height="180" rx="24"/>
+  <text class="label" x="105" y="238">Approved limit</text>
+  <text class="text" x="105" y="276">A cap for usage</text>
+  <text class="text" x="105" y="306">and access planning</text>
+  <text class="small" x="105" y="344">Not automatically charged</text>
+
+  <path class="arrow" d="M330 280 H428"/><path d="M442 280 L416 264 L416 296 Z" fill="#0b5cab"/>
+
+  <rect class="box" x="462" y="190" width="276" height="180" rx="24"/>
+  <text class="label" x="500" y="238">Actual usage</text>
+  <text class="text" x="500" y="276">Credits consumed by</text>
+  <text class="text" x="500" y="306">chat, Agent Mode,</text>
+  <text class="text" x="500" y="336">tools, and context</text>
+  <circle class="coin" cx="682" cy="232" r="24"/><text class="coinText" x="671" y="241">¢</text>
+
+  <path class="arrow" d="M752 280 H850"/><path d="M864 280 L838 264 L838 296 Z" fill="#0b5cab"/>
+
+  <rect class="charge" x="884" y="190" width="245" height="180" rx="24"/>
+  <text class="label" x="918" y="238">Monthly charge</text>
+  <text class="text" x="918" y="276">Cost center pays</text>
+  <text class="text" x="918" y="306">for consumed credits</text>
+  <text class="small" x="918" y="344">Example rate: 1 credit = $0.01</text>
+
+  <rect class="charge" x="310" y="430" width="580" height="78" rx="24"/>
+  <text class="formula" x="352" y="480">Monthly charge = consumed AI Credits × credit rate</text>
+  <text class="small" x="308" y="548">Practical habit: track IDE usage and request a higher limit before access is interrupted.</text>
+</svg>

@@ -95,7 +95,7 @@ table{width:100%;border-collapse:separate;border-spacing:0;margin:18px 0;border:
 .diagram{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:stretch;margin:24px 0}.node{position:relative;text-align:center;background:#f8fbff;border:1px solid var(--border);border-radius:18px;padding:18px 12px;font-weight:700;color:#12385f}.node span{display:block;margin-top:6px;font-weight:500;font-size:.86rem;color:var(--muted)}.node:not(:last-child):after{content:"→";position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:var(--primary);font-weight:900;background:#fff;border-radius:50%}
 .formula{font-family:"Segoe UI",Arial,sans-serif;background:#f8fbff;border:1px dashed #9cc8f5;border-radius:18px;padding:18px;margin:18px 0;color:#12385f;font-weight:700}.formula code{background:#e8f3ff;color:#063f79}
 code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;background:#eef2f7;color:#263445;border-radius:6px;padding:2px 6px;font-size:.92em}.codeblock{background:var(--code-bg);color:var(--code-text);border-radius:18px;padding:20px;margin:18px 0;overflow:auto;border:1px solid #30363d}.codeblock code{display:block;background:transparent;color:inherit;padding:0;white-space:pre;font-size:.9rem;line-height:1.55}.code-title{display:flex;justify-content:space-between;gap:12px;align-items:center;background:#161b22;color:#c9d1d9;border:1px solid #30363d;border-bottom:none;border-radius:18px 18px 0 0;padding:10px 16px;margin:18px 0 -18px;font-size:.86rem}.code-title span:last-child{color:#7ee787}
-.quote{font-size:1.35rem;line-height:1.45;color:#12385f;border-left:6px solid var(--accent);padding-left:22px;margin:24px 0;font-weight:700}.visual-summary{margin:24px 0 4px}.visual-summary img{display:block;width:100%;height:auto;border:1px solid var(--border);border-radius:24px;box-shadow:0 16px 48px rgba(15,23,42,.10);background:#fff}.visual-summary figcaption{margin-top:10px;color:var(--muted);font-size:.94rem}.hashtags{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.hashtags span{background:#eef6ff;color:#0b5cab;border:1px solid #cfe7ff;border-radius:999px;padding:8px 12px;font-weight:700;font-size:.9rem}.references li{margin-bottom:10px}.footer-note{color:var(--muted);font-size:.95rem;margin-top:18px}
+.quote{font-size:1.35rem;line-height:1.45;color:#12385f;border-left:6px solid var(--accent);padding-left:22px;margin:24px 0;font-weight:700}.visual-summary{margin:24px 0 4px}.visual-summary img{display:block;width:100%;height:auto;border:1px solid var(--border);border-radius:24px;box-shadow:0 16px 48px rgba(15,23,42,.10);background:#fff}.visual-summary.tall img{width:auto;max-width:100%;max-height:820px;margin:0 auto}.visual-summary figcaption{margin-top:10px;color:var(--muted);font-size:.94rem}.hashtags{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.hashtags span{background:#eef6ff;color:#0b5cab;border:1px solid #cfe7ff;border-radius:999px;padding:8px 12px;font-weight:700;font-size:.9rem}.references li{margin-bottom:10px}.footer-note{color:var(--muted);font-size:.95rem;margin-top:18px}
 @media (max-width:860px){.hero{grid-template-columns:1fr;padding:36px 24px}.toc,.summary-grid,.principles,.review-grid,.prompt-grid,.improvement-grid{grid-template-columns:1fr}.diagram{grid-template-columns:1fr}.node:not(:last-child):after{content:"↓";right:50%;top:auto;bottom:-20px;transform:translateX(50%)}.page{padding:18px 14px 44px}.section{padding:24px}}
 @media print{body{background:#fff}.hero,.section{box-shadow:none}.toc a{break-inside:avoid}.page{max-width:100%;padding:0}.section{page-break-inside:avoid}}
 </style>
@@ -274,6 +274,10 @@ When finished, stop and wait for my confirmation before reviewing additional fil
         <tr><td><code>def recommend_products(user_id):</code></td><td>Python code</td><td>Function keywords, names, punctuation, and parameters are all processed.</td></tr>
       </tbody>
     </table>
+    <figure class="visual-summary tall">
+      <img src="../../assets/images/showkath-ai-credits-what-is-token-source-refer-full-article.png" alt="Showkath visual explaining what tokens are and how AI Credits relate to prompt context.">
+      <figcaption>Tokenization in plain English: the model processes text, code, symbols, and context as smaller pieces, not simply as whole words. Source and full article: <a href="https://showkath.github.io/technical-articles/articles/ai/" target="_blank" rel="noopener noreferrer">showkath.github.io/technical-articles/articles/ai/</a>.</figcaption>
+    </figure>
     <div class="diagram" aria-label="AI request processing diagram">
       <div class="node">Prompt<span>Goal, scope, constraints</span></div>
       <div class="node">Context<span>Files, logs, history</span></div>
@@ -303,6 +307,10 @@ When finished, stop and wait for my confirmation before reviewing additional fil
     <div class="formula">
       Conceptual usage pattern: <code>AI Credit usage ≈ model cost profile × amount of context processed × output depth × tool/workflow complexity</code>
     </div>
+    <figure class="visual-summary">
+      <img src="../../assets/images/ai-credit-processing-flow.svg" alt="Diagram showing AI Credit usage factors including model choice, context size, response depth, feature used, and tool activity.">
+      <figcaption>A practical mental model: AI Credits reflect the amount and type of AI work needed to process the request.</figcaption>
+    </figure>
     <table>
       <thead>
         <tr><th>Scenario</th><th>Likely context size</th><th>Engineering value</th><th>Cost-aware approach</th></tr>
@@ -349,7 +357,7 @@ When finished, stop and wait for my confirmation before reviewing additional fil
       <tbody>
         <tr>
           <td>Optimize my application.</td>
-          <td>Review <code>OrderService.java</code> for performance bottlenecks without changing business logic. Focus on database calls, loops, memory allocation, and logging.</td>
+          <td>Review <code>ProductSearchService.java</code> for performance bottlenecks without changing business logic. Focus on database calls, pagination, memory allocation, and logging.</td>
           <td>Defines scope, file, constraints, and review dimensions.</td>
         </tr>
         <tr>
@@ -425,14 +433,14 @@ Return findings with severity, evidence, and verification steps.</code></pre>
         <pre class="codeblock"><code>Improve my recommendation API.</code></pre>
         <div class="code-title"><span>Effective prompt</span><span>focused review</span></div>
         <pre class="codeblock"><code>Review this FastAPI product recommendation route and service.
-Focus on:
-- blocking I/O inside async handlers
-- unnecessary database queries
+      Focus on:
+      - blocking I/O inside async handlers
+      - unnecessary database queries
       - large in-memory filtering
-- repeated external API calls
+      - repeated external API calls
 
-Suggest minimal changes only.
-Include how to validate with tests, logs, or metrics.</code></pre>
+      Suggest minimal changes only.
+      Include how to validate with tests, logs, or metrics.</code></pre>
       </div>
       <div class="card">
         <h3>TypeScript / Node.js</h3>
@@ -444,7 +452,7 @@ Focus on:
 - input validation
 - async error handling
 - sensitive data in logs
-      - repeated payment provider calls
+- repeated payment provider calls
 - request and response type safety
 
 Return a checklist of issues and minimal code-change recommendations.</code></pre>
@@ -462,7 +470,7 @@ Return a checklist of issues and minimal code-change recommendations.</code></pr
       - retry behavior
       - structured logging
 
-For each finding include:
+      For each finding include:
       - severity
       - root cause
       - minimal code change
@@ -562,7 +570,7 @@ Provide concrete findings and safe remediation ideas.</code></pre>
         <h3>Test Generation</h3>
         <div class="code-title"><span>Copilot Chat prompt</span><span>testing</span></div>
         <pre class="codeblock"><code>Create JUnit 5 tests for this method using Mockito.
-      Follow the existing test style in ProductSearchServiceTest.java.
+Follow the existing test style in ProductSearchServiceTest.java.
 
 Cover:
 - successful path
@@ -710,6 +718,10 @@ Suggest minimal changes only and include tests or verification steps.</code></pr
     <div class="callout">
       <strong>Enterprise framing:</strong> Approved AI Credit limits are not the same as charges. Charges are based on actual consumption. For example, if an organization uses a rate such as 1 AI Credit = USD 0.01, monthly cost-center chargeback depends on the credits consumed, not simply the approved limit.
     </div>
+    <figure class="visual-summary">
+      <img src="../../assets/images/ai-credit-chargeback-flow.svg" alt="Flow diagram showing approved AI Credit limit, actual usage, and monthly cost-center chargeback based on consumed credits.">
+      <figcaption>Cost-center view: the limit controls access, but monthly chargeback is based on actual AI Credits consumed.</figcaption>
+    </figure>
 
     <div class="improvement-grid">
       <div class="card">

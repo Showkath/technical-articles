@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">AI Credit usage factors</title>
+  <desc id="desc">A simple flow diagram showing that AI Credit usage is influenced by model choice, context size, response depth, feature type, and tool activity.</desc>
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.12"/></filter>
+    <style>
+      .bg{fill:#fbfdff}.board{fill:#fff;stroke:#cfe0f5;stroke-width:3;filter:url(#shadow)}.box{fill:#f8fbff;stroke:#9cc8f5;stroke-width:3}.center{fill:#eef6ff;stroke:#0b5cab;stroke-width:4}.title{font-family:Segoe UI,Arial,sans-serif;font-size:38px;font-weight:850;fill:#063f79}.label{font-family:Segoe UI,Arial,sans-serif;font-size:23px;font-weight:850;fill:#12385f}.small{font-family:Segoe UI,Arial,sans-serif;font-size:18px;fill:#5f6b7a}.credit{font-family:Segoe UI,Arial,sans-serif;font-size:30px;font-weight:900;fill:#0b5cab}.arrow{stroke:#0b5cab;stroke-width:5;stroke-linecap:round;fill:none}.coin{fill:#fbbf24;stroke:#d97706;stroke-width:3}.coinText{font-family:Segoe UI,Arial,sans-serif;font-size:22px;font-weight:900;fill:#78350f}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="620"/>
+  <rect class="board" x="36" y="34" width="1128" height="552" rx="28"/>
+  <text class="title" x="70" y="92">AI Credits are about AI work, not just prompt length</text>
+  <text class="small" x="70" y="126">Exact metering depends on GitHub billing rules, selected model, and feature behavior.</text>
+
+  <rect class="center" x="442" y="228" width="316" height="154" rx="28"/>
+  <text class="credit" x="500" y="290">AI Credits</text>
+  <text class="small" x="486" y="324">Usage-based accounting</text>
+  <circle class="coin" cx="716" cy="268" r="24"/><text class="coinText" x="705" y="276">¢</text>
+
+  <g>
+    <rect class="box" x="80" y="174" width="250" height="92" rx="22"/><text class="label" x="112" y="214">Model choice</text><text class="small" x="112" y="242">Capability and cost profile</text>
+    <rect class="box" x="80" y="344" width="250" height="92" rx="22"/><text class="label" x="112" y="384">Context size</text><text class="small" x="112" y="412">Files, logs, chat history</text>
+    <rect class="box" x="474" y="454" width="250" height="92" rx="22"/><text class="label" x="506" y="494">Response depth</text><text class="small" x="506" y="522">Summary vs. long analysis</text>
+    <rect class="box" x="870" y="174" width="250" height="92" rx="22"/><text class="label" x="902" y="214">Feature used</text><text class="small" x="902" y="242">Chat, Agent Mode, review</text>
+    <rect class="box" x="870" y="344" width="250" height="92" rx="22"/><text class="label" x="902" y="384">Tool activity</text><text class="small" x="902" y="412">Reads, edits, planning steps</text>
+  </g>
+  <path class="arrow" d="M330 220 H430"/><path d="M442 220 L418 206 L418 234 Z" fill="#0b5cab"/>
+  <path class="arrow" d="M330 390 H430"/><path d="M442 390 L418 376 L418 404 Z" fill="#0b5cab"/>
+  <path class="arrow" d="M600 454 V394"/><path d="M600 382 L586 406 L614 406 Z" fill="#0b5cab"/>
+  <path class="arrow" d="M870 220 H770"/><path d="M758 220 L782 206 L782 234 Z" fill="#0b5cab"/>
+  <path class="arrow" d="M870 390 H770"/><path d="M758 390 L782 376 L782 404 Z" fill="#0b5cab"/>
+  <text class="small" x="306" y="555">Use this as a mental model, not a pricing formula. Confirm exact charging in official GitHub documentation.</text>
+</svg>

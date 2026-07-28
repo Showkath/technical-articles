@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Vague prompt vs effective prompt</title>
+  <desc id="desc">A comparison diagram showing how a vague prompt creates broad context and unclear output, while an effective prompt defines goal, scope, constraints, output format, and validation.</desc>
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.12"/></filter>
+    <style>
+      .bg{fill:#fbfdff}.board{fill:#fff;stroke:#cfe0f5;stroke-width:3;filter:url(#shadow)}.bad{fill:#fff7ed;stroke:#f97316;stroke-width:3}.good{fill:#ecfdf5;stroke:#0f766e;stroke-width:3}.pillBad{fill:#ffedd5;stroke:#fb923c;stroke-width:2}.pillGood{fill:#d1fae5;stroke:#14b8a6;stroke-width:2}.title{font-family:Segoe UI,Arial,sans-serif;font-size:38px;font-weight:850;fill:#063f79}.h{font-family:Segoe UI,Arial,sans-serif;font-size:28px;font-weight:900}.badText{fill:#9a3412}.goodText{fill:#0f766e}.body{font-family:Segoe UI,Arial,sans-serif;font-size:21px;fill:#314155}.small{font-family:Segoe UI,Arial,sans-serif;font-size:18px;fill:#5f6b7a}.mono{font-family:SFMono-Regular,Consolas,monospace;font-size:19px;fill:#1f2937}.arrow{stroke:#0b5cab;stroke-width:5;stroke-linecap:round;fill:none}
+    </style>
+  </defs>
+  <rect class="bg" width="1200" height="620"/>
+  <rect class="board" x="36" y="34" width="1128" height="552" rx="28"/>
+  <text class="title" x="70" y="92">Prompt quality changes the work the AI has to do</text>
+
+  <rect class="bad" x="70" y="140" width="475" height="350" rx="28"/>
+  <text class="h badText" x="105" y="190">Vague prompt</text>
+  <text class="mono" x="105" y="235">“Improve my app.”</text>
+  <g transform="translate(105 274)">
+    <rect class="pillBad" x="0" y="0" width="310" height="42" rx="21"/><text class="body" x="22" y="28">unclear target</text>
+    <rect class="pillBad" x="0" y="60" width="310" height="42" rx="21"/><text class="body" x="22" y="88">too much possible context</text>
+    <rect class="pillBad" x="0" y="120" width="310" height="42" rx="21"/><text class="body" x="22" y="148">harder to validate</text>
+  </g>
+  <text class="small" x="105" y="455">Result: broader answer, more follow-up, lower signal.</text>
+
+  <path class="arrow" d="M565 315 H635"/><path d="M650 315 L622 298 L622 332 Z" fill="#0b5cab"/>
+
+  <rect class="good" x="670" y="140" width="460" height="350" rx="28"/>
+  <text class="h goodText" x="705" y="190">Effective prompt</text>
+  <text class="mono" x="705" y="235">“Review checkout route for...</text>
+  <text class="mono" x="705" y="262">validation, logging, retries.”</text>
+  <g transform="translate(705 294)">
+    <rect class="pillGood" x="0" y="0" width="330" height="38" rx="19"/><text class="body" x="22" y="26">goal</text>
+    <rect class="pillGood" x="0" y="50" width="330" height="38" rx="19"/><text class="body" x="22" y="76">scope and files</text>
+    <rect class="pillGood" x="0" y="100" width="330" height="38" rx="19"/><text class="body" x="22" y="126">constraints</text>
+    <rect class="pillGood" x="0" y="150" width="330" height="38" rx="19"/><text class="body" x="22" y="176">validation steps</text>
+  </g>
+  <text class="small" x="705" y="455">Result: focused answer, easier review, better value.</text>
+  <text class="small" x="70" y="550">Rule of thumb: define the engineering task before asking for the AI answer.</text>
+</svg>
