@@ -119,7 +119,7 @@ code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;backgroun
       </ul>
     </div>
     <aside class="cover-card" aria-label="Cover summary card">
-      <h2>The core idea</h2>
+          <td>Review <code>ProductSearchService.java</code> for performance bottlenecks without changing business logic. Focus on database calls, pagination, memory allocation, and logging.</td>
       <p>Usage-based billing does not just change cost management. It changes how teams should think about AI-assisted software engineering.</p>
       <div class="credit-meter" aria-hidden="true"><span></span></div>
       <div class="cover-grid">
@@ -238,7 +238,8 @@ When finished, stop and wait for my confirmation before reviewing additional fil
 
   <section class="section" id="credits-vs-tokens">
     <h2>AI Credits vs. Tokens</h2>
-    <p class="lead">AI Credits and tokens are related concepts, but they are not the same thing.</p>
+    <p class="lead">AI Credits and tokens are related concepts, but they are not the same thing. A common developer question is: <strong>"What exactly am I being charged for?"</strong></p>
+    <p>The short answer: GitHub Copilot usage-based billing is based on the AI resources required to process your request, not simply the number of words you type. Usage can depend on the model, the feature used, the amount of context processed, tool activity, and the response generated. Always refer to GitHub's official documentation for the latest pricing details.</p>
     <table>
       <thead>
         <tr><th>Concept</th><th>What it means</th><th>Why engineers should care</th></tr>
@@ -266,6 +267,17 @@ When finished, stop and wait for my confirmation before reviewing additional fil
         </tr>
       </tbody>
     </table>
+    <h3>What Is a Token?</h3>
+    <p>A token is a small unit of text that an AI model processes. A token is not always a full word, and it is not always a single letter. Code is also tokenized: keywords, identifiers, symbols, punctuation, and strings can all become tokens.</p>
+    <table>
+      <thead><tr><th>Text or code</th><th>Simple interpretation</th><th>What the model sees</th></tr></thead>
+      <tbody>
+        <tr><td><code>Hello</code></td><td>Very small input</td><td>Usually about one token, depending on tokenizer behavior.</td></tr>
+        <tr><td><code>performance optimization</code></td><td>Short phrase</td><td>Multiple tokens because the phrase contains separate text pieces.</td></tr>
+        <tr><td><code>const userId = req.params.id;</code></td><td>TypeScript code</td><td>Keywords, identifiers, operators, punctuation, and values are processed as tokens.</td></tr>
+        <tr><td><code>def recommend_products(user_id):</code></td><td>Python code</td><td>Function keywords, names, punctuation, and parameters are all processed.</td></tr>
+      </tbody>
+    </table>
     <div class="diagram" aria-label="AI request processing diagram">
       <div class="node">Prompt<span>Goal, scope, constraints</span></div>
       <div class="node">Context<span>Files, logs, history</span></div>
@@ -273,8 +285,19 @@ When finished, stop and wait for my confirmation before reviewing additional fil
       <div class="node">Processing<span>Reasoning, tools, generation</span></div>
       <div class="node">AI Credits<span>Usage-based accounting</span></div>
     </div>
+    <h3>Why Context Matters</h3>
+    <p>Your question is only one part of what the AI may process. Depending on the feature and task, Copilot may also use selected files, related code, chat history, repository context, logs, tests, configuration files, or tool results.</p>
+    <table>
+      <thead><tr><th>Request size</th><th>Example</th><th>Typical context</th></tr></thead>
+      <tbody>
+        <tr><td>Small</td><td>Create a unit test for a Python utility function.</td><td>One function, one test style example, and a focused response.</td></tr>
+        <tr><td>Medium</td><td>Review a TypeScript checkout API route for validation and async error handling.</td><td>One route, one service, related types, and targeted recommendations.</td></tr>
+        <tr><td>Large</td><td>Analyze a full Spring Boot or Node.js application for performance risks.</td><td>Multiple modules, configuration, services, data access code, DTOs, tests, and architecture context.</td></tr>
+        <tr><td>Agent Mode</td><td>Refactor a Go or Java microservice across several files.</td><td>Multiple file reads, planning, code generation, edits, and follow-up checks.</td></tr>
+      </tbody>
+    </table>
     <div class="callout warning">
-      <strong>Practical interpretation:</strong> A repository-wide architecture analysis generally processes much more context than reviewing one Java class. The broader the request, the more important it becomes to manage scope and expected output.
+      <strong>Practical interpretation:</strong> A repository-wide architecture analysis generally processes much more context than reviewing one function, class, route, or module. The broader the request, the more important it becomes to manage scope, model choice, and expected output.
     </div>
   </section>
 
@@ -290,22 +313,22 @@ When finished, stop and wait for my confirmation before reviewing additional fil
       </thead>
       <tbody>
         <tr>
-          <td>Explain one Spring service</td>
-          <td>Low to medium</td>
+          <td>Explain one Python data-processing function</td>
+          <td>Low</td>
           <td>Fast onboarding and code comprehension</td>
-          <td>Attach the service, related interface, and relevant test only.</td>
+          <td>Attach the function, sample input, and expected output only.</td>
+        </tr>
+        <tr>
+          <td>Review a TypeScript checkout route</td>
+          <td>Low to medium</td>
+          <td>Improves production reliability and API safety</td>
+          <td>Attach the route, service, request schema, and one existing test style example.</td>
         </tr>
         <tr>
           <td>Review repository architecture</td>
           <td>High</td>
           <td>Useful for modernization and design review</td>
           <td>Start with module map, build files, and package structure before asking for full analysis.</td>
-        </tr>
-        <tr>
-          <td>Generate unit tests for one method</td>
-          <td>Low</td>
-          <td>Focused improvement with clear verification</td>
-          <td>Provide the method, dependencies, and existing test style.</td>
         </tr>
         <tr>
           <td>Debug production incident logs</td>
@@ -364,7 +387,7 @@ When finished, stop and wait for my confirmation before reviewing additional fil
         </tr>
         <tr>
           <td><code>Optimize my application.</code></td>
-          <td>Review <code>OrderService.java</code> for database query efficiency, memory usage, response-time optimization, exception handling, and logging improvements.</td>
+          <td>Review <code>ProductSearchService.java</code> for database query efficiency, memory usage, response-time optimization, exception handling, and logging improvements.</td>
           <td>Specific prompts produce more actionable recommendations with clearer evidence.</td>
         </tr>
         <tr>
@@ -383,20 +406,19 @@ When finished, stop and wait for my confirmation before reviewing additional fil
       <strong>Practical takeaway:</strong> The goal is not simply to use fewer AI Credits. The goal is to maximize the engineering value of every AI interaction by choosing the right model, providing the right context, asking focused questions, validating recommendations, and measuring results.
     </div>
     <h3>Vague Prompt vs. Effective Prompt Examples</h3>
-
-<p><strong>Vague</strong> <em>(unclear or lacking sufficient detail)</em> prompts usually increase ambiguity, which can lead to broader or less relevant responses, additional follow-up interactions, and more effort to validate the recommendations. In environments using GitHub Copilot's usage-based billing, broader context processing or multiple iterations may also increase AI resource consumption. Effective prompts clearly define the target file or component, the engineering objective (for example, performance, security, scalability, maintainability, or code quality), any constraints (such as preserving business logic), and the expected output format. This generally produces more focused, actionable, and easier-to-validate recommendations while promoting more efficient use of AI resources.</p>
-<div class="prompt-grid">
+    <p><strong>Vague</strong> prompts are unclear or too broad. They can produce less relevant answers, require more follow-up questions, and make recommendations harder to validate. <strong>Effective</strong> prompts define the target file or component, the engineering goal, the constraints, and the output format.</p>
+    <div class="prompt-grid">
       <div class="card">
         <h3>Java / Spring Boot</h3>
         <div class="code-title"><span>Vague prompt</span><span>too broad</span></div>
-        <pre class="codeblock"><code>Optimize my Spring Boot application.</code></pre>
+        <pre class="codeblock"><code>Make my product search faster.</code></pre>
         <div class="code-title"><span>Effective prompt</span><span>focused review</span></div>
-        <pre class="codeblock"><code>Review OrderService.java for performance issues.
+        <pre class="codeblock"><code>Review ProductSearchService.java for performance issues.
 Focus only on:
-- N+1 database queries
-- repeated remote customer calls
-- transaction boundaries
-- logging inside loops
+- search query efficiency
+- repeated database calls
+- pagination behavior
+- caching opportunities
 
 Do not change business logic or public APIs.
 Return findings with severity, evidence, and verification steps.</code></pre>
@@ -404,13 +426,13 @@ Return findings with severity, evidence, and verification steps.</code></pre>
       <div class="card">
         <h3>Python / FastAPI</h3>
         <div class="code-title"><span>Vague prompt</span><span>unclear scope</span></div>
-        <pre class="codeblock"><code>Make this Python API faster.</code></pre>
+        <pre class="codeblock"><code>Improve my recommendation API.</code></pre>
         <div class="code-title"><span>Effective prompt</span><span>focused review</span></div>
-        <pre class="codeblock"><code>Review this FastAPI route and its service function.
+        <pre class="codeblock"><code>Review this FastAPI product recommendation route and service.
 Focus on:
 - blocking I/O inside async handlers
 - unnecessary database queries
-- missing pagination
+      - large in-memory filtering
 - repeated external API calls
 
 Suggest minimal changes only.
@@ -419,33 +441,38 @@ Include how to validate with tests, logs, or metrics.</code></pre>
       <div class="card">
         <h3>TypeScript / Node.js</h3>
         <div class="code-title"><span>Vague prompt</span><span>generic</span></div>
-        <pre class="codeblock"><code>Improve this Express code.</code></pre>
+        <pre class="codeblock"><code>Fix my checkout API.</code></pre>
         <div class="code-title"><span>Effective prompt</span><span>production-ready</span></div>
-        <pre class="codeblock"><code>Review this Express route and service for production risk.
+        <pre class="codeblock"><code>Review this TypeScript Express checkout route and payment service.
 Focus on:
 - input validation
 - async error handling
 - sensitive data in logs
-- repeated database or HTTP calls
+      - repeated payment provider calls
 - request and response type safety
 
 Return a checklist of issues and minimal code-change recommendations.</code></pre>
       </div>
       <div class="card">
-        <h3>Repository Analysis</h3>
-        <div class="code-title"><span>Vague prompt</span><span>high context</span></div>
-        <pre class="codeblock"><code>Analyze the entire repository and fix everything.</code></pre>
+        <h3>Go / Microservices</h3>
+        <div class="code-title"><span>Vague prompt</span><span>too large</span></div>
+        <pre class="codeblock"><code>Analyze my Go service and improve reliability.</code></pre>
         <div class="code-title"><span>Effective prompt</span><span>incremental</span></div>
-        <pre class="codeblock"><code>First identify the main modules and entry points.
-Then review only the service layer for performance risks.
+        <pre class="codeblock"><code>Review this Go HTTP handler and repository function.
+      Focus on:
+      - context cancellation
+      - timeout handling
+      - database error handling
+      - retry behavior
+      - structured logging
 
 For each finding include:
-- file or component
-- suspected root cause
-- evidence to verify
-- recommended next step
+      - severity
+      - root cause
+      - minimal code change
+      - test or observability check
 
-Stop after the first review pass and wait for confirmation.</code></pre>
+      Do not change public API behavior.</code></pre>
       </div>
     </div>
   </section>
@@ -497,7 +524,7 @@ Stop after the first review pass and wait for confirmation.</code></pre>
       <div class="card">
         <h3>Performance Review</h3>
         <div class="code-title"><span>Copilot Chat prompt</span><span>performance</span></div>
-        <pre class="codeblock"><code>Review OrderService.java for performance risks.
+        <pre class="codeblock"><code>Review ProductSearchService.java for performance risks.
 Focus on:
 - N+1 database queries
 - unnecessary object allocation
@@ -539,7 +566,7 @@ Provide concrete findings and safe remediation ideas.</code></pre>
         <h3>Test Generation</h3>
         <div class="code-title"><span>Copilot Chat prompt</span><span>testing</span></div>
         <pre class="codeblock"><code>Create JUnit 5 tests for this method using Mockito.
-Follow the existing test style in OrderServiceTest.java.
+      Follow the existing test style in ProductSearchServiceTest.java.
 
 Cover:
 - successful path
@@ -549,10 +576,10 @@ Cover:
 
 Do not change production code unless a testability issue is found.</code></pre>
       </div>
-  <div class="card">
-    <h3>Python API Performance Review</h3>
-    <div class="code-title"><span>Copilot Chat prompt</span><span>python</span></div>
-    <pre class="codeblock"><code>Review this FastAPI endpoint and service function for performance risks.
+      <div class="card">
+        <h3>Python API Performance Review</h3>
+        <div class="code-title"><span>Copilot Chat prompt</span><span>python</span></div>
+        <pre class="codeblock"><code>Review this FastAPI endpoint and service function for performance risks.
 Focus on:
 - unnecessary database queries
 - blocking I/O inside async routes
@@ -562,11 +589,11 @@ Focus on:
 
 Do not rewrite the whole module. Return findings with severity,
 evidence, minimal code-change options, and validation steps.</code></pre>
-  </div>
-  <div class="card">
-    <h3>TypeScript / Node.js Review</h3>
-    <div class="code-title"><span>Copilot Chat prompt</span><span>typescript</span></div>
-    <pre class="codeblock"><code>Review this TypeScript Express route and service for production risks.
+      </div>
+      <div class="card">
+        <h3>TypeScript / Node.js Review</h3>
+        <div class="code-title"><span>Copilot Chat prompt</span><span>typescript</span></div>
+        <pre class="codeblock"><code>Review this TypeScript Express route and service for production risks.
 Focus on:
 - input validation
 - async error handling
@@ -575,32 +602,30 @@ Focus on:
 - type safety around request and response objects
 
 Suggest minimal changes only and include tests or verification steps.</code></pre>
-  </div>
+      </div>
     </div>
   </section>
 
   <section class="section" id="github-style-code">
-    <h2>GitHub-Style Code Example</h2>
+    <h2>Realistic Code Review Example</h2>
     <p class="lead">When asking Copilot to review code, include enough surrounding context to understand intent, but avoid dumping unrelated files.</p>
-    <div class="code-title"><span>OrderService.java</span><span>review target</span></div>
-    <pre class="codeblock"><code>@Service
-public class OrderService {
-    private final OrderRepository orderRepository;
-    private final CustomerClient customerClient;
+    <div class="code-title"><span>checkoutRoute.ts</span><span>review target</span></div>
+    <pre class="codeblock"><code>app.post('/checkout', async (req, res) =&gt; {
+  const cart = req.body.cart;
+  const userId = req.body.userId;
 
-    @Transactional(readOnly = true)
-    public List&lt;OrderSummary&gt; getRecentOrders(List&lt;Long&gt; customerIds) {
-        return customerIds.stream()
-            .flatMap(customerId -&gt; orderRepository.findRecentByCustomerId(customerId).stream())
-            .map(order -&gt; new OrderSummary(
-                order.getId(),
-                customerClient.getCustomer(order.getCustomerId()).getDisplayName(),
-                order.getTotal()))
-            .toList();
-    }
-}</code></pre>
+  const user = await userRepository.findById(userId);
+  const total = cart.items.reduce((sum, item) =&gt; sum + item.price, 0);
+
+  console.log('checkout request', { user, cart });
+
+  const payment = await paymentClient.charge(user.cardToken, total);
+  await orderRepository.save({ userId, cart, paymentId: payment.id });
+
+  res.json({ status: 'success', paymentId: payment.id });
+});</code></pre>
     <div class="callout">
-      <strong>Better review request:</strong> Ask Copilot to check for repeated database calls and repeated remote customer lookups, then ask it to propose a minimal refactoring that preserves transaction behavior and public API compatibility.
+      <strong>Better review request:</strong> Ask Copilot to check this checkout route for input validation, async error handling, sensitive logging, payment failure behavior, and idempotency. Request minimal changes and validation steps instead of a full rewrite.
     </div>
   </section>
 
@@ -817,6 +842,16 @@ public class OrderService {
   <section class="section" id="monitoring-usage">
     <h2>Monitoring Usage</h2>
     <p>If your organization exposes billing information, check your organization's <strong>Billing &amp; Licensing</strong> or <strong>Copilot</strong> settings. If you do not see those options, access may be restricted to administrators.</p>
+    <div class="summary-grid">
+      <div class="card">
+        <h3>For GitHub Enterprise Administrators</h3>
+        <p>Depending on organization settings and permissions, administrators may be able to view AI Credit consumption, spending limits, current billing period usage, and organization-wide Copilot usage from billing or licensing pages.</p>
+      </div>
+      <div class="card">
+        <h3>For Developers</h3>
+        <p>Some organizations expose individual usage information. If you cannot see AI Credit or billing details, ask your GitHub Enterprise administrator where Copilot usage is monitored for your team.</p>
+      </div>
+    </div>
     <p>For CLI usage, GitHub also documents session-limit controls in the <a href="https://docs.github.com/en/copilot/how-tos/copilot-cli/use-copilot-cli/set-session-limit" target="_blank" rel="noopener noreferrer">Copilot CLI session limit documentation</a>. This is useful for developers who want guardrails while experimenting with command-line AI workflows.</p>
   </section>
 
