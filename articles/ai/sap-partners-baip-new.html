@@ -378,6 +378,231 @@
             text-decoration: underline;
         }
 
+        /* Executive Infographic */
+        .executive-visual {
+            background: linear-gradient(180deg, #ffffff 0%, #f3f9ff 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .executive-visual::before {
+            content: "";
+            position: absolute;
+            top: -140px;
+            right: -120px;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(0, 188, 212, 0.22), transparent 65%);
+            pointer-events: none;
+        }
+
+        .visual-kicker {
+            color: #00838f;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .visual-title {
+            color: #063f79;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.05em;
+            max-width: 760px;
+            margin-bottom: 16px;
+        }
+
+        .visual-subtitle {
+            color: #506273;
+            max-width: 720px;
+            font-size: 1.08rem;
+            margin-bottom: 34px;
+        }
+
+        .visual-image-frame {
+            margin: 28px 0 38px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(10, 110, 209, 0.14);
+            border-radius: 32px;
+            box-shadow: 0 24px 60px rgba(6, 63, 121, 0.12);
+        }
+
+        .visual-image-frame img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 22px;
+        }
+
+        .visual-image-frame figcaption {
+            color: #506273;
+            font-size: 0.9rem;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        .ecosystem-map {
+            display: grid;
+            grid-template-columns: minmax(240px, 0.85fr) minmax(320px, 1.15fr);
+            gap: 30px;
+            align-items: center;
+            margin: 24px 0 36px;
+        }
+
+        .ecosystem-core {
+            min-height: 360px;
+            border-radius: 32px;
+            background: radial-gradient(circle at 50% 45%, #ffffff 0%, #eaf7ff 55%, #d8f3f7 100%);
+            border: 1px solid rgba(10, 110, 209, 0.14);
+            box-shadow: 0 28px 70px rgba(6, 63, 121, 0.13);
+            display: grid;
+            place-items: center;
+            position: relative;
+        }
+
+        .ecosystem-core::before,
+        .ecosystem-core::after {
+            content: "";
+            position: absolute;
+            border: 1px solid rgba(10, 110, 209, 0.16);
+            border-radius: 50%;
+            animation: orbitPulse 5.5s ease-in-out infinite;
+        }
+
+        .ecosystem-core::before {
+            width: 250px;
+            height: 250px;
+        }
+
+        .ecosystem-core::after {
+            width: 310px;
+            height: 310px;
+            animation-delay: 0.8s;
+        }
+
+        .core-label {
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #063f79, #0a6ed1 55%, #00a6b4);
+            color: #ffffff;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: 22px;
+            font-weight: 800;
+            line-height: 1.2;
+            box-shadow: 0 22px 45px rgba(10, 110, 209, 0.28);
+            z-index: 1;
+        }
+
+        .orbit-node {
+            position: absolute;
+            z-index: 2;
+            background: #ffffff;
+            color: #063f79;
+            border: 1px solid rgba(10, 110, 209, 0.16);
+            border-radius: 18px;
+            padding: 10px 12px;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+            font-size: 0.88rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .orbit-node i {
+            color: #00a6b4;
+        }
+
+        .orbit-node.models { top: 28px; left: 50%; transform: translateX(-50%); }
+        .orbit-node.data { top: 42%; right: 18px; }
+        .orbit-node.cloud { bottom: 36px; right: 58px; }
+        .orbit-node.governance { bottom: 36px; left: 42px; }
+        .orbit-node.workflow { top: 42%; left: 18px; }
+
+        .visual-slides {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .visual-slide {
+            min-height: 168px;
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(10, 110, 209, 0.14);
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: 0 18px 48px rgba(15, 23, 42, 0.07);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .visual-slide:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 24px 58px rgba(10, 110, 209, 0.14);
+        }
+
+        .visual-slide i {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            background: #e2f7fb;
+            color: #00838f;
+            display: inline-grid;
+            place-items: center;
+            margin-bottom: 18px;
+            font-size: 1.2rem;
+        }
+
+        .visual-slide h3 {
+            margin: 0 0 10px;
+            color: #063f79;
+            font-size: 1.2rem;
+        }
+
+        .visual-slide p {
+            margin: 0;
+            color: #506273;
+            line-height: 1.55;
+        }
+
+        .signal-strip {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 26px;
+        }
+
+        .signal-card {
+            background: #ffffff;
+            border: 1px solid rgba(10, 110, 209, 0.12);
+            border-radius: 20px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .signal-card strong {
+            display: block;
+            color: #063f79;
+            font-size: 1.55rem;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .signal-card span {
+            color: #506273;
+            font-size: 0.88rem;
+        }
+
+        @keyframes orbitPulse {
+            0%, 100% { transform: scale(1); opacity: 0.65; }
+            50% { transform: scale(1.04); opacity: 1; }
+        }
+
         /* Summary Section */
         .summary-section {
             background: #f8fafc;
@@ -459,6 +684,20 @@
 
             th, td {
                 padding: 10px;
+            }
+
+            .ecosystem-map,
+            .visual-slides,
+            .signal-strip {
+                grid-template-columns: 1fr;
+            }
+
+            .ecosystem-core {
+                min-height: 330px;
+            }
+
+            .orbit-node {
+                font-size: 0.78rem;
             }
         }
     </style>
@@ -588,6 +827,76 @@
                 Readers should consult the latest official SAP documentation
                 and SAP News for the most current product information.
             </p>
+        </section>
+
+        <!-- Executive Visual Summary -->
+        <section class="section executive-visual">
+            <div class="visual-kicker">Executive Infographic</div>
+            <h2 class="visual-title">SAP Business AI Platform is becoming an enterprise AI operating layer.</h2>
+            <p class="visual-subtitle">
+                A boardroom-style visual summary for readers who want the main message before the full article.
+            </p>
+
+            <figure class="visual-image-frame">
+                <img src="../../assets/images/ai-engineering-trend/SAP-BAIP-BTP-Partnerships.png" alt="SAP Business AI Platform and SAP BTP strategic AI partnerships infographic">
+                <figcaption>SAP Business AI Platform partnership ecosystem at a glance.</figcaption>
+            </figure>
+
+            <div class="ecosystem-map">
+                <div class="ecosystem-core" aria-label="SAP Business AI Platform ecosystem diagram">
+                    <div class="core-label">SAP Business AI Platform</div>
+                    <div class="orbit-node models"><i class="fas fa-brain"></i>Models</div>
+                    <div class="orbit-node data"><i class="fas fa-layer-group"></i>Data</div>
+                    <div class="orbit-node cloud"><i class="fas fa-cloud"></i>Cloud</div>
+                    <div class="orbit-node governance"><i class="fas fa-shield-halved"></i>Trust</div>
+                    <div class="orbit-node workflow"><i class="fas fa-diagram-project"></i>Workflows</div>
+                </div>
+
+                <div class="visual-slides">
+                    <article class="visual-slide">
+                        <i class="fas fa-brain"></i>
+                        <h3>Model Choice</h3>
+                        <p>Enterprise AI needs multiple foundation models, not one winner. Flexibility supports reasoning, sovereignty, cost, and industry fit.</p>
+                    </article>
+
+                    <article class="visual-slide">
+                        <i class="fas fa-layer-group"></i>
+                        <h3>Data Advantage</h3>
+                        <p>Trusted business data becomes the multiplier. SAP Business Data Cloud gives AI enterprise context and semantic accuracy.</p>
+                    </article>
+
+                    <article class="visual-slide">
+                        <i class="fas fa-diagram-project"></i>
+                        <h3>Process Intelligence</h3>
+                        <p>AI moves from chat to execution. Agents support workflows, approvals, decisions, migration, and autonomous enterprise operations.</p>
+                    </article>
+
+                    <article class="visual-slide">
+                        <i class="fas fa-shield-halved"></i>
+                        <h3>Governed Scale</h3>
+                        <p>Security, identity, privacy, compliance, and lifecycle governance decide whether enterprise AI can safely scale.</p>
+                    </article>
+                </div>
+            </div>
+
+            <div class="signal-strip" aria-label="Executive signals from the article">
+                <div class="signal-card">
+                    <strong>18</strong>
+                    <span>Partner signals</span>
+                </div>
+                <div class="signal-card">
+                    <strong>5</strong>
+                    <span>Platform layers</span>
+                </div>
+                <div class="signal-card">
+                    <strong>3</strong>
+                    <span>Hyperscalers</span>
+                </div>
+                <div class="signal-card">
+                    <strong>1</strong>
+                    <span>Enterprise AI layer</span>
+                </div>
+            </div>
         </section>
 
         <!-- Section 1: Introduction & Overview -->
