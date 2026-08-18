@@ -140,6 +140,35 @@
       font-size: 12px; font-weight: 800; display: grid; place-items: center;
     }
 
+    /* ---- Plain-English analogy cards ---- */
+    .plain {
+      background: linear-gradient(180deg, #fffdf5 0%, #fff8e8 100%);
+      border: 1px solid #f0e2b8; border-radius: 16px;
+      padding: 20px 22px; margin: 18px 0;
+    }
+    .plain h4 { margin: 0 0 4px; font-size: 17px; color: #7a5b00; display: flex; align-items: center; gap: 8px; }
+    .plain > p { margin: 0 0 14px; color: #4a4130; font-size: 15.5px; }
+    .analogy {
+      list-style: none; margin: 0; padding: 0;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px;
+    }
+    .analogy li {
+      background: #fff; border: 1px solid #ece4cf; border-radius: 12px;
+      padding: 16px 16px 16px 16px; box-shadow: 0 4px 12px rgba(120,90,0,.05);
+    }
+    .analogy .emoji { font-size: 26px; line-height: 1; display: block; margin-bottom: 8px; }
+    .analogy .t { font-weight: 800; color: #1f2c3a; font-size: 15px; }
+    .analogy .t small { display: block; font-weight: 700; color: #0a6ed1; font-size: 12.5px; margin-top: 2px; }
+    .analogy .d { margin: 8px 0 0; font-size: 14px; color: #4a5361; line-height: 1.5; }
+
+    /* ---- Compact plain-English one-liner under a figure ---- */
+    .plain-line {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: #fffaf0; border: 1px dashed #e6cf94; border-radius: 10px;
+      padding: 11px 14px; margin: -6px 0 8px; font-size: 14.5px; color: #5a4a1f;
+    }
+    .plain-line .lbl { font-weight: 800; color: #b95c00; white-space: nowrap; }
+
     .eyebrow {
       display: inline-block;
       font-size: 11.5px;
@@ -457,6 +486,44 @@
           <figcaption>Figure 1 — MCP as the standardized bridge between AI agents and enterprise capabilities.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
+
+        <div class="plain">
+          <h4>🧩 In plain English — what Figure 1 is really saying</h4>
+          <p>
+            Forget the jargon for a second. Here is the whole picture using everyday analogies:
+          </p>
+          <ul class="analogy">
+            <li>
+              <span class="emoji">🤖</span>
+              <div class="t">The Agent<small>= a smart assistant</small></div>
+              <p class="d">An AI (LLM) that can <b>think and plan</b> — “the user wants X, so I should look up Y and then do Z.”
+              It has ideas, but on its own it can't actually reach into your systems.</p>
+            </li>
+            <li>
+              <span class="emoji">🔌</span>
+              <div class="t">MCP<small>= like a USB port</small></div>
+              <p class="d">One <b>standard plug</b>. Just like any USB device fits any USB port, any MCP-enabled agent can
+              “plug into” any MCP tool — no custom cable per device, no glue code per model.</p>
+            </li>
+            <li>
+              <span class="emoji">🌐</span>
+              <div class="t">HTTP / APIs<small>= the roads &amp; postal system</small></div>
+              <p class="d">The reliable delivery network underneath. MCP <b>doesn't replace</b> your APIs — it rides on top of
+              them, the same way a USB device still uses electricity underneath.</p>
+            </li>
+            <li>
+              <span class="emoji">📞</span>
+              <div class="t">Agent-to-Agent (A2A)<small>= a phone call between colleagues</small></div>
+              <p class="d">When one assistant needs another specialist, it “calls” them and they talk. A2A lets agents
+              <b>delegate</b> and collaborate — like calling a co-worker who's an expert in something you're not.</p>
+            </li>
+          </ul>
+          <p style="margin:14px 0 0">
+            <b>Putting it together:</b> the agent 🤖 <i>thinks</i>, plugs into tools through the MCP 🔌 “USB port,”
+            those tools travel over HTTP 🌐 “roads,” and when it needs help it phones another agent via A2A 📞.
+            Your business system stays in charge of <b>what is actually allowed</b>.
+          </p>
+        </div>
         <figure>
           <img src="../02-MCP-SDKs.png" alt="MCP SDKs and framework landscape across languages" loading="lazy" />
           <figcaption>Figure 2 — The MCP SDK/framework landscape — Node.js, Python (FastMCP), Java / Spring AI and more.</figcaption>
@@ -644,6 +711,7 @@ CAP / BTP / SAP / Non-SAP  ← domain rules, validation, authorization, data</pr
           <figcaption>Figure 5 — Why the split matters: reasoning stays in the agent; authorization, validation, and audit stay in the enterprise layer.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
+        <div class="plain-line"><span class="lbl">In plain English 🧩</span><span>The AI is like a <b>helpful intern</b> who suggests what to do — but the <b>manager (your system)</b> still signs off before anything real happens.</span></div>
         <div class="callout info">
           <span class="tag">Where the reasoning happens</span>
           <p>
@@ -674,6 +742,7 @@ CAP / BTP / SAP / Non-SAP  ← domain rules, validation, authorization, data</pr
           <figcaption>Figure 6 — CAP owns the domain model, rules, and authorization; MCP is just another protocol on top — alongside OData, REST, and GraphQL.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
+        <div class="plain-line"><span class="lbl">In plain English 🧩</span><span>CAP is the <b>kitchen</b> where the real cooking (rules, security) happens. MCP is just <b>one more window</b> to hand out the food — the kitchen doesn't change.</span></div>
         <div class="callout key">
           <span class="tag">Mental model</span>
           <p>
@@ -847,6 +916,7 @@ npm add @cap-js/mcp
           <figcaption>Figure 8 — CAP Agents: one <code>@agent</code> annotation turns an existing CAP service into a governed, A2A-exposed agent — with three ways to define behaviour.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
+        <div class="plain-line"><span class="lbl">In plain English 🧩</span><span>Adding <code>@agent</code> is like flipping <b>one switch</b> to give your existing service a “front desk” an AI can talk to — and <code>@agent.hitl</code> means <b>a human must approve</b> before it does anything risky.</span></div>
 
         <div class="code"><span class="c"># add the plugin</span>
 npm add @cap-js/agents
@@ -1180,6 +1250,7 @@ npx @modelcontextprotocol/inspector
           <figcaption>Figure 9 — Fiori MCP Server: an SAP Fiori / UI5 front end acting as an MCP-aware host over governed CAP capabilities.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
+        <div class="plain-line"><span class="lbl">In plain English 🧩</span><span>Your normal Fiori app becomes an <b>AI-ready helper</b>: users keep the familiar screen, but can now just <b>ask in words</b> — and it still uses the same governed CAP rules underneath.</span></div>
       </section>
 
       <!-- =================== 9. PATTERNS =================== -->
