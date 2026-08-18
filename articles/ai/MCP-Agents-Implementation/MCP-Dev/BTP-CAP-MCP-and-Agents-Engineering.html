@@ -341,16 +341,17 @@
         <li><a href="#btp-cap">6 · SAP BTP + CAP architecture</a></li>
         <li><a href="#cap-adapter">7 · CAP MCP Protocol Adapter</a></li>
         <li><a href="#cap-agents">8 · CAP Agents (@agent)</a></li>
-        <li><a href="#custom-fastmcp">9 · Custom MCP &amp; FastMCP</a></li>
-        <li><a href="#patterns">10 · Enterprise integration patterns</a></li>
-        <li><a href="#scenario">11 · Realistic business scenario</a></li>
-        <li><a href="#security">12 · Security &amp; governance</a></li>
-        <li><a href="#anti">13 · Anti-patterns</a></li>
-        <li><a href="#matrix">14 · Decision matrix</a></li>
-        <li><a href="#prod">15 · Production-readiness</a></li>
-        <li><a href="#architect">16 · Think like an architect</a></li>
-        <li><a href="#takeaways">17 · Key takeaways</a></li>
-        <li><a href="#refs">18 · References</a></li>
+        <li><a href="#examples">9 · Hands-on: Node.js &amp; Java</a></li>
+        <li><a href="#custom-fastmcp">10 · Custom MCP &amp; FastMCP</a></li>
+        <li><a href="#patterns">11 · Enterprise integration patterns</a></li>
+        <li><a href="#scenario">12 · Realistic business scenario</a></li>
+        <li><a href="#security">13 · Security &amp; governance</a></li>
+        <li><a href="#anti">14 · Anti-patterns</a></li>
+        <li><a href="#matrix">15 · Decision matrix</a></li>
+        <li><a href="#prod">16 · Production-readiness</a></li>
+        <li><a href="#architect">17 · Think like an architect</a></li>
+        <li><a href="#takeaways">18 · Key takeaways</a></li>
+        <li><a href="#refs">19 · References</a></li>
       </ol>
     </nav>
 
@@ -891,9 +892,208 @@ You are the <span class="s">**Catalog Agent**</span>, a helpful assistant for th
         </p>
       </section>
 
-      <!-- =================== 9. CUSTOM / FASTMCP =================== -->
+      <!-- =================== 9. EXAMPLES =================== -->
+      <section class="block" id="examples">
+        <h2><span class="num">9</span> Hands-on — MCP &amp; Agents with BTP CAP (Node.js, then Java)</h2>
+        <p>
+          Enough theory — here are two end-to-end walkthroughs on the same enterprise capability:
+          an <b>Account &amp; Contract Intelligence</b> service that reads account context, evaluates entitlements
+          deterministically, and requests a write-off under human approval. First in <b>CAP Node.js</b>, then the
+          equivalent in <b>CAP Java</b>.
+        </p>
+        <div class="callout info">
+          <span class="tag">What you'll build</span>
+          <p>
+            The same service exposed as (a) an <b>MCP server</b> via <code>@mcp</code> and (b) a governed
+            <b>agent</b> via <code>@agent</code> — with authorization, validation, and human-in-the-loop kept in CAP.
+          </p>
+        </div>
+
+        <!-- ---------- NODE.JS ---------- -->
+        <h3>A · CAP Node.js</h3>
+
+        <h4>1 · Project &amp; plugins</h4>
+        <div class="code"><span class="c"># scaffold (or use an existing CAP project)</span>
+npm init -y &amp;&amp; npm add @sap/cds
+
+<span class="c"># add MCP + Agents protocol plugins</span>
+npm add @cap-js/mcp @cap-js/agents</div>
+
+        <h4>2 · Domain model — <code>db/schema.cds</code></h4>
+        <div class="code"><span class="k">namespace</span> crm;
+<span class="k">using</span> { managed, cuid } <span class="k">from</span> <span class="s">'@sap/cds/common'</span>;
+
+<span class="c">/** A customer account with receivable exposure. */</span>
+<span class="k">entity</span> Accounts : cuid, managed {
+  <span class="c">/** Legal account name. */</span>
+  name        : String;
+  <span class="c">/** Current overdue amount in company currency. */</span>
+  overdue     : Decimal(15,2);
+  <span class="c">/** Contract tier drives entitlement rules. */</span>
+  tier        : String enum { bronze; silver; gold };
+}</div>
+
+        <h4>3 · Service + MCP + Agent — <code>srv/account-service.cds</code></h4>
+        <div class="code"><span class="k">using</span> crm <span class="k">from</span> <span class="s">'../db/schema'</span>;
+
+<span class="c">/** Governed capability layer for account &amp; contract intelligence. */</span>
+<span class="a">@odata</span> <span class="a">@mcp</span> <span class="a">@agent</span>
+<span class="a">@requires</span>: <span class="s">'AccountAnalyst'</span>
+<span class="k">service</span> AccountIntelligenceService {
+  <span class="k">entity</span> Accounts <span class="k">as projection on</span> crm.Accounts;
+
+  <span class="c">/** Deterministic entitlement check — business rule stays in CAP. */</span>
+  <span class="k">function</span> evaluateEntitlements(account: Accounts:ID) <span class="k">returns</span> {
+    eligible: Boolean; maxWriteOff: Decimal(15,2); reason: String;
+  };
+
+  <span class="c">/** Controlled write — stronger role + human approval. */</span>
+  <span class="a">@requires</span>: <span class="s">'AccountManager'</span>
+  <span class="k">action</span> requestWriteOffApproval(account: Accounts:ID, amount: Decimal(15,2)) <span class="k">returns</span> { status: String; };
+}
+
+<span class="c">// require human approval before the agent may run the write action</span>
+<span class="k">annotate</span> AccountIntelligenceService.requestWriteOffApproval <span class="k">with</span> <span class="a">@agent.hitl</span>;
+
+<span class="c">// steer the agent/LLM on how to use the tools</span>
+<span class="k">annotate</span> AccountIntelligenceService <span class="k">with</span> <span class="a">@mcp.instructions</span>:
+  <span class="s">'Query accounts for context, then call evaluateEntitlements</span>
+<span class="s">   before ever proposing requestWriteOffApproval.'</span>;</div>
+
+        <h4>4 · Business logic — <code>srv/account-service.js</code></h4>
+        <div class="code"><span class="k">module</span>.exports = <span class="k">class</span> AccountIntelligenceService <span class="k">extends</span> cds.ApplicationService {
+  init() {
+    <span class="k">this</span>.on(<span class="s">'evaluateEntitlements'</span>, <span class="k">async</span> req =&gt; {
+      <span class="k">const</span> a = <span class="k">await</span> SELECT.one.from(<span class="s">'crm.Accounts'</span>).where({ ID: req.data.account });
+      <span class="k">if</span> (!a) <span class="k">return</span> req.error(404, <span class="s">'Account not found'</span>);
+      <span class="c">// deterministic rule — NOT decided by the LLM</span>
+      <span class="k">const</span> cap = { bronze: 0, silver: 500, gold: 5000 }[a.tier] ?? 0;
+      <span class="k">return</span> {
+        eligible: cap &gt; 0 &amp;&amp; a.overdue &lt;= cap,
+        maxWriteOff: cap,
+        reason: <span class="s">`tier=${a.tier}, overdue=${a.overdue}, cap=${cap}`</span>
+      };
+    });
+
+    <span class="k">this</span>.on(<span class="s">'requestWriteOffApproval'</span>, <span class="k">async</span> req =&gt; {
+      <span class="c">// validation + audit live here, not in the agent</span>
+      <span class="k">const</span> { account, amount } = req.data;
+      <span class="k">if</span> (amount &lt;= 0) <span class="k">return</span> req.error(400, <span class="s">'Amount must be positive'</span>);
+      <span class="k">await</span> INSERT.into(<span class="s">'crm.ApprovalRequests'</span>).entries({ account, amount, status: <span class="s">'PENDING'</span> });
+      <span class="k">return</span> { status: <span class="s">'PENDING_APPROVAL'</span> };
+    });
+
+    <span class="k">return</span> <span class="k">super</span>.init();
+  }
+};</div>
+
+        <h4>5 · Run &amp; test</h4>
+        <div class="code"><span class="c"># start the app — MCP + A2A endpoints are served automatically</span>
+cds watch
+
+<span class="c"># inspect the MCP tools</span>
+npx @modelcontextprotocol/inspector
+<span class="c"># Streamable HTTP → http://localhost:4004/mcp/account-intelligence → List Tools</span></div>
+        <div class="callout key">
+          <span class="tag">What just happened</span>
+          <p>
+            Three annotations (<code>@mcp</code>, <code>@agent</code>, <code>@agent.hitl</code>) turned a normal CAP
+            service into an MCP server <em>and</em> a governed agent. The eligibility rule stays deterministic in a
+            handler, the write is validated and audited server-side, and the agent must pause for approval.
+          </p>
+        </div>
+
+        <!-- ---------- JAVA ---------- -->
+        <h3>B · CAP Java</h3>
+        <p>The <b>same model and service</b> — CAP Java uses the MCP adapter dependency and annotations, with handlers in Java.</p>
+
+        <h4>1 · Add the MCP adapter — <code>srv/pom.xml</code></h4>
+        <div class="code">&lt;dependency&gt;
+  &lt;groupId&gt;com.sap.cds&lt;/groupId&gt;
+  &lt;artifactId&gt;cds-adapter-mcp&lt;/artifactId&gt;
+  &lt;version&gt;${cds.services.version}&lt;/version&gt;
+&lt;/dependency&gt;</div>
+
+        <h4>2 · Service — <code>srv/account-service.cds</code></h4>
+        <div class="code"><span class="k">using</span> crm <span class="k">from</span> <span class="s">'../db/schema'</span>;
+
+<span class="c">// Java: use @title / @description instead of doc comments</span>
+<span class="a">@odata</span> <span class="a">@mcp</span>
+<span class="a">@requires</span>: <span class="s">'AccountAnalyst'</span>
+<span class="k">service</span> AccountIntelligenceService {
+  <span class="k">entity</span> Accounts <span class="k">as projection on</span> crm.Accounts;
+
+  <span class="a">@title</span>: <span class="s">'Evaluate entitlements'</span>
+  <span class="k">function</span> evaluateEntitlements(account: Accounts:ID) <span class="k">returns</span> {
+    eligible: Boolean; maxWriteOff: Decimal(15,2); reason: String;
+  };
+
+  <span class="a">@requires</span>: <span class="s">'AccountManager'</span>
+  <span class="k">action</span> requestWriteOffApproval(account: Accounts:ID, amount: Decimal(15,2)) <span class="k">returns</span> { status: String; };
+}</div>
+
+        <h4>3 · Handler — <code>AccountIntelligenceHandler.java</code></h4>
+        <div class="code"><span class="a">@Component</span>
+<span class="a">@ServiceName</span>(<span class="s">"AccountIntelligenceService"</span>)
+<span class="k">public class</span> AccountIntelligenceHandler <span class="k">implements</span> EventHandler {
+
+  <span class="a">@Autowired</span> PersistenceService db;
+
+  <span class="a">@On</span>(event = <span class="s">"evaluateEntitlements"</span>)
+  <span class="k">public</span> Map&lt;String,Object&gt; evaluate(EvaluateEntitlementsContext ctx) {
+    <span class="k">var</span> a = db.run(Select.from(<span class="s">"crm.Accounts"</span>)
+        .where(c -&gt; c.get(<span class="s">"ID"</span>).eq(ctx.getAccount()))).single();
+    <span class="k">long</span> cap = <span class="k">switch</span> ((String) a.get(<span class="s">"tier"</span>)) {
+      <span class="k">case</span> <span class="s">"gold"</span> -&gt; 5000; <span class="k">case</span> <span class="s">"silver"</span> -&gt; 500; <span class="k">default</span> -&gt; 0;
+    }; <span class="c">// deterministic rule stays in CAP, not the LLM</span>
+    <span class="k">return</span> Map.of(<span class="s">"eligible"</span>, cap &gt; 0, <span class="s">"maxWriteOff"</span>, cap,
+                  <span class="s">"reason"</span>, <span class="s">"tier="</span> + a.get(<span class="s">"tier"</span>) + <span class="s">", cap="</span> + cap);
+  }
+
+  <span class="a">@On</span>(event = <span class="s">"requestWriteOffApproval"</span>)
+  <span class="k">public</span> Map&lt;String,Object&gt; requestWriteOff(RequestWriteOffApprovalContext ctx) {
+    <span class="k">if</span> (ctx.getAmount().signum() &lt;= 0)
+      <span class="k">throw new</span> ServiceException(ErrorStatuses.BAD_REQUEST, <span class="s">"Amount must be positive"</span>);
+    db.run(Insert.into(<span class="s">"crm.ApprovalRequests"</span>).entry(
+        Map.of(<span class="s">"account"</span>, ctx.getAccount(), <span class="s">"amount"</span>, ctx.getAmount(), <span class="s">"status"</span>, <span class="s">"PENDING"</span>)));
+    <span class="k">return</span> Map.of(<span class="s">"status"</span>, <span class="s">"PENDING_APPROVAL"</span>);
+  }
+}</div>
+
+        <h4>4 · Run &amp; test</h4>
+        <div class="code">mvn spring-boot:run
+
+<span class="c"># inspect tools — same MCP Inspector flow</span>
+npx @modelcontextprotocol/inspector
+<span class="c"># Streamable HTTP → http://localhost:8080/mcp/account-intelligence</span></div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Aspect</th><th>CAP Node.js</th><th>CAP Java</th></tr></thead>
+            <tbody>
+              <tr><td>MCP enablement</td><td><code>npm add @cap-js/mcp</code> + <code>@mcp</code></td><td><code>cds-adapter-mcp</code> dependency + <code>@mcp</code></td></tr>
+              <tr><td>Agents (<code>@agent</code>)</td><td><code>@cap-js/agents</code> plugin</td><td>Use <code>@mcp</code> + external agent / A2A <span class="pill community">verify support</span></td></tr>
+              <tr><td>Context for LLM</td><td>Doc comments <code>/** … */</code> + <code>@title</code></td><td><code>@title</code> / <code>@description</code> (no doc comments)</td></tr>
+              <tr><td>Handlers</td><td>JavaScript <code>this.on(…)</code></td><td>Java <code>@On</code> event handlers</td></tr>
+              <tr><td>Default port</td><td>4004</td><td>8080</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout warn">
+          <span class="tag">Accuracy note</span>
+          <p>
+            Snippets are illustrative and simplified for clarity. The MCP adapter and <code>@cap-js/agents</code>
+            are evolving — confirm the current API, agent support for Java, and generated tool behaviour against the
+            <a href="https://cap.cloud.sap/docs/guides/protocols/mcp" target="_blank" rel="noreferrer">official CAP MCP guide</a>
+            and the <a href="https://github.com/cap-js/mcp" target="_blank" rel="noreferrer">cap-js/mcp</a> /
+            <a href="https://github.com/cap-js/agents" target="_blank" rel="noreferrer">cap-js/agents</a> repos before production.
+          </p>
+        </div>
+      </section>
+
+      <!-- =================== 10. CUSTOM / FASTMCP =================== -->
       <section class="block" id="custom-fastmcp">
-        <h2><span class="num">9</span> Custom MCP servers &amp; FastMCP — when they are the right tool</h2>
+        <h2><span class="num">10</span> Custom MCP servers &amp; FastMCP — when they are the right tool</h2>
         <p>
           For CAP applications, the <strong>default should be the native CAP MCP adapter</strong> — it covers
           the large majority of standard scenarios without a separate custom layer. But custom MCP servers
@@ -938,7 +1138,7 @@ You are the <span class="s">**Catalog Agent**</span>, a helpful assistant for th
 
       <!-- =================== 9. PATTERNS =================== -->
       <section class="block" id="patterns">
-        <h2><span class="num">10</span> Enterprise integration patterns</h2>
+        <h2><span class="num">11</span> Enterprise integration patterns</h2>
 
         <h3>Pattern 1 — CAP service exposed through MCP</h3>
         <p><b>Architecture:</b> annotate an existing CAP service with <code>@mcp</code>; agents consume generated tools.</p>
@@ -1010,7 +1210,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 10. SCENARIO =================== -->
       <section class="block" id="scenario">
-        <h2><span class="num">11</span> Realistic business scenario — Account &amp; Contract Intelligence assistant</h2>
+        <h2><span class="num">12</span> Realistic business scenario — Account &amp; Contract Intelligence assistant</h2>
         <p>
           A SAP Sales Cloud / CRM extension on BTP helps account managers handle <strong>overdue receivable
           exceptions and write-off requests</strong>. The assistant must be helpful <em>and</em> strictly governed.
@@ -1040,7 +1240,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 11. SECURITY =================== -->
       <section class="block" id="security">
-        <h2><span class="num">12</span> Security &amp; governance — the heart of the architecture</h2>
+        <h2><span class="num">13</span> Security &amp; governance — the heart of the architecture</h2>
         <div class="callout danger">
           <span class="tag">Principle</span>
           <p>
@@ -1094,7 +1294,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 12. ANTI-PATTERNS =================== -->
       <section class="block" id="anti">
-        <h2><span class="num">13</span> MCP &amp; agentic architecture anti-patterns</h2>
+        <h2><span class="num">14</span> MCP &amp; agentic architecture anti-patterns</h2>
         <div class="anti">
           <div class="item"><h4><span class="x">✕</span> 1. Logic in the prompt</h4><p>Encoding eligibility/pricing/approval rules in prompt text.</p><div class="fix"><b>Fix:</b> put rules in CAP functions/handlers — deterministic &amp; auditable.</div></div>
           <div class="item"><h4><span class="x">✕</span> 2. Agent → database directly</h4><p>Pointing an agent at tables or the persistence layer.</p><div class="fix"><b>Fix:</b> go through CAP services that enforce validation &amp; authorization.</div></div>
@@ -1111,7 +1311,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 13. DECISION MATRIX =================== -->
       <section class="block" id="matrix">
-        <h2><span class="num">14</span> Architecture decision matrix</h2>
+        <h2><span class="num">15</span> Architecture decision matrix</h2>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Approach</th><th>Best fit</th><th>Advantages</th><th>Trade-offs</th></tr></thead>
@@ -1161,7 +1361,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 14. PRODUCTION =================== -->
       <section class="block" id="prod">
-        <h2><span class="num">15</span> Production-readiness checklist</h2>
+        <h2><span class="num">16</span> Production-readiness checklist</h2>
         <ul class="check">
           <li>Business capability, owner, and authorization model defined <em>before</em> building the agent.</li>
           <li>Authentication (XSUAA/IAS) and <b>identity propagation</b> verified end-to-end.</li>
@@ -1180,7 +1380,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 15. THINK LIKE AN ARCHITECT =================== -->
       <section class="block" id="architect">
-        <h2><span class="num">16</span> Think like an architect — questions before protocol</h2>
+        <h2><span class="num">17</span> Think like an architect — questions before protocol</h2>
         <p>Ask these <em>before</em> writing a single MCP tool. Architecture comes before protocol implementation.</p>
         <div class="qgrid">
           <div class="q">What business capability are we exposing?<span>Not “what tool”, but “what governed function”.</span></div>
@@ -1200,7 +1400,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 16. TAKEAWAYS =================== -->
       <section class="block" id="takeaways">
-        <h2><span class="num">17</span> Key takeaways</h2>
+        <h2><span class="num">18</span> Key takeaways</h2>
         <div class="callout key"><span class="tag">1</span><p>MCP is an <b>interoperability/tool-access protocol</b>, not an agent and not intelligence. The agent reasons; CAP/BTP governs.</p></div>
         <div class="callout key"><span class="tag">2</span><p><b>MCP does not replace APIs.</b> APIs stay as stable system contracts; MCP is the AI access layer over governed capabilities.</p></div>
         <div class="callout key"><span class="tag">3</span><p>In CAP projects, <b>default to the CAP MCP adapter</b> (<code>@mcp</code>), and turn services into governed agents with <code>@agent</code> (<code>@cap-js/agents</code>). Use custom/FastMCP by exception, and compose with CAP — never bypass it.</p></div>
@@ -1210,7 +1410,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 17. REFERENCES =================== -->
       <section class="block links" id="refs">
-        <h2><span class="num">18</span> References &amp; further reading</h2>
+        <h2><span class="num">19</span> References &amp; further reading</h2>
         <h4>Official SAP</h4>
         <ul class="ref-list">
           <li><a href="https://cap.cloud.sap" target="_blank" rel="noreferrer">SAP Cloud Application Programming Model (CAP)</a><span class="src">official</span></li>
