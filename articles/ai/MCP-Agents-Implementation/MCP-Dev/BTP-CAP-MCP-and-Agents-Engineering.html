@@ -1,0 +1,1090 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A senior architecture guide to engineering MCP and AI-agent solutions with SAP BTP and CAP: patterns, security, governance, anti-patterns, and a decision matrix." />
+  <title>Engineering MCP &amp; AI Agents with SAP BTP and CAP — An Architecture Guide</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #14181e;
+      --muted: #5e6b7a;
+      --brand: #0a6ed1;
+      --brand-dark: #084d94;
+      --accent: #7a3ff2;
+      --ok: #107e3e;
+      --ok-bg: #eaf6ee;
+      --warn: #b95c00;
+      --warn-bg: #fff4e6;
+      --danger: #bb0000;
+      --danger-bg: #fdecec;
+      --line: #dbe3ec;
+      --shadow: 0 8px 24px rgba(2, 26, 57, 0.08);
+      --shadow-sm: 0 2px 8px rgba(2, 26, 57, 0.05);
+      --radius: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, -apple-system, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #e9f1ff 0%, var(--bg) 360px);
+      line-height: 1.62;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--brand); }
+    a:hover { color: var(--brand-dark); }
+
+    .layout {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px 18px 64px;
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 28px;
+    }
+
+    /* ---- Table of contents ---- */
+    .toc {
+      position: sticky;
+      top: 18px;
+      align-self: start;
+      max-height: calc(100vh - 36px);
+      overflow-y: auto;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 16px 14px;
+      font-size: 13.5px;
+    }
+    .toc h4 {
+      margin: 0 0 10px;
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .toc ol { list-style: none; margin: 0; padding: 0; counter-reset: toc; }
+    .toc li { margin: 2px 0; }
+    .toc a {
+      display: block;
+      padding: 5px 8px;
+      border-radius: 8px;
+      color: #33414f;
+      text-decoration: none;
+      border-left: 2px solid transparent;
+    }
+    .toc a:hover { background: #eef5ff; border-left-color: var(--brand); color: var(--brand-dark); }
+
+    .content { min-width: 0; }
+
+    /* ---- Hero ---- */
+    .hero {
+      background:
+        radial-gradient(1200px 300px at 15% -10%, rgba(122,63,242,.10), transparent 60%),
+        linear-gradient(135deg, #0a2540 0%, #0a6ed1 100%);
+      color: #eaf2ff;
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 34px 30px;
+      margin-bottom: 26px;
+    }
+    .hero .eyebrow { color: #bfe0ff; background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.25); }
+    .hero h1 { color: #fff; margin: 10px 0 12px; font-size: 34px; line-height: 1.18; }
+    .hero .lead { color: #dbe9ff; font-size: 18px; max-width: 62ch; }
+    .byline { margin-top: 16px; font-size: 13.5px; color: #b9d4f5; display: flex; flex-wrap: wrap; gap: 8px 16px; }
+    .byline span { display: inline-flex; align-items: center; gap: 6px; }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 11.5px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--brand);
+      background: #edf5ff;
+      border: 1px solid #cfe3ff;
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-weight: 700;
+    }
+
+    section.block {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 26px 26px;
+      margin: 0 0 22px;
+      scroll-margin-top: 20px;
+    }
+
+    h1 { font-size: 32px; line-height: 1.2; }
+    h2 { margin: 0 0 14px; font-size: 25px; line-height: 1.25; display: flex; align-items: center; gap: 10px; }
+    h2 .num {
+      flex: none; font-size: 14px; font-weight: 700; color: var(--brand);
+      background: #edf5ff; border: 1px solid #cfe3ff; border-radius: 8px;
+      width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center;
+    }
+    h3 { margin: 22px 0 8px; font-size: 19px; }
+    h4 { margin: 16px 0 6px; font-size: 15px; }
+    p { margin: 11px 0; }
+    .lead { font-size: 18px; color: #243447; }
+    ul, ol { padding-left: 22px; margin: 10px 0; }
+    li { margin: 6px 0; }
+
+    figure { margin: 18px 0; }
+    figure img {
+      width: 100%; height: auto; display: block;
+      border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-sm);
+      background: #fff;
+    }
+    figcaption { margin-top: 8px; font-size: 13px; color: var(--muted); text-align: center; }
+    .credit {
+      margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-size: 12px; color: var(--muted);
+    }
+    .credit img {
+      width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line);
+      box-shadow: none; object-fit: cover; background: #fff;
+    }
+    .credit b { color: #33414f; font-weight: 600; }
+
+    /* ---- Hero author ---- */
+    .hero-author {
+      margin-top: 20px; display: flex; align-items: center; gap: 14px;
+      background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.22);
+      border-radius: 14px; padding: 12px 16px; width: fit-content; max-width: 100%;
+    }
+    .hero-author img {
+      width: 56px; height: 56px; border-radius: 50%; object-fit: cover;
+      border: 2px solid rgba(255,255,255,.55); flex: none;
+    }
+    .hero-author .who { line-height: 1.35; }
+    .hero-author .who b { color: #fff; font-size: 15px; display: block; }
+    .hero-author .who span { color: #bfd7f5; font-size: 12.5px; }
+
+    .grid {
+      margin-top: 8px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      background: #fbfdff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .card strong { color: #112a46; }
+    .card h3 { margin-top: 0; }
+
+    /* ---- Code ---- */
+    .code {
+      background: #0d1117;
+      color: #e6edf3;
+      border-radius: 10px;
+      border: 1px solid #2b3138;
+      padding: 14px 16px;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.55;
+      margin: 12px 0 0;
+      white-space: pre;
+      tab-size: 2;
+    }
+    .code .c { color: #7ee787; }      /* comment */
+    .code .k { color: #ff7b72; }      /* keyword */
+    .code .s { color: #a5d6ff; }      /* string */
+    .code .a { color: #d2a8ff; }      /* annotation */
+
+    /* ---- ASCII / SVG diagram frames ---- */
+    .diagram {
+      margin-top: 16px;
+      background: #f7fbff;
+      border: 1px dashed #b9d2ee;
+      border-radius: 12px;
+      padding: 16px;
+      overflow-x: auto;
+    }
+    .diagram pre {
+      margin: 0; font-family: var(--mono); font-size: 12.5px;
+      color: #22415f; line-height: 1.5; white-space: pre;
+    }
+    svg { max-width: 100%; height: auto; display: block; }
+
+    .flow {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+      margin-top: 12px; color: #123; font-weight: 600; font-size: 14px;
+    }
+    .node {
+      background: #fff; border: 1px solid #cfe0f3; border-radius: 10px;
+      padding: 8px 12px; box-shadow: var(--shadow-sm);
+    }
+    .arrow { color: #4473a3; font-size: 18px; }
+
+    .good { color: var(--ok); font-weight: 700; }
+    .warn { color: var(--warn); font-weight: 700; }
+
+    /* ---- Callouts ---- */
+    .callout {
+      margin: 16px 0; padding: 14px 16px 14px 16px;
+      border-radius: 0 12px 12px 0; border-left: 5px solid var(--brand);
+      background: #f2f8ff;
+    }
+    .callout .tag { font-weight: 700; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; }
+    .callout.key { border-left-color: var(--ok); background: var(--ok-bg); }
+    .callout.key .tag { color: var(--ok); }
+    .callout.info { border-left-color: var(--brand); background: #eef6ff; }
+    .callout.info .tag { color: var(--brand); }
+    .callout.warn { border-left-color: var(--warn); background: var(--warn-bg); }
+    .callout.warn .tag { color: var(--warn); }
+    .callout.danger { border-left-color: var(--danger); background: var(--danger-bg); }
+    .callout.danger .tag { color: var(--danger); }
+    .callout p { margin: 6px 0; }
+
+    /* ---- Tables ---- */
+    .table-wrap { overflow-x: auto; margin-top: 14px; }
+    table {
+      width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px;
+      border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+    }
+    thead th {
+      background: #0a2540; color: #eaf2ff; text-align: left;
+      padding: 11px 12px; font-weight: 600; font-size: 13.5px;
+    }
+    tbody td { padding: 11px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+    tbody tr:nth-child(even) { background: #f8fbff; }
+    td code, p code, li code {
+      font-family: var(--mono); font-size: 12.5px; background: #eef2f7;
+      border: 1px solid #dce4ee; border-radius: 6px; padding: 1px 6px; color: #0a3a63;
+    }
+
+    .pill {
+      display: inline-block; font-size: 11.5px; font-weight: 700; border-radius: 999px;
+      padding: 3px 10px; margin-right: 4px;
+    }
+    .pill.ga { background: var(--ok-bg); color: var(--ok); border: 1px solid #bfe3cb; }
+    .pill.beta { background: var(--warn-bg); color: var(--warn); border: 1px solid #f2d3a8; }
+    .pill.community { background: #eef0ff; color: #5b3fd6; border: 1px solid #d5d5f7; }
+
+    /* ---- Anti-pattern list ---- */
+    .anti {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-top: 12px;
+    }
+    .anti .item {
+      border: 1px solid #f2c9c9; background: #fdf4f4; border-radius: 12px; padding: 14px;
+    }
+    .anti .item h4 { margin: 0 0 6px; color: var(--danger); display: flex; gap: 8px; align-items: baseline; }
+    .anti .item h4 .x { font-size: 16px; }
+    .anti .item .fix { margin-top: 8px; font-size: 13.5px; color: #1c5233; background: #eef8f1; border-radius: 8px; padding: 8px 10px; }
+    .anti .item .fix b { color: var(--ok); }
+
+    /* ---- Checklist ---- */
+    .check { list-style: none; padding: 0; margin: 12px 0; }
+    .check li { position: relative; padding-left: 30px; margin: 8px 0; }
+    .check li::before {
+      content: "✓"; position: absolute; left: 0; top: 0;
+      color: var(--ok); font-weight: 800;
+      background: var(--ok-bg); border: 1px solid #bfe3cb; border-radius: 6px;
+      width: 21px; height: 21px; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;
+    }
+
+    details {
+      margin: 12px 0; border: 1px solid var(--line); border-radius: 10px; background: #fbfdff; padding: 4px 14px;
+    }
+    summary { cursor: pointer; font-weight: 600; padding: 10px 0; color: var(--brand-dark); }
+
+    .qgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; margin-top: 12px; }
+    .qgrid .q { background: #f4f9ff; border: 1px solid #cfe3ff; border-radius: 10px; padding: 12px 14px; font-weight: 600; color: #123a5e; }
+    .qgrid .q span { display: block; font-weight: 400; color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+    .links a { color: var(--brand); text-decoration: none; }
+    .links a:hover { text-decoration: underline; }
+    .ref-list li { margin: 8px 0; }
+    .ref-list .src { font-size: 12px; color: var(--muted); margin-left: 6px; }
+
+    footer {
+      margin-top: 10px; color: var(--muted); font-size: 13px; text-align: center;
+      padding: 18px; border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc { position: static; max-height: none; order: -1; }
+      .hero h1 { font-size: 27px; }
+      section.block { padding: 20px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+
+    <!-- =================== TABLE OF CONTENTS =================== -->
+    <nav class="toc" aria-label="Table of contents">
+      <h4>On this page</h4>
+      <ol>
+        <li><a href="#why">1 · Why MCP + Agents matter</a></li>
+        <li><a href="#problem">2 · The problem with AI integrations</a></li>
+        <li><a href="#mcp-simple">3 · MCP explained simply</a></li>
+        <li><a href="#mcp-api-a2a">4 · MCP vs API vs A2A</a></li>
+        <li><a href="#agent-arch">5 · Agent architecture</a></li>
+        <li><a href="#btp-cap">6 · SAP BTP + CAP architecture</a></li>
+        <li><a href="#cap-adapter">7 · CAP MCP Protocol Adapter</a></li>
+        <li><a href="#custom-fastmcp">8 · Custom MCP &amp; FastMCP</a></li>
+        <li><a href="#patterns">9 · Enterprise integration patterns</a></li>
+        <li><a href="#scenario">10 · Realistic business scenario</a></li>
+        <li><a href="#security">11 · Security &amp; governance</a></li>
+        <li><a href="#anti">12 · Anti-patterns</a></li>
+        <li><a href="#matrix">13 · Decision matrix</a></li>
+        <li><a href="#prod">14 · Production-readiness</a></li>
+        <li><a href="#architect">15 · Think like an architect</a></li>
+        <li><a href="#takeaways">16 · Key takeaways</a></li>
+        <li><a href="#refs">17 · References</a></li>
+      </ol>
+    </nav>
+
+    <main class="content">
+
+      <!-- =================== HERO =================== -->
+      <header class="hero">
+        <span class="eyebrow">SAP BTP · CAP · MCP · Agentic AI — Architecture Guide</span>
+        <h1>Engineering MCP &amp; AI Agents with SAP BTP and CAP</h1>
+        <p class="lead">
+          A senior architect's field guide: how to design and engineer Model Context Protocol
+          and AI-agent solutions on SAP BTP and CAP — where each pattern fits, and how to keep
+          business logic, security, and governance exactly where they belong.
+        </p>
+        <div class="byline">
+          <span>📘 Part 2 — From Theory to Implementation</span>
+          <span>🏛️ Architecture-first, not tutorial-first</span>
+          <span>🔒 Security &amp; governance throughout</span>
+        </div>
+        <div class="hero-author">
+          <img src="../Showkath Final Photo SAP Linkedin .png" alt="Showkath — author portrait" loading="lazy" />
+          <div class="who">
+            <b>Showkath Naseem</b>
+            <span>SAP BTP Solution Architect · CAP &amp; MCP / Agentic-AI Engineering</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="callout info">
+        <span class="tag">Context</span>
+        <p>
+          This is the follow-up to <em>“MCP: Beyond APIs — Building the Capability Layer for AI.”</em>
+          The first article covered the <b>why</b>. This one covers the <b>how</b>: how to build an
+          MCP server, which framework to choose, how to connect an agent, how to expose governed
+          business capabilities, and what it takes to move from code to production on SAP BTP.
+        </p>
+      </div>
+
+      <!-- =================== 1. WHY =================== -->
+      <section class="block" id="why">
+        <h2><span class="num">1</span> Why MCP + Agents matter for enterprise applications</h2>
+        <p>
+          Enterprises already have the hard part built: governed business capabilities in S/4HANA,
+          SAP Sales &amp; Service Cloud, SAP-BTP extensions, and CAP services with real domain models,
+          validations, and authorization. The gap is <strong>consumption</strong>: how do LLM-powered
+          agents safely <em>reason over</em> and <em>act on</em> those capabilities without every team
+          inventing a bespoke integration?
+        </p>
+        <p>
+          The <strong>Model Context Protocol (MCP)</strong> — introduced by Anthropic in November 2024 —
+          gives us a standard way to expose <em>tools</em>, <em>resources</em>, and <em>prompts</em> to
+          agents. Instead of N custom glue layers per model and per tool, MCP provides one interoperable
+          contract between the reasoning layer and the capability layer.
+        </p>
+        <figure>
+          <img src="../1-MCP-New.png" alt="Model Context Protocol overview diagram" loading="lazy" />
+          <figcaption>MCP as the standardized bridge between AI agents and enterprise capabilities.</figcaption>
+          <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
+        </figure>
+        <figure>
+          <img src="../2-MCP-SDKs.png" alt="MCP SDKs and framework landscape across languages" loading="lazy" />
+          <figcaption>The MCP SDK/framework landscape — Node.js, Python (FastMCP), Java / Spring AI and more.</figcaption>
+          <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
+        </figure>
+        <div class="callout key">
+          <span class="tag">Key takeaway</span>
+          <p>
+            MCP does not add intelligence. It adds <b>standardized, discoverable access</b> to the
+            capabilities you already govern. The value for the enterprise is <b>reuse + governance</b>,
+            not novelty.
+          </p>
+        </div>
+      </section>
+
+      <!-- =================== 2. PROBLEM =================== -->
+      <section class="block" id="problem">
+        <h2><span class="num">2</span> The problem with traditional AI integrations</h2>
+        <p>Before MCP, wiring an LLM to enterprise systems tended to fail in predictable ways:</p>
+        <div class="grid">
+          <div class="card">
+            <h3>Bespoke glue everywhere</h3>
+            <p>Each model, each tool, each team built one-off function-calling adapters. No reuse, high TCO, brittle upgrades.</p>
+          </div>
+          <div class="card">
+            <h3>Business logic leaks into prompts</h3>
+            <p>Eligibility, pricing, and approval rules ended up embedded in prompt text — non-deterministic and unauditable.</p>
+          </div>
+          <div class="card">
+            <h3>Direct DB / raw API access</h3>
+            <p>Agents were pointed straight at tables or ungoverned endpoints, bypassing validations and authorization.</p>
+          </div>
+          <div class="card">
+            <h3>No governance boundary</h3>
+            <p>“The model can call it, so it may call it.” Tool availability was confused with business authorization.</p>
+          </div>
+        </div>
+        <div class="callout warn">
+          <span class="tag">The core issue</span>
+          <p>
+            The failure mode is architectural, not technical: <b>reasoning</b> and <b>business authority</b>
+            get blurred together. MCP + CAP lets us separate them cleanly — the agent reasons, CAP decides
+            what is allowed and correct.
+          </p>
+        </div>
+      </section>
+
+      <!-- =================== 3. MCP SIMPLE =================== -->
+      <section class="block" id="mcp-simple">
+        <h2><span class="num">3</span> MCP explained simply</h2>
+        <p>Strip away the hype and MCP is a small, precise set of roles:</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Term</th><th>What it actually is</th><th>What it is <em>not</em></th></tr>
+            </thead>
+            <tbody>
+              <tr><td><b>LLM</b></td><td>The language model that generates text and proposes tool calls.</td><td>Not an agent; it has no memory, tools, or authority by itself.</td></tr>
+              <tr><td><b>AI Agent</b></td><td>The reasoning + orchestration component: plans, chooses tools, loops, and decides <em>when</em> to act.</td><td>Not the MCP protocol; not the business logic owner.</td></tr>
+              <tr><td><b>MCP Client</b></td><td>Lives inside the agent host; discovers and invokes tools over MCP.</td><td>Not a decision-maker; a transport/discovery component.</td></tr>
+              <tr><td><b>MCP Server</b></td><td>Exposes <em>tools</em>, <em>resources</em>, and <em>prompts</em> to clients in a standard shape.</td><td>Not a place to dump business logic or bypass authorization.</td></tr>
+              <tr><td><b>Capability</b></td><td>The real enterprise function behind a tool — a CAP action, API, event, or rule.</td><td>Not the LLM; the LLM only <em>invokes</em> it.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>The end-to-end chain</h3>
+        <div class="diagram" role="img" aria-label="End-to-end MCP request chain from user to enterprise systems">
+<pre>User
+  │
+  ▼
+AI Application / Agent      ← reasoning, planning, orchestration
+  │
+  ▼
+LLM                         ← proposes which tool to call, with what arguments
+  │
+  ▼
+MCP Client                 ← discovers &amp; invokes tools over MCP
+  │
+  ▼
+MCP Server                 ← exposes tools / resources / prompts
+  │
+  ▼
+Enterprise Capability      ← the governed business function
+  │
+  ▼
+CAP / BTP / SAP / Non-SAP  ← domain rules, validation, authorization, data</pre>
+        </div>
+        <div class="callout danger">
+          <span class="tag">Do not confuse</span>
+          <p>
+            <b>MCP is not an agent.</b> MCP is an interoperability / context / tool-access protocol.
+            The <em>agent</em> is the reasoning and orchestration component that decides <em>when</em> and
+            <em>how</em> to use capabilities. And an <b>LLM never provides authorization</b> — authorization
+            is an enterprise concern that lives in CAP / BTP.
+          </p>
+        </div>
+      </section>
+
+      <!-- =================== 4. MCP vs API vs A2A =================== -->
+      <section class="block" id="mcp-api-a2a">
+        <h2><span class="num">4</span> MCP vs API vs A2A — and “MCP is not a replacement for APIs”</h2>
+        <p>
+          These three coexist. They solve different problems and operate at different layers.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Concern</th><th>API (OData/REST/GraphQL)</th><th>MCP</th><th>A2A</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Primary consumer</td><td>Systems &amp; developers</td><td>AI agents / LLMs</td><td>Other agents</td></tr>
+              <tr><td>Contract style</td><td>Stable, versioned, typed</td><td>Discoverable tools/resources (may evolve)</td><td>Agent cards &amp; tasks</td></tr>
+              <tr><td>Purpose</td><td>System-to-system integration</td><td>Agent-to-capability access</td><td>Agent-to-agent collaboration</td></tr>
+              <tr><td>Introduced</td><td>Long established</td><td>Anthropic, Nov 2024</td><td>Google, Apr 2025 → Linux Foundation</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout key">
+          <span class="tag">MCP is not a replacement for APIs</span>
+          <p>APIs remain the stable, versioned system-to-system contract. MCP is an <b>AI-oriented interaction layer</b> that <em>exposes existing capabilities</em> to agents. Concretely:</p>
+          <ul>
+            <li>APIs stay as the durable integration backbone.</li>
+            <li>MCP surfaces governed capabilities to agents — it should not duplicate backend logic.</li>
+            <li>Business logic stays in the appropriate domain service (CAP), not in the MCP tool.</li>
+            <li>An agent should not manipulate a database directly just because an MCP tool <em>could</em> allow it.</li>
+            <li>Security, authorization, validation, auditability, and governance remain enterprise architecture concerns.</li>
+          </ul>
+        </div>
+        <p>
+          <strong>WebMCP</strong> <span class="pill community">experimental</span> is a proposed web standard
+          for exposing structured web-page capabilities to agents (being explored in Chrome). The
+          <strong>MCP spec itself is evolving fast</strong> — the 2026-07-28 release introduced a stateless
+          protocol core, multi-round-trip requests, cacheable discovery, and authorization hardening. Treat
+          the protocol surface as a moving target and keep your stable contracts in APIs.
+        </p>
+      </section>
+
+      <!-- =================== 5. AGENT ARCHITECTURE =================== -->
+      <section class="block" id="agent-arch">
+        <h2><span class="num">5</span> Agent architecture — where reasoning ends and business authority begins</h2>
+        <p>
+          The single most important architectural line in an agentic system is the boundary between
+          <em>reasoning</em> (non-deterministic, in the agent/LLM) and <em>business authority</em>
+          (deterministic, governed, in CAP/BTP). Get this line right and everything else follows.
+        </p>
+        <div class="diagram" role="img" aria-label="Conceptual model: user, agent/LLM reasoning, MCP client, MCP server, enterprise services">
+<pre>                    ┌─────────────────────┐
+                    │      User / UX      │
+                    └──────────┬──────────┘
+                               ▼
+                    ┌─────────────────────┐
+                    │    AI Agent / LLM   │   reasoning &amp; planning
+                    │  (non-deterministic)│   → NO business rules here
+                    └──────────┬──────────┘
+                               ▼
+                    ┌─────────────────────┐
+                    │     MCP Client      │   discovery &amp; invocation
+                    └──────────┬──────────┘
+                               ▼
+                    ┌─────────────────────┐
+                    │     MCP Server      │   tool / resource
+                    │   discovery &amp; access│   exposure only
+                    └──────────┬──────────┘
+                               ▼
+              ┌────────────────────────────────┐
+              │       Enterprise Services      │   ← business authority
+              │                                │
+              │ CAP | APIs | Events | Rules    │   validation
+              │ Integration | SAP | Non-SAP    │   authorization + audit
+              └────────────────────────────────┘</pre>
+        </div>
+        <div class="callout info">
+          <span class="tag">Where the reasoning happens</span>
+          <p>
+            The agent plans and sequences. It may be wrong — so the <b>enterprise layer must remain the
+            source of truth</b>. Every write path enforces its own validation and authorization,
+            independent of what the agent “intended”.
+          </p>
+        </div>
+      </section>
+
+      <!-- =================== 6. BTP + CAP =================== -->
+      <section class="block" id="btp-cap">
+        <h2><span class="num">6</span> SAP BTP + CAP architecture — CAP as the business capability layer</h2>
+        <p>
+          On SAP BTP, CAP is the natural home for the capability layer. Rather than pushing logic into the
+          agent, keep it in CAP where it is modeled, tested, secured, and observable.
+        </p>
+        <div class="grid">
+          <div class="card"><h3>CDS domain modeling</h3><p>Entities, associations, and semantics that give agents meaningful, well-described context.</p></div>
+          <div class="card"><h3>Services &amp; boundaries</h3><p>Projections define exactly what is exposed — a natural authorization and exposure boundary.</p></div>
+          <div class="card"><h3>Actions &amp; functions</h3><p>Business operations (e.g. <code>requestWriteOffApproval</code>) as first-class, governed verbs.</p></div>
+          <div class="card"><h3>Authorization</h3><p><code>@requires</code> / <code>@restrict</code> enforce roles &amp; scopes via XSUAA/IAS — regardless of caller.</p></div>
+          <div class="card"><h3>Validation &amp; rules</h3><p>Input validation and business rules in handlers — deterministic, testable, auditable.</p></div>
+          <div class="card"><h3>Clean core &amp; lifecycle</h3><p>Side-by-side extensions keep S/4 clean; services version and evolve independently.</p></div>
+        </div>
+        <figure>
+          <img src="../4-MCP-CAP.png" alt="CAP acting as the governed capability layer exposed through MCP" loading="lazy" />
+          <figcaption>CAP owns the domain model, rules, and authorization; MCP is just another protocol on top — alongside OData, REST, and GraphQL.</figcaption>
+          <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
+        </figure>
+        <div class="callout key">
+          <span class="tag">Mental model</span>
+          <p>
+            From CAP's perspective, <b>MCP is just another protocol</b> it can serve — like OData, GraphQL,
+            REST, or HCQL. You are not building a new backend for AI; you are exposing an existing governed
+            one through an agent-friendly protocol.
+          </p>
+        </div>
+      </section>
+
+      <!-- =================== 7. CAP MCP ADAPTER =================== -->
+      <section class="block" id="cap-adapter">
+        <h2><span class="num">7</span> The CAP MCP Protocol Adapter</h2>
+        <p>
+          CAP provides a <strong>native MCP Protocol Adapter</strong> <span class="pill beta">evolving</span>.
+          Any CAP service can be turned into an MCP server by annotating it with <code>@mcp</code> — agents
+          and LLM-powered tools can then interact with it without additional implementation work.
+        </p>
+        <figure>
+          <img src="../2.1-MCP-ImplementationSteps-New.png" alt="Step-by-step MCP implementation flow for a CAP service" loading="lazy" />
+          <figcaption>From annotation to running MCP server: the practical implementation steps for a CAP service.</figcaption>
+          <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
+        </figure>
+
+        <h3>Node.js</h3>
+        <div class="code"><span class="c"># add the plugin</span>
+npm add @cap-js/mcp
+
+<span class="c"># srv/account-intelligence-service.cds</span>
+<span class="a">@odata</span> <span class="a">@mcp</span>
+<span class="a">@requires</span>: <span class="s">'AccountAnalyst'</span>
+<span class="k">service</span> AccountIntelligenceService {
+  <span class="c">/** Accounts enriched with risk &amp; entitlement context. */</span>
+  <span class="k">entity</span> Accounts <span class="k">as projection on</span> crm.Accounts;
+
+  <span class="c">/** Evaluate contract entitlements for an account. */</span>
+  <span class="k">function</span> evaluateEntitlements(account: Accounts:ID) <span class="k">returns</span> EntitlementResult;
+
+  <span class="c">/** Controlled business action — see @agent.hitl below. */</span>
+  <span class="a">@requires</span>: <span class="s">'AccountManager'</span>
+  <span class="k">action</span> requestWriteOffApproval(account: Accounts:ID, amount: Decimal);
+}</div>
+
+        <h3>Java</h3>
+        <div class="code"><span class="c">&lt;!-- srv/pom.xml --&gt;</span>
+&lt;dependency&gt;
+  &lt;groupId&gt;com.sap.cds&lt;/groupId&gt;
+  &lt;artifactId&gt;cds-adapter-mcp&lt;/artifactId&gt;
+  &lt;version&gt;${cds.services.version}&lt;/version&gt;
+&lt;/dependency&gt;</div>
+
+        <h3>What the adapter generates</h3>
+        <p>The adapter creates an MCP server <em>per CAP service</em>, each exposing standard tools:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tool</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><code>describe</code></td><td>Returns entities, elements, unbound actions/functions so the agent understands the model.</td></tr>
+              <tr><td><code>query</code></td><td>Reads data — parameters are translated to a CQN query and run via <code>service.run(query)</code>.</td></tr>
+              <tr><td><code>call_action</code></td><td>Invokes unbound actions/functions with validated parameters.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout warn">
+          <span class="tag">Current limitation — be accurate</span>
+          <p>
+            The generated tools currently focus on <b>reading data</b> and <b>calling unbound actions/functions</b>.
+            Data changes are done through <em>unbound actions</em> (e.g. <code>submitOrder</code>), not direct
+            CREATE/UPDATE/DELETE tools yet. Future versions may add write operations. Also note the docs warn
+            that these <b>tools are not a stable API</b> — for stable contracts, keep using OData/REST/GraphQL.
+          </p>
+        </div>
+
+        <h4>Better context for the agent</h4>
+        <p>
+          The adapter surfaces your doc comments and <code>@title</code>/<code>@description</code> annotations
+          in <code>describe</code>, and you can steer agents with <code>@mcp.instructions</code>:
+        </p>
+        <div class="code"><span class="k">annotate</span> AccountIntelligenceService <span class="k">with</span> <span class="a">@mcp.instructions</span>:
+  <span class="s">'Use describe to explore accounts. Use query to read entitlement</span>
+<span class="s">   context. Call evaluateEntitlements before proposing any write-off.'</span>;</div>
+        <p style="font-size:13px;color:var(--muted)">
+          Note: doc comments are Node.js only; in Java use <code>@title</code> / <code>@description</code>.
+        </p>
+
+        <details>
+          <summary>Local testing — MCP Inspector &amp; auto-wired clients</summary>
+          <p>
+            When you start the app, the adapter auto-registers MCP servers with local MCP clients
+            (currently Claude Code and Opencode), so you can query immediately. To inspect tools directly:
+          </p>
+          <div class="code">npx @modelcontextprotocol/inspector
+
+<span class="c"># Transport: Streamable HTTP</span>
+<span class="c"># URL: http://localhost:4004/mcp/&lt;service-path&gt;</span>
+<span class="c"># Connect “Via Proxy” → Tools tab → List Tools → run “query”</span></div>
+          <figure>
+            <img src="MCP-Localhost-My.png" alt="MCP Inspector connected to a local CAP MCP server" loading="lazy" />
+            <figcaption>MCP Inspector connected to a locally running CAP MCP endpoint for tool discovery and testing.</figcaption>
+            <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
+          </figure>
+        </details>
+
+        <div class="callout info">
+          <span class="tag">Companion plugin — cap-js/agents</span>
+          <p>
+            <span class="pill community">community / evolving</span> <code>@cap-js/agents</code> can mount an
+            A2A endpoint and even agentify a CAP service (<code>annotate CatalogService with @agent;</code>),
+            with Markdown-defined identity/skills and <code>@agent.hitl</code> for human-in-the-loop approval.
+            Treat this as an emerging capability, distinct from the MCP adapter, and validate against the
+            official repos before production use.
+          </p>
+        </div>
+      </section>
+
+      <!-- =================== 8. CUSTOM / FASTMCP =================== -->
+      <section class="block" id="custom-fastmcp">
+        <h2><span class="num">8</span> Custom MCP servers &amp; FastMCP — when they are the right tool</h2>
+        <p>
+          For CAP applications, the <strong>default should be the native CAP MCP adapter</strong> — it covers
+          the large majority of standard scenarios without a separate custom layer. But custom MCP servers
+          (including Python <strong>FastMCP</strong> <span class="pill community">open source</span>) remain
+          valid for specific cases.
+        </p>
+        <div class="grid">
+          <div class="card"><h3>✅ Good fit for custom MCP</h3>
+            <ul>
+              <li>Cross-system orchestration outside normal CAP service boundaries.</li>
+              <li>Specialized or non-CAP tool contracts.</li>
+              <li>Experimental or prototype integration patterns.</li>
+              <li>Bridging non-SAP systems that have no CAP representation.</li>
+            </ul>
+          </div>
+          <div class="card"><h3>⚠️ Guardrail</h3>
+            <p>
+              A custom MCP server should <b>compose with CAP</b> — calling CAP services for business logic
+              and honoring CAP authorization — rather than duplicating rules or bypassing security.
+            </p>
+          </div>
+        </div>
+        <div class="callout danger">
+          <span class="tag">Don't conflate</span>
+          <p>
+            <b>FastMCP is not CAP-native MCP.</b> FastMCP is a Python framework for hand-building MCP servers.
+            The CAP MCP Protocol Adapter is a native CAP protocol layer. Choosing FastMCP means you own the
+            transport, auth wiring, tool contracts, and lifecycle yourself — a deliberate trade-off, not a default.
+          </p>
+        </div>
+        <figure>
+          <img src="../6-MCP-SAP-Build.png" alt="MCP in the context of SAP Build and the wider SAP platform" loading="lazy" />
+          <figcaption>Where custom MCP fits alongside SAP Build and platform capabilities — compose with, don't bypass, governed services.</figcaption>
+          <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
+        </figure>
+      </section>
+
+      <!-- =================== 9. PATTERNS =================== -->
+      <section class="block" id="patterns">
+        <h2><span class="num">9</span> Enterprise integration patterns</h2>
+
+        <h3>Pattern 1 — CAP service exposed through MCP</h3>
+        <p><b>Architecture:</b> annotate an existing CAP service with <code>@mcp</code>; agents consume generated tools.</p>
+        <ul>
+          <li><b>Benefits:</b> minimal code, business logic + authorization stay in CAP, one governance model.</li>
+          <li><b>Limitations:</b> tool surface is read/action-oriented today; tools aren't a stable API.</li>
+          <li><b>Security:</b> CAP <code>@requires</code>/<code>@restrict</code> and identity propagation still apply.</li>
+        </ul>
+
+        <h3>Pattern 2 — Dedicated custom MCP server</h3>
+        <p>Makes sense when the capability is genuinely cross-system or the contract is bespoke. Keep it thin — orchestrate CAP/APIs, don't re-implement them.</p>
+
+        <h3>Pattern 3 — FastMCP-based implementation</h3>
+        <p>A Python service exposing MCP tools that <em>call</em> governed CAP/BTP APIs. Fits data-science-adjacent or non-SAP bridging work. Not a replacement for the CAP-native adapter in CAP projects.</p>
+
+        <h3>Pattern 4 — MCP as an AI access layer over existing APIs</h3>
+        <p>Reuse durable enterprise APIs rather than duplicating backend logic. The MCP tool is a thin, governed façade — the API remains the contract of record.</p>
+
+        <h3>Pattern 5 — Agent + multiple MCP servers</h3>
+        <div class="diagram" role="img" aria-label="One agent orchestrating multiple specialized MCP servers">
+<pre>                  AI Agent
+                     │
+          ┌──────────┼──────────┐
+          ▼          ▼          ▼
+      CAP MCP     Integration   Data /
+       Server       MCP         Knowledge
+          │          │            │
+          ▼          ▼            ▼
+      Business     SAP /       Enterprise
+      Services     APIs        Context</pre>
+        </div>
+        <p>
+          One agent composes specialized MCP servers: CAP for governed business actions, an Integration
+          MCP for SAP/non-SAP APIs, and a knowledge/data MCP for grounding context. Each server keeps its
+          own authorization boundary — the agent orchestrates, it does not centralize authority.
+        </p>
+
+        <h3>Pattern 6 — Agent + rules + recommendations (agentic orchestration)</h3>
+        <div class="diagram" role="img" aria-label="Agentic orchestration flow from intent to audited action">
+<pre>User Intent
+    ▼
+Agent (plan)
+    ▼
+Retrieve Customer / Account Context   ← CAP query (read)
+    ▼
+Evaluate Eligibility / Entitlement Rules  ← CAP function (deterministic)
+    ▼
+Get Recommendation                    ← recommendation service / SAP AI
+    ▼
+Explain Recommendation                ← LLM narrates, cites rule results
+    ▼
+Optional Business Action              ← CAP action (write, restricted)
+    ▼
+Audit / Human Approval                ← @agent.hitl + audit log</pre>
+        </div>
+        <div class="callout key">
+          <span class="tag">Why this matters</span>
+          <p>
+            This is agentic orchestration, not CRUD. The <b>rules stay deterministic in CAP</b>, the LLM only
+            <em>explains</em> and <em>sequences</em>, and any write is gated by authorization + human approval.
+          </p>
+        </div>
+        <figure>
+          <img src="../5-MCP-Beyond-CAP.png" alt="Agent orchestrating CAP capabilities beyond a single service" loading="lazy" />
+          <figcaption>Beyond a single service: agents orchestrate governed CAP capabilities across an enterprise landscape.</figcaption>
+          <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
+        </figure>
+      </section>
+
+      <!-- =================== 10. SCENARIO =================== -->
+      <section class="block" id="scenario">
+        <h2><span class="num">10</span> Realistic business scenario — Account &amp; Contract Intelligence assistant</h2>
+        <p>
+          A SAP Sales Cloud / CRM extension on BTP helps account managers handle <strong>overdue receivable
+          exceptions and write-off requests</strong>. The assistant must be helpful <em>and</em> strictly governed.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Step</th><th>Capability</th><th>Type</th><th>Governance</th></tr></thead>
+            <tbody>
+              <tr><td>1. Understand request</td><td>Agent + LLM reasoning</td><td>Non-deterministic</td><td>No business authority</td></tr>
+              <tr><td>2. Load account context</td><td><code>AccountIntelligenceService.query</code></td><td>Read</td><td><code>@requires: 'AccountAnalyst'</code></td></tr>
+              <tr><td>3. Evaluate entitlements</td><td><code>evaluateEntitlements()</code></td><td>Deterministic rule</td><td>CAP handler, auditable</td></tr>
+              <tr><td>4. Recommend action</td><td>Recommendation / SAP AI capability</td><td>Advisory</td><td>Explainable, cites rule output</td></tr>
+              <tr><td>5. Request write-off</td><td><code>requestWriteOffApproval()</code></td><td>Write</td><td><code>@requires:'AccountManager'</code> + <code>@agent.hitl</code></td></tr>
+              <tr><td>6. Record outcome</td><td>Audit log / workflow</td><td>Write</td><td>Immutable audit, identity propagated</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout info">
+          <span class="tag">Read vs write</span>
+          <p>
+            Steps 2–4 are low-risk reads and advisory outputs. Step 5 is a <b>write with money attached</b> — it
+            carries a stronger role requirement <em>and</em> human-in-the-loop approval. The agent never decides
+            eligibility; CAP does, deterministically.
+          </p>
+        </div>
+      </section>
+
+      <!-- =================== 11. SECURITY =================== -->
+      <section class="block" id="security">
+        <h2><span class="num">11</span> Security &amp; governance — the heart of the architecture</h2>
+        <div class="callout danger">
+          <span class="tag">Principle</span>
+          <p>
+            Giving an AI agent access to a capability is an <b>architectural authorization decision</b>, not a
+            technical configuration. And <b>tool availability ≠ business authorization.</b> The fact that an MCP
+            tool exists says nothing about whether <em>this</em> agent, for <em>this</em> user, may invoke it.
+          </p>
+        </div>
+        <div class="grid">
+          <div class="card"><h3>Identity &amp; access</h3>
+            <ul>
+              <li>Authentication via XSUAA / IAS on BTP.</li>
+              <li><b>Identity propagation</b> — act as the user, not a super-principal.</li>
+              <li>OAuth scopes, role collections, least privilege.</li>
+              <li>Tenant isolation in multitenant apps.</li>
+            </ul>
+          </div>
+          <div class="card"><h3>Tool-level controls</h3>
+            <ul>
+              <li>Per-tool / per-action authorization (<code>@requires</code>, <code>@restrict</code>).</li>
+              <li>Stronger controls on writes than reads.</li>
+              <li>Input validation on every action.</li>
+              <li>Sensitive-data filtering &amp; field-level restrictions.</li>
+            </ul>
+          </div>
+          <div class="card"><h3>AI-specific threats</h3>
+            <ul>
+              <li>Prompt injection → never let text alone trigger writes.</li>
+              <li>Malicious / confused tool invocation.</li>
+              <li>Excessive permissions granted to agents.</li>
+              <li>Human-in-the-loop for high-impact actions.</li>
+            </ul>
+          </div>
+          <div class="card"><h3>Operability</h3>
+            <ul>
+              <li>Audit logging of every tool invocation.</li>
+              <li>Observability &amp; tracing across the chain.</li>
+              <li>Rate limiting &amp; API policies (Integration Suite / API Management).</li>
+              <li>Lifecycle &amp; versioning of exposed capabilities.</li>
+            </ul>
+          </div>
+        </div>
+        <figure>
+          <img src="../3.1-MCP-Why.png" alt="Security boundaries and governance around MCP-exposed capabilities" loading="lazy" />
+          <figcaption>Governance is not a layer you add later — authorization, validation, and audit are part of the capability itself.</figcaption>
+          <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
+        </figure>
+        <div class="callout key">
+          <span class="tag">Write &gt; read</span>
+          <p>
+            Read operations expose information; write operations change enterprise state. Writes should require
+            stronger scopes, tighter validation, human approval where impactful, and immutable audit — by default.
+          </p>
+        </div>
+      </section>
+
+      <!-- =================== 12. ANTI-PATTERNS =================== -->
+      <section class="block" id="anti">
+        <h2><span class="num">12</span> MCP &amp; agentic architecture anti-patterns</h2>
+        <div class="anti">
+          <div class="item"><h4><span class="x">✕</span> 1. Logic in the prompt</h4><p>Encoding eligibility/pricing/approval rules in prompt text.</p><div class="fix"><b>Fix:</b> put rules in CAP functions/handlers — deterministic &amp; auditable.</div></div>
+          <div class="item"><h4><span class="x">✕</span> 2. Agent → database directly</h4><p>Pointing an agent at tables or the persistence layer.</p><div class="fix"><b>Fix:</b> go through CAP services that enforce validation &amp; authorization.</div></div>
+          <div class="item"><h4><span class="x">✕</span> 3. MCP server per tiny function</h4><p>Sprawl of micro-servers with no domain boundaries.</p><div class="fix"><b>Fix:</b> model domain boundaries first; expose cohesive services.</div></div>
+          <div class="item"><h4><span class="x">✕</span> 4. Duplicating existing APIs</h4><p>Re-implementing backend logic inside MCP tools.</p><div class="fix"><b>Fix:</b> expose reusable capabilities; reuse the durable API.</div></div>
+          <div class="item"><h4><span class="x">✕</span> 5. Unrestricted write access</h4><p>Agents that can change anything, anytime.</p><div class="fix"><b>Fix:</b> least privilege, scoped writes, human-in-the-loop.</div></div>
+          <div class="item"><h4><span class="x">✕</span> 6. MCP as an API replacement</h4><p>Retiring stable contracts in favor of evolving MCP tools.</p><div class="fix"><b>Fix:</b> keep APIs as contracts; MCP is the AI access layer.</div></div>
+          <div class="item"><h4><span class="x">✕</span> 7. Custom build when native exists</h4><p>Hand-rolling MCP where the CAP adapter already fits.</p><div class="fix"><b>Fix:</b> default to CAP MCP adapter; customize by exception.</div></div>
+          <div class="item"><h4><span class="x">✕</span> 8. Agent before capability</h4><p>Building the agent before defining capability + authz model.</p><div class="fix"><b>Fix:</b> define capability, ownership, and authorization first.</div></div>
+          <div class="item"><h4><span class="x">✕</span> 9. AI for deterministic decisions</h4><p>Letting the LLM decide things that must be governed rules.</p><div class="fix"><b>Fix:</b> keep deterministic decisions in business rules.</div></div>
+          <div class="item"><h4><span class="x">✕</span> 10. Availability = authorization</h4><p>Assuming a callable tool means it may be called.</p><div class="fix"><b>Fix:</b> enforce authorization independently at the capability.</div></div>
+        </div>
+      </section>
+
+      <!-- =================== 13. DECISION MATRIX =================== -->
+      <section class="block" id="matrix">
+        <h2><span class="num">13</span> Architecture decision matrix</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Approach</th><th>Best fit</th><th>Advantages</th><th>Trade-offs</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><b>CAP MCP Adapter</b> <span class="pill beta">evolving</span></td>
+                <td>Standard CAP scenarios; exposing governed CAP services to agents.</td>
+                <td>Minimal code; reuses CAP authz, validation, model; lowest TCO; one governance model.</td>
+                <td>Read/action-focused today; tools aren't a stable API; CAP-centric.</td>
+              </tr>
+              <tr>
+                <td><b>Custom MCP server</b></td>
+                <td>Cross-system orchestration; bespoke tool contracts; non-SAP bridging.</td>
+                <td>Full control over tools, transport, contracts.</td>
+                <td>You own auth, lifecycle, testing, security; higher TCO.</td>
+              </tr>
+              <tr>
+                <td><b>FastMCP (Python)</b> <span class="pill community">community</span></td>
+                <td>Python/data-science-adjacent tools; experiments; non-SAP systems.</td>
+                <td>Fast to prototype; rich Python ecosystem.</td>
+                <td>Not CAP-native; must compose with CAP for governance; self-managed.</td>
+              </tr>
+              <tr>
+                <td><b>Integration Suite MCP</b></td>
+                <td>Exposing managed integrations / APIs with central policies.</td>
+                <td>Policy enforcement, rate limits, monitoring, connectivity.</td>
+                <td>Adds an integration tier; validate feature availability.</td>
+              </tr>
+              <tr>
+                <td><b>Direct API integration</b></td>
+                <td>System-to-system; stable, versioned contracts; no agent needed.</td>
+                <td>Mature, predictable, well-governed.</td>
+                <td>Not agent-discoverable; needs custom glue for LLM tool-use.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout info">
+          <span class="tag">Rule of thumb</span>
+          <p>
+            In a CAP project, <b>start with the CAP MCP adapter</b>. Reach for custom/FastMCP only when the
+            capability is genuinely cross-system or bespoke — and even then, compose with CAP rather than
+            bypass it. Verify Integration Suite MCP feature availability against current SAP docs before committing.
+          </p>
+        </div>
+      </section>
+
+      <!-- =================== 14. PRODUCTION =================== -->
+      <section class="block" id="prod">
+        <h2><span class="num">14</span> Production-readiness checklist</h2>
+        <ul class="check">
+          <li>Business capability, owner, and authorization model defined <em>before</em> building the agent.</li>
+          <li>Authentication (XSUAA/IAS) and <b>identity propagation</b> verified end-to-end.</li>
+          <li>Per-tool / per-action authorization; writes gated more strictly than reads.</li>
+          <li>Human-in-the-loop for high-impact actions (<code>@agent.hitl</code> or workflow approval).</li>
+          <li>Input validation and prompt-injection resistance on every write path.</li>
+          <li>Audit logging of all tool invocations; immutable trail for write actions.</li>
+          <li>Observability &amp; tracing across agent → MCP → capability.</li>
+          <li>Rate limiting &amp; API policies for exposed endpoints.</li>
+          <li>Tenant isolation validated for multitenant deployments.</li>
+          <li>Versioning &amp; lifecycle plan — remember MCP tools aren't a stable API.</li>
+          <li>Stable contracts still served via OData/REST/GraphQL for system integration.</li>
+          <li>Fallback / failure behavior when the agent or LLM is wrong or unavailable.</li>
+        </ul>
+      </section>
+
+      <!-- =================== 15. THINK LIKE AN ARCHITECT =================== -->
+      <section class="block" id="architect">
+        <h2><span class="num">15</span> Think like an architect — questions before protocol</h2>
+        <p>Ask these <em>before</em> writing a single MCP tool. Architecture comes before protocol implementation.</p>
+        <div class="qgrid">
+          <div class="q">What business capability are we exposing?<span>Not “what tool”, but “what governed function”.</span></div>
+          <div class="q">Who owns the capability?<span>Ownership drives lifecycle &amp; authorization.</span></div>
+          <div class="q">Is it already an API?<span>Reuse it — don't duplicate backend logic.</span></div>
+          <div class="q">Does it contain business rules?<span>If so, keep them deterministic in CAP.</span></div>
+          <div class="q">Should the agent read or write?<span>Writes need stronger controls.</span></div>
+          <div class="q">What authorization is required?<span>Roles, scopes, tenant, field-level.</span></div>
+          <div class="q">What data can the agent access?<span>Sensitive data &amp; least privilege.</span></div>
+          <div class="q">What if the agent is wrong?<span>Validation + approval must catch it.</span></div>
+          <div class="q">Is human approval required?<span>HITL for high-impact actions.</span></div>
+          <div class="q">How is invocation audited?<span>Immutable, identity-attributed logs.</span></div>
+          <div class="q">How will the capability evolve?<span>Versioning &amp; lifecycle.</span></div>
+          <div class="q">Is MCP actually required?<span>Would an API, event, workflow, or A2A fit better?</span></div>
+        </div>
+      </section>
+
+      <!-- =================== 16. TAKEAWAYS =================== -->
+      <section class="block" id="takeaways">
+        <h2><span class="num">16</span> Key takeaways</h2>
+        <div class="callout key"><span class="tag">1</span><p>MCP is an <b>interoperability/tool-access protocol</b>, not an agent and not intelligence. The agent reasons; CAP/BTP governs.</p></div>
+        <div class="callout key"><span class="tag">2</span><p><b>MCP does not replace APIs.</b> APIs stay as stable system contracts; MCP is the AI access layer over governed capabilities.</p></div>
+        <div class="callout key"><span class="tag">3</span><p>In CAP projects, <b>default to the CAP MCP adapter</b> (<code>@mcp</code>). Use custom/FastMCP by exception, and compose with CAP — never bypass it.</p></div>
+        <div class="callout key"><span class="tag">4</span><p><b>Tool availability ≠ authorization.</b> Exposing a capability to an agent is a governance decision; writes need stronger controls than reads.</p></div>
+        <div class="callout key"><span class="tag">5</span><p>Keep <b>deterministic decisions in business rules</b>; let the LLM explain and orchestrate, not decide eligibility or manipulate data directly.</p></div>
+      </section>
+
+      <!-- =================== 17. REFERENCES =================== -->
+      <section class="block links" id="refs">
+        <h2><span class="num">17</span> References &amp; further reading</h2>
+        <h4>Official SAP</h4>
+        <ul class="ref-list">
+          <li><a href="https://cap.cloud.sap" target="_blank" rel="noreferrer">SAP Cloud Application Programming Model (CAP)</a><span class="src">official</span></li>
+          <li><a href="https://cap.cloud.sap/docs/guides/protocols/mcp" target="_blank" rel="noreferrer">CAP MCP Protocol Adapter guide</a><span class="src">official</span></li>
+          <li><a href="https://help.sap.com/docs/btp" target="_blank" rel="noreferrer">SAP BTP documentation</a><span class="src">official</span></li>
+        </ul>
+        <h4>Open source / community</h4>
+        <ul class="ref-list">
+          <li><a href="https://github.com/cap-js/mcp" target="_blank" rel="noreferrer">cap-js/mcp</a><span class="src">community</span></li>
+          <li><a href="https://github.com/cap-js/mcp/tree/main/tests/bookshop" target="_blank" rel="noreferrer">cap-js/mcp — sample tests</a><span class="src">community</span></li>
+          <li><a href="https://github.com/cap-js/agents" target="_blank" rel="noreferrer">cap-js/agents</a><span class="src">community / evolving</span></li>
+          <li><a href="https://www.npmjs.com/package/@cap-js/agents" target="_blank" rel="noreferrer">@cap-js/agents on npm</a><span class="src">community</span></li>
+        </ul>
+        <h4>Protocols &amp; ecosystem</h4>
+        <ul class="ref-list">
+          <li><a href="https://modelcontextprotocol.io/" target="_blank" rel="noreferrer">Model Context Protocol</a><span class="src">official spec</span></li>
+          <li><a href="https://blog.modelcontextprotocol.io/posts/2026-07-28" target="_blank" rel="noreferrer">MCP 2026-07-28 release notes</a><span class="src">spec update</span></li>
+          <li><a href="https://a2a-protocol.org/latest/" target="_blank" rel="noreferrer">A2A Protocol</a><span class="src">official</span></li>
+          <li><a href="https://developer.chrome.com/docs/ai/webmcp" target="_blank" rel="noreferrer">WebMCP (Chrome)</a><span class="src">experimental</span></li>
+          <li><a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/agent-extend-action-mcp" target="_blank" rel="noreferrer">Microsoft Copilot Studio + MCP</a><span class="src">vendor</span></li>
+        </ul>
+        <div class="callout warn">
+          <span class="tag">Accuracy note</span>
+          <p>
+            The CAP MCP adapter and <code>@cap-js/agents</code> are evolving; generated MCP tools are not a
+            stable API and current tooling focuses on reads + unbound actions. WebMCP and some agent features
+            are experimental. Validate feature status against the official links above before production use,
+            and don't present community/experimental patterns as GA SAP product capabilities.
+          </p>
+        </div>
+      </section>
+
+      <footer>
+        CAP + MCP is powerful — but the best architecture starts simple, stays governed, and keeps
+        business authority in the enterprise layer. Reasoning belongs to the agent; decisions belong to CAP.
+      </footer>
+
+    </main>
+  </div>
+</body>
+</html>

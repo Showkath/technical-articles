@@ -1,0 +1,69 @@
+Post 2: MCP Engineering — From Theory to Implementation
+
+Following up on my previous post, “MCP: Beyond APIs — Building the Capability Layer for AI.”
+
+https://www.linkedin.com/feed/update/urn:li:activity:7494110774186053632/
+
+This time, I’m going one level deeper — from MCP theory to implementation.
+
+🔹 How do you build an MCP server?
+🔹 Which language/framework should you choose?
+🔹 How do you connect an AI agent?
+🔹 How do you expose business capabilities?
+🔹 What does it take to move from code to production?
+
+📌 A few important distinctions:
+
+🔵 MCP — introduced by Anthropic in Nov 2024.
+
+🟣 A2A — introduced by Google in Apr 2025 and later contributed to the Linux Foundation.
+
+🔗 MCP connects agents to capabilities. A2A connects agents to agents.
+
+MCP and A2A don't replace each other: an agent can use MCP to access its tools and capabilities while using A2A to collaborate with another agent.
+
+💡 My current takeaway:
+
+• MCP standardizes agent-to-capability interaction.
+• A2A standardizes agent-to-agent collaboration.
+
+🌐 WebMCP is an emerging/proposed web standard for exposing structured web capabilities to agents, currently being developed in Chrome.
+
+https://developer.chrome.com/docs/ai/webmcp
+
+🧩 Agent Protocol is better positioned as an agent framework/ecosystem interface rather than treating it as equivalent to MCP or A2A. LangChain, for example, provides agent abstractions, tooling and integrations for building and operating agents.
+
+⚙️ The MCP specification itself is also evolving rapidly.
+
+The 2026-07-28 release introduced a stateless protocol core, multi-round-trip requests, cacheable discovery results, authorization hardening, extensions and updated Tier-1 SDKs.
+
+https://blog.modelcontextprotocol.io/posts/2026-07-28
+
+🤝 I’m still learning and evaluating this space.
+
+These are my current architectural observations, not a final answer. If you see something I’ve misunderstood or have a different view, please feel free to correct me or share your experience.
+
+🔙 Previous post:
+
+https://www.linkedin.com/feed/update/urn:li:activity:7494110774186053632/
+
+📚 Official References
+
+• Model Context Protocol:
+https://modelcontextprotocol.io/
+
+• A2A Protocol:
+https://a2a-protocol.org/latest/
+
+• SAP CAP MCP Adapter:
+https://cap.cloud.sap/docs/guides/protocols/mcp
+
+• Microsoft Copilot Studio + MCP:
+https://learn.microsoft.com/en-us/microsoft-copilot-studio/agent-extend-action-mcp
+
+• Microsoft MCP documentation:
+https://learn.microsoft.com/en-us/training/support/mcp
+
+🏷️ Hashtags
+
+#MCP #ModelContextProtocol #A2A #Agent2Agent #AIAgents #AgenticAI #GenerativeAI #GenAI #AIEngineering #AIArchitecture #EnterpriseAI #AIInteroperability #AgentArchitecture #AIIntegration #AITransformation #SAP #SAPBTP #SAPCAP #SAPArchitecture #S4HANA #SAPCommunity #SAPDevelopers #EnterpriseArchitecture #CloudArchitecture #IntegrationArchitecture #TypeScript #NodeJS #Python #Java #SpringBoot #FastMCP #SpringAI #DevSecOps #CloudNative #ArtificialIntelligence #DigitalTransformation #FutureOfAI
