@@ -104,6 +104,42 @@
     .byline { margin-top: 16px; font-size: 13.5px; color: #b9d4f5; display: flex; flex-wrap: wrap; gap: 8px 16px; }
     .byline span { display: inline-flex; align-items: center; gap: 6px; }
 
+    /* ---- Intro / opening ---- */
+    .intro {
+      background: linear-gradient(180deg, #f7fbff 0%, #eef5ff 100%);
+      border: 1px solid #d9e8fb;
+      border-radius: 18px;
+      padding: 24px 26px;
+      margin-bottom: 26px;
+      box-shadow: var(--shadow-sm);
+    }
+    .intro .kicker {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--brand-dark); background: #fff; border: 1px solid #cfe3ff;
+      border-radius: 999px; padding: 5px 12px; margin-bottom: 12px;
+    }
+    .intro .kicker::before { content: "▶"; color: var(--brand); font-size: 10px; }
+    .intro p { margin: 0 0 6px; font-size: 16.5px; color: #24303d; }
+    .intro .prev-link a { font-weight: 700; }
+    .qgrid-intro {
+      list-style: none; margin: 16px 0 4px; padding: 0;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px;
+    }
+    .qgrid-intro li {
+      position: relative;
+      background: #fff; border: 1px solid #dbe7f6; border-radius: 12px;
+      padding: 14px 14px 14px 44px; font-weight: 600; color: #1f2c3a; line-height: 1.45;
+      transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+    }
+    .qgrid-intro li:hover { border-color: var(--brand); box-shadow: 0 6px 18px rgba(10,110,209,.12); transform: translateY(-1px); }
+    .qgrid-intro li .n {
+      position: absolute; left: 12px; top: 12px;
+      width: 22px; height: 22px; border-radius: 7px;
+      background: linear-gradient(135deg, #0a6ed1, #7a3ff2); color: #fff;
+      font-size: 12px; font-weight: 800; display: grid; place-items: center;
+    }
+
     .eyebrow {
       display: inline-block;
       font-size: 11.5px;
@@ -345,13 +381,14 @@
         <li><a href="#custom-fastmcp">10 · Custom MCP &amp; FastMCP</a></li>
         <li><a href="#patterns">11 · Enterprise integration patterns</a></li>
         <li><a href="#scenario">12 · Realistic business scenario</a></li>
-        <li><a href="#security">13 · Security &amp; governance</a></li>
-        <li><a href="#anti">14 · Anti-patterns</a></li>
-        <li><a href="#matrix">15 · Decision matrix</a></li>
-        <li><a href="#prod">16 · Production-readiness</a></li>
-        <li><a href="#architect">17 · Think like an architect</a></li>
-        <li><a href="#takeaways">18 · Key takeaways</a></li>
-        <li><a href="#refs">19 · References</a></li>
+        <li><a href="#real-scenarios">13 · Real-world scenarios: end-to-end</a></li>
+        <li><a href="#security">14 · Security &amp; governance</a></li>
+        <li><a href="#anti">15 · Anti-patterns</a></li>
+        <li><a href="#matrix">16 · Decision matrix</a></li>
+        <li><a href="#prod">17 · Production-readiness</a></li>
+        <li><a href="#architect">18 · Think like an architect</a></li>
+        <li><a href="#takeaways">19 · Key takeaways</a></li>
+        <li><a href="#refs">20 · References</a></li>
       </ol>
     </nav>
 
@@ -375,19 +412,28 @@
           <img src="../Showkath Final Photo SAP Linkedin .png" alt="Showkath — author portrait" loading="lazy" />
           <div class="who">
             <b>Showkath Naseem</b>
-            <span>Senior SAP BTP Solution Architect · CAP, MCP &amp; Agentic-AI Engineering</span>
+            <span>SAP Principal Architect (BAIP/BTP) · AI Engineer</span>
           </div>
         </div>
       </header>
 
-      <div class="callout info">
-        <span class="tag">Context</span>
-        <p>
-          This is the follow-up to <em>“MCP: Beyond APIs — Building the Capability Layer for AI.”</em>
-          The first article covered the <b>why</b>. This one covers the <b>how</b>: how to build an
-          MCP server, which framework to choose, how to connect an agent, how to expose governed
-          business capabilities, and what it takes to move from code to production on SAP BTP.
+      <div class="intro">
+        <span class="kicker">Part 2 · From Theory to Implementation</span>
+        <p class="prev-link">
+          Following up on my previous post,
+          <a href="https://www.linkedin.com/feed/update/urn:li:activity:7494110774186053632/" target="_blank" rel="noopener noreferrer">“MCP: Beyond APIs — Building the Capability Layer for AI.”</a>
         </p>
+        <p>
+          The first article covered the <b>why</b>. This time we go one level deeper — from MCP and
+          Agents <b>theory to working implementation</b> on SAP BTP. Five questions guide the journey:
+        </p>
+        <ol class="qgrid-intro">
+          <li><span class="n">1</span>How do you build an MCP server?</li>
+          <li><span class="n">2</span>Which language &amp; framework should you choose?</li>
+          <li><span class="n">3</span>How do you connect an AI agent?</li>
+          <li><span class="n">4</span>How do you expose <em>governed</em> business capabilities?</li>
+          <li><span class="n">5</span>What does it take to go from code to production?</li>
+        </ol>
       </div>
 
       <!-- =================== 1. WHY =================== -->
@@ -1238,9 +1284,164 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
         </div>
       </section>
 
+      <!-- =================== 13. REAL-WORLD SCENARIOS =================== -->
+      <section class="block" id="real-scenarios">
+        <h2><span class="num">13</span> Real-world scenarios — end-to-end implementation &amp; output</h2>
+        <p>
+          Two complete, runnable walkthroughs on the CAP Node.js service from Section&nbsp;9. Each one shows the
+          <b>full round trip</b>: the user's natural-language intent, the agent's tool calls over MCP, the exact
+          <b>request/response JSON</b>, and the <b>audit trail</b> CAP produces. Nothing is hand-waved — this is
+          what actually flows across the wire.
+        </p>
+
+        <!-- ---------- SCENARIO A ---------- -->
+        <h3>Scenario A · Overdue write-off under human approval</h3>
+        <p>
+          An account manager asks the assistant to clear a small overdue balance. The agent reasons, but every
+          <em>decision</em> and <em>write</em> is enforced by CAP — including a human approval gate on the money.
+        </p>
+
+        <h4>0 · Seed data — <code>db/data/crm-Accounts.csv</code></h4>
+        <div class="code"><span class="c"># ID;name;overdue;tier</span>
+a1;Contoso Retail;420.00;silver
+a2;Northwind Logistics;9800.00;gold
+a3;Fabrikam Foods;150.00;bronze</div>
+
+        <h4>1 · The user's intent (natural language)</h4>
+        <div class="code"><span class="s">"Contoso Retail (a1) has a small overdue balance. Can we write it off?"</span></div>
+
+        <h4>2 · Agent → MCP: load account context</h4>
+        <div class="code"><span class="c"># MCP tool call issued by the agent (query tool)</span>
+POST /mcp/account-intelligence
+{
+  <span class="s">"method"</span>: <span class="s">"tools/call"</span>,
+  <span class="s">"params"</span>: {
+    <span class="s">"name"</span>: <span class="s">"AccountIntelligenceService_Accounts_query"</span>,
+    <span class="s">"arguments"</span>: { <span class="s">"filter"</span>: <span class="s">"ID eq 'a1'"</span>, <span class="s">"select"</span>: [<span class="s">"name"</span>,<span class="s">"overdue"</span>,<span class="s">"tier"</span>] }
+  }
+}
+
+<span class="c"># response — governed read (@requires: 'AccountAnalyst' enforced by CAP)</span>
+{ <span class="s">"result"</span>: { <span class="s">"content"</span>: [{ <span class="s">"type"</span>: <span class="s">"json"</span>,
+  <span class="s">"json"</span>: [{ <span class="s">"name"</span>: <span class="s">"Contoso Retail"</span>, <span class="s">"overdue"</span>: 420.00, <span class="s">"tier"</span>: <span class="s">"silver"</span> }] }] } }</div>
+
+        <h4>3 · Agent → MCP: evaluate entitlements (deterministic rule)</h4>
+        <div class="code"><span class="c"># the LLM does NOT decide eligibility — it calls the CAP rule</span>
+POST /mcp/account-intelligence
+{ <span class="s">"method"</span>: <span class="s">"tools/call"</span>,
+  <span class="s">"params"</span>: { <span class="s">"name"</span>: <span class="s">"AccountIntelligenceService_evaluateEntitlements"</span>,
+              <span class="s">"arguments"</span>: { <span class="s">"account"</span>: <span class="s">"a1"</span> } } }
+
+<span class="c"># response — from srv/account-service.js (silver cap = 500, overdue 420 ≤ 500)</span>
+{ <span class="s">"result"</span>: { <span class="s">"content"</span>: [{ <span class="s">"type"</span>: <span class="s">"json"</span>, <span class="s">"json"</span>: {
+  <span class="s">"eligible"</span>: <span class="k">true</span>,
+  <span class="s">"maxWriteOff"</span>: 500.00,
+  <span class="s">"reason"</span>: <span class="s">"tier=silver, overdue=420, cap=500"</span>
+}}] } }</div>
+
+        <h4>4 · Agent → MCP: request write-off (HITL gate fires)</h4>
+        <div class="code"><span class="c"># stronger role (@requires: 'AccountManager') + @agent.hitl → pauses for a human</span>
+POST /mcp/account-intelligence
+{ <span class="s">"method"</span>: <span class="s">"tools/call"</span>,
+  <span class="s">"params"</span>: { <span class="s">"name"</span>: <span class="s">"AccountIntelligenceService_requestWriteOffApproval"</span>,
+              <span class="s">"arguments"</span>: { <span class="s">"account"</span>: <span class="s">"a1"</span>, <span class="s">"amount"</span>: 420.00 } } }
+
+<span class="c"># response — CAP validated the write and created a pending approval, no money moved yet</span>
+{ <span class="s">"result"</span>: { <span class="s">"content"</span>: [{ <span class="s">"type"</span>: <span class="s">"json"</span>,
+  <span class="s">"json"</span>: { <span class="s">"status"</span>: <span class="s">"PENDING_APPROVAL"</span> } }] } }</div>
+
+        <h4>5 · What the user sees</h4>
+        <div class="code"><span class="s">"Contoso Retail is a silver-tier account. Its overdue balance is €420, within the</span>
+<span class="s"> €500 write-off cap (rule: tier=silver, cap=500). I've submitted a €420 write-off</span>
+<span class="s"> request — it now needs an Account Manager's approval before it takes effect."</span></div>
+
+        <h4>6 · The audit trail CAP produced</h4>
+        <div class="code"><span class="c"># immutable record — identity propagated, not the agent's identity</span>
+ApprovalRequests: { account: <span class="s">'a1'</span>, amount: 420.00, status: <span class="s">'PENDING'</span>,
+                    createdBy: <span class="s">'j.doe@contoso.com'</span>, createdAt: <span class="s">'2026-08-19T09:41:02Z'</span> }</div>
+        <div class="callout key">
+          <span class="tag">Why this is safe</span>
+          <p>
+            The agent <b>reasoned</b> and <b>orchestrated</b>, but eligibility came from a deterministic CAP rule,
+            the write required a stronger role, and the money is gated behind human approval and an immutable audit
+            record. Swap the LLM tomorrow — the guarantees don't change.
+          </p>
+        </div>
+
+        <!-- ---------- SCENARIO B ---------- -->
+        <h3>Scenario B · Denied request — guardrails hold</h3>
+        <p>
+          Same tools, different account. Here the deterministic rule <em>and</em> CAP validation reject the request —
+          proving the guarantees are enforced by the platform, not by prompt wording.
+        </p>
+
+        <h4>1 · Intent</h4>
+        <div class="code"><span class="s">"Write off the full overdue for Northwind Logistics (a2)."</span></div>
+
+        <h4>2 · Entitlement check says no</h4>
+        <div class="code">POST /mcp/account-intelligence
+{ <span class="s">"params"</span>: { <span class="s">"name"</span>: <span class="s">"AccountIntelligenceService_evaluateEntitlements"</span>,
+              <span class="s">"arguments"</span>: { <span class="s">"account"</span>: <span class="s">"a2"</span> } } }
+
+<span class="c"># gold cap = 5000, but overdue = 9800 → not eligible</span>
+{ <span class="s">"result"</span>: { <span class="s">"content"</span>: [{ <span class="s">"json"</span>: {
+  <span class="s">"eligible"</span>: <span class="k">false</span>, <span class="s">"maxWriteOff"</span>: 5000.00,
+  <span class="s">"reason"</span>: <span class="s">"tier=gold, overdue=9800, cap=5000"</span> }}] } }</div>
+
+        <h4>3 · If the agent tries the write anyway, CAP rejects it</h4>
+        <div class="code"><span class="c"># request an amount above the cap → server-side validation error</span>
+{ <span class="s">"params"</span>: { <span class="s">"name"</span>: <span class="s">"AccountIntelligenceService_requestWriteOffApproval"</span>,
+              <span class="s">"arguments"</span>: { <span class="s">"account"</span>: <span class="s">"a2"</span>, <span class="s">"amount"</span>: 9800.00 } } }
+
+<span class="c"># add this guard to the handler in srv/account-service.js:</span>
+<span class="k">const</span> ent = <span class="k">await</span> <span class="k">this</span>.evaluateEntitlements(account);
+<span class="k">if</span> (!ent.eligible || amount &gt; ent.maxWriteOff)
+  <span class="k">return</span> req.error(403, <span class="s">`Amount ${amount} exceeds cap ${ent.maxWriteOff}`</span>);
+
+<span class="c"># MCP surfaces the error — no approval row is created</span>
+{ <span class="s">"error"</span>: { <span class="s">"code"</span>: 403,
+  <span class="s">"message"</span>: <span class="s">"Amount 9800 exceeds cap 5000"</span> } }</div>
+
+        <h4>4 · What the user sees</h4>
+        <div class="code"><span class="s">"I can't write off €9,800 for Northwind Logistics. Its gold-tier cap is €5,000 and</span>
+<span class="s"> the overdue is €9,800, so it isn't eligible. You could request a partial write-off</span>
+<span class="s"> up to €5,000, or route this to finance for a manual exception."</span></div>
+
+        <div class="callout info">
+          <span class="tag">Try it locally</span>
+          <p>
+            Run <code>cds watch</code>, then open the MCP Inspector
+            (<code>npx @modelcontextprotocol/inspector</code>) against
+            <code>http://localhost:4004/mcp/account-intelligence</code>. Call the tools in the order above with the
+            seed data and you'll see exactly these responses — including the 403 when the amount exceeds the cap.
+          </p>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Guarantee</th><th>Enforced by</th><th>Visible in output</th></tr></thead>
+            <tbody>
+              <tr><td>Only analysts read accounts</td><td><code>@requires: 'AccountAnalyst'</code></td><td>401/403 on unauthorized query</td></tr>
+              <tr><td>Eligibility is deterministic</td><td><code>evaluateEntitlements()</code> handler</td><td><code>reason</code> string cites the rule</td></tr>
+              <tr><td>Writes need a stronger role</td><td><code>@requires: 'AccountManager'</code></td><td>403 for analyst-only callers</td></tr>
+              <tr><td>Money needs a human</td><td><code>@agent.hitl</code></td><td><code>PENDING_APPROVAL</code> status</td></tr>
+              <tr><td>Everything is auditable</td><td>CAP handler + <code>managed</code></td><td><code>ApprovalRequests</code> row w/ identity</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout warn">
+          <span class="tag">Accuracy note</span>
+          <p>
+            The JSON tool names and payload shapes above are illustrative of the CAP MCP adapter's shape and may
+            differ slightly by plugin version. The <em>architecture</em> — governed reads, deterministic rules,
+            role-gated writes, HITL, and audit — is the part that must not change.
+          </p>
+        </div>
+      </section>
+
       <!-- =================== 11. SECURITY =================== -->
       <section class="block" id="security">
-        <h2><span class="num">13</span> Security &amp; governance — the heart of the architecture</h2>
+        <h2><span class="num">14</span> Security &amp; governance — the heart of the architecture</h2>
         <div class="callout danger">
           <span class="tag">Principle</span>
           <p>
@@ -1294,7 +1495,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 12. ANTI-PATTERNS =================== -->
       <section class="block" id="anti">
-        <h2><span class="num">14</span> MCP &amp; agentic architecture anti-patterns</h2>
+        <h2><span class="num">15</span> MCP &amp; agentic architecture anti-patterns</h2>
         <div class="anti">
           <div class="item"><h4><span class="x">✕</span> 1. Logic in the prompt</h4><p>Encoding eligibility/pricing/approval rules in prompt text.</p><div class="fix"><b>Fix:</b> put rules in CAP functions/handlers — deterministic &amp; auditable.</div></div>
           <div class="item"><h4><span class="x">✕</span> 2. Agent → database directly</h4><p>Pointing an agent at tables or the persistence layer.</p><div class="fix"><b>Fix:</b> go through CAP services that enforce validation &amp; authorization.</div></div>
@@ -1311,7 +1512,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 13. DECISION MATRIX =================== -->
       <section class="block" id="matrix">
-        <h2><span class="num">15</span> Architecture decision matrix</h2>
+        <h2><span class="num">16</span> Architecture decision matrix</h2>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Approach</th><th>Best fit</th><th>Advantages</th><th>Trade-offs</th></tr></thead>
@@ -1361,7 +1562,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 14. PRODUCTION =================== -->
       <section class="block" id="prod">
-        <h2><span class="num">16</span> Production-readiness checklist</h2>
+        <h2><span class="num">17</span> Production-readiness checklist</h2>
         <ul class="check">
           <li>Business capability, owner, and authorization model defined <em>before</em> building the agent.</li>
           <li>Authentication (XSUAA/IAS) and <b>identity propagation</b> verified end-to-end.</li>
@@ -1380,7 +1581,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 15. THINK LIKE AN ARCHITECT =================== -->
       <section class="block" id="architect">
-        <h2><span class="num">17</span> Think like an architect — questions before protocol</h2>
+        <h2><span class="num">18</span> Think like an architect — questions before protocol</h2>
         <p>Ask these <em>before</em> writing a single MCP tool. Architecture comes before protocol implementation.</p>
         <div class="qgrid">
           <div class="q">What business capability are we exposing?<span>Not “what tool”, but “what governed function”.</span></div>
@@ -1400,7 +1601,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 16. TAKEAWAYS =================== -->
       <section class="block" id="takeaways">
-        <h2><span class="num">18</span> Key takeaways</h2>
+        <h2><span class="num">19</span> Key takeaways</h2>
         <div class="callout key"><span class="tag">1</span><p>MCP is an <b>interoperability/tool-access protocol</b>, not an agent and not intelligence. The agent reasons; CAP/BTP governs.</p></div>
         <div class="callout key"><span class="tag">2</span><p><b>MCP does not replace APIs.</b> APIs stay as stable system contracts; MCP is the AI access layer over governed capabilities.</p></div>
         <div class="callout key"><span class="tag">3</span><p>In CAP projects, <b>default to the CAP MCP adapter</b> (<code>@mcp</code>), and turn services into governed agents with <code>@agent</code> (<code>@cap-js/agents</code>). Use custom/FastMCP by exception, and compose with CAP — never bypass it.</p></div>
@@ -1410,7 +1611,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 17. REFERENCES =================== -->
       <section class="block links" id="refs">
-        <h2><span class="num">19</span> References &amp; further reading</h2>
+        <h2><span class="num">20</span> References &amp; further reading</h2>
         <h4>Official SAP</h4>
         <ul class="ref-list">
           <li><a href="https://cap.cloud.sap" target="_blank" rel="noreferrer">SAP Cloud Application Programming Model (CAP)</a><span class="src">official</span></li>
