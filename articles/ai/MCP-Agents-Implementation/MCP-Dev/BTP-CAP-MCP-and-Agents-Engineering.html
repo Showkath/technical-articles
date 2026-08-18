@@ -409,7 +409,7 @@
         <li><a href="#examples">9 · Hands-on: Node.js &amp; Java</a></li>
         <li><a href="#custom-fastmcp">10 · Custom MCP &amp; FastMCP</a></li>
         <li><a href="#patterns">11 · Enterprise integration patterns</a></li>
-        <li><a href="#scenario">12 · Realistic business scenario</a></li>
+        <li><a href="#scenario">12 · Simple scenario: pizza assistant 🍕</a></li>
         <li><a href="#real-scenarios">13 · Real-world scenarios: end-to-end</a></li>
         <li><a href="#security">14 · Security &amp; governance</a></li>
         <li><a href="#anti">15 · Anti-patterns</a></li>
@@ -529,6 +529,7 @@
           <figcaption>Figure 2 — The MCP SDK/framework landscape — Node.js, Python (FastMCP), Java / Spring AI and more.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
+        <div class="plain-line"><span class="lbl">In plain English 🧩</span><span>Just like you can charge a phone with <b>many brands of charger</b>, you can build an MCP server in <b>many languages</b> — Node.js, Python, Java — and they all still speak the same "USB" standard.</span></div>
         <div class="callout key">
           <span class="tag">Key takeaway</span>
           <p>
@@ -594,6 +595,7 @@
           <figcaption>Figure 3 — From annotation to running MCP server: the practical steps to expose a service over MCP.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
+        <div class="plain-line"><span class="lbl">In plain English 🧩</span><span>It's like <b>putting a sign on your shop door</b>: you already have the shop (your service), you just add a small label so AI assistants know it's open for business and how to ask.</span></div>
 
         <h3>The end-to-end chain</h3>
         <div class="diagram" role="img" aria-label="End-to-end MCP request chain from user to enterprise systems">
@@ -670,6 +672,7 @@ CAP / BTP / SAP / Non-SAP  ← domain rules, validation, authorization, data</pr
           <figcaption>Figure 4 — Ecosystem reference: how MCP, A2A, WebMCP and agent frameworks relate across the interoperability landscape.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
+        <div class="plain-line"><span class="lbl">In plain English 🧩</span><span>Think of a <b>city with different transport options</b> — bus, taxi, train. MCP, A2A and WebMCP are just <b>different ways for AIs and tools to get around</b>; you pick the right one for the trip.</span></div>
       </section>
 
       <!-- =================== 5. AGENT ARCHITECTURE =================== -->
@@ -1245,6 +1248,7 @@ npx @modelcontextprotocol/inspector
           <figcaption>Figure 7 — Beyond CAP: custom/composed MCP for cross-system and non-SAP scenarios that still honor CAP governance.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
+        <div class="plain-line"><span class="lbl">In plain English 🧩</span><span>Sometimes the assistant needs things from <b>outside your shop</b> too — like checking a partner's stock. You can wire those in, but they still have to <b>follow your shop's rules</b>.</span></div>
         <figure>
           <img src="../08-MCP-Fiori-Server.png" alt="SAP Fiori app consuming an MCP server exposed from CAP" loading="lazy" />
           <figcaption>Figure 9 — Fiori MCP Server: an SAP Fiori / UI5 front end acting as an MCP-aware host over governed CAP capabilities.</figcaption>
@@ -1323,34 +1327,120 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
           <figcaption>Figure 10 — Enterprise orchestration: agents and MCP composed with SAP Build and platform capabilities across SAP and non-SAP systems.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
+        <div class="plain-line"><span class="lbl">In plain English 🧩</span><span>This is the <b>whole restaurant chain</b>: many assistants and systems working together — but head office (SAP Build + your governance) still sets the rules everyone follows.</span></div>
       </section>
 
       <!-- =================== 10. SCENARIO =================== -->
       <section class="block" id="scenario">
-        <h2><span class="num">12</span> Realistic business scenario — Account &amp; Contract Intelligence assistant</h2>
+        <h2><span class="num">12</span> A simple, familiar scenario — an AI pizza-ordering assistant 🍕</h2>
         <p>
-          A SAP Sales Cloud / CRM extension on BTP helps account managers handle <strong>overdue receivable
-          exceptions and write-off requests</strong>. The assistant must be helpful <em>and</em> strictly governed.
+          Before the enterprise details, let's use something everyone understands: <b>ordering a pizza</b>.
+          Imagine a pizza shop adds an AI assistant so you can just chat — <i>"I'd like a large pepperoni delivered
+          to my home."</i> The assistant is friendly and smart, but the <b>shop's own system</b> must still decide
+          what's actually allowed: is the store open? do they deliver to your street? did the payment go through?
         </p>
+
+        <div class="callout info">
+          <span class="tag">The one big idea</span>
+          <p>
+            The AI can <b>take your order in plain English</b>, but it must <b>never invent prices, ignore the
+            delivery area, or mark an order paid on its own</b>. Those decisions belong to the shop's system —
+            exactly like an agent belongs on top of <b>CAP</b>, never in place of it.
+          </p>
+        </div>
+
+        <h3>What happens when you say "order me a pizza"</h3>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Step</th><th>Capability</th><th>Type</th><th>Governance</th></tr></thead>
+            <thead><tr><th>Step</th><th>Pizza shop (everyday words)</th><th>What it maps to in CAP</th><th>Type</th></tr></thead>
             <tbody>
-              <tr><td>1. Understand request</td><td>Agent + LLM reasoning</td><td>Non-deterministic</td><td>No business authority</td></tr>
-              <tr><td>2. Load account context</td><td><code>AccountIntelligenceService.query</code></td><td>Read</td><td><code>@requires: 'AccountAnalyst'</code></td></tr>
-              <tr><td>3. Evaluate entitlements</td><td><code>evaluateEntitlements()</code></td><td>Deterministic rule</td><td>CAP handler, auditable</td></tr>
-              <tr><td>4. Recommend action</td><td>Recommendation / SAP AI capability</td><td>Advisory</td><td>Explainable, cites rule output</td></tr>
-              <tr><td>5. Request write-off</td><td><code>requestWriteOffApproval()</code></td><td>Write</td><td><code>@requires:'AccountManager'</code> + <code>@agent.hitl</code></td></tr>
-              <tr><td>6. Record outcome</td><td>Audit log / workflow</td><td>Write</td><td>Immutable audit, identity propagated</td></tr>
+              <tr><td>1. Understand you</td><td>"They want a large pepperoni, delivery."</td><td>Agent + LLM reasoning</td><td>Just thinking — no authority</td></tr>
+              <tr><td>2. Check the menu</td><td>Look up the pizza and its real price</td><td><code>MenuService.read</code> (governed read)</td><td>Read</td></tr>
+              <tr><td>3. Can we deliver to you?</td><td>Is your address inside the delivery zone?</td><td><code>checkDeliveryArea()</code> — a fixed rule</td><td>Deterministic rule</td></tr>
+              <tr><td>4. Suggest &amp; confirm</td><td>"That's €14.90. Shall I place it?"</td><td>Advisory recommendation</td><td>Advisory (explainable)</td></tr>
+              <tr><td>5. Place &amp; pay</td><td>Charge the card and create the order</td><td><code>placeOrder()</code> — <code>@requires</code> + <code>@agent.hitl</code></td><td>Write (money!)</td></tr>
+              <tr><td>6. Give a receipt</td><td>Order #A1234, out for delivery</td><td>Immutable audit record</td><td>Write</td></tr>
             </tbody>
           </table>
         </div>
-        <div class="callout info">
-          <span class="tag">Read vs write</span>
+
+        <div class="callout key">
+          <span class="tag">Read vs write — the golden rule</span>
           <p>
-            Steps 2–4 are low-risk reads and advisory outputs. Step 5 is a <b>write with money attached</b> — it
-            carries a stronger role requirement <em>and</em> human-in-the-loop approval. The agent never decides
-            eligibility; CAP does, deterministically.
+            Steps 2–4 are <b>safe</b>: reading the menu and suggesting a pizza. Step 5 is the <b>dangerous</b> one —
+            it <b>takes real money</b>. So it needs a stronger permission <em>and</em> a final "yes, place it"
+            confirmation (human-in-the-loop). The AI proposes; <b>the shop's system decides and records</b>.
+          </p>
+        </div>
+
+        <div class="plain-line"><span class="lbl">In plain English 🧩</span><span>The AI is the <b>friendly person taking your order on the phone</b>. But the <b>kitchen and the cash register</b> (your CAP system) still control the menu, the prices, the delivery area, and the payment — no matter how the order came in.</span></div>
+
+        <h3>The same pizza shop as tiny CAP code</h3>
+        <p>Here is the whole idea in a few lines — a menu to read, a delivery-area rule, and a paid order that needs human confirmation.</p>
+        <div class="code"><span class="c">// db/schema.cds</span>
+<span class="k">namespace</span> pizza;
+<span class="k">using</span> { cuid, managed } <span class="k">from</span> <span class="s">'@sap/cds/common'</span>;
+
+<span class="k">entity</span> Pizzas : cuid { name : String; price : Decimal(5,2); }
+<span class="k">entity</span> Orders : cuid, managed { pizza : String; address : String; status : String; }</div>
+
+        <div class="code"><span class="c">// srv/pizza-service.cds — one service, exposed to AI via @mcp + @agent</span>
+<span class="k">using</span> pizza <span class="k">from</span> <span class="s">'../db/schema'</span>;
+
+<span class="a">@mcp</span> <span class="a">@agent</span>
+<span class="k">service</span> PizzaService {
+  <span class="k">entity</span> Pizzas <span class="k">as projection on</span> pizza.Pizzas;              <span class="c">// step 2: read the menu</span>
+
+  <span class="c">// step 3: fixed rule — can we deliver to this address?</span>
+  <span class="k">function</span> checkDeliveryArea(address: String) <span class="k">returns</span> { ok: Boolean; reason: String; };
+
+  <span class="c">// step 5: takes money → needs a human "yes" before it runs</span>
+  <span class="a">@requires</span>: <span class="s">'Customer'</span>
+  <span class="k">action</span> placeOrder(pizza: String, address: String) <span class="k">returns</span> { orderId: String; status: String; };
+}
+<span class="k">annotate</span> PizzaService.placeOrder <span class="k">with</span> <span class="a">@agent.hitl</span>;   <span class="c">// human-in-the-loop</span></div>
+
+        <div class="code"><span class="c">// srv/pizza-service.js — the shop's real decisions live here, not in the AI</span>
+<span class="k">const</span> cds = <span class="k">require</span>(<span class="s">'@sap/cds'</span>);
+<span class="k">const</span> ZONES = [<span class="s">'10115'</span>, <span class="s">'10117'</span>, <span class="s">'10119'</span>];   <span class="c">// postcodes we deliver to</span>
+
+<span class="k">module</span>.exports = <span class="k">class</span> PizzaService <span class="k">extends</span> cds.ApplicationService {
+  init() {
+    <span class="k">this</span>.on(<span class="s">'checkDeliveryArea'</span>, req =&gt; {
+      <span class="k">const</span> zip = (req.data.address.match(/\b\d{5}\b/) || [])[0];
+      <span class="k">return</span> ZONES.includes(zip)
+        ? { ok: <span class="k">true</span>,  reason: <span class="s">`We deliver to ${zip}`</span> }
+        : { ok: <span class="k">false</span>, reason: <span class="s">`Sorry, ${zip || 'that address'} is outside our area`</span> };
+    });
+
+    <span class="k">this</span>.on(<span class="s">'placeOrder'</span>, <span class="k">async</span> req =&gt; {
+      <span class="k">const</span> { pizza, address } = req.data;
+      <span class="k">const</span> area = <span class="k">await</span> <span class="k">this</span>.checkDeliveryArea(address);
+      <span class="k">if</span> (!area.ok) <span class="k">return</span> req.error(400, area.reason);   <span class="c">// rule wins, not the AI</span>
+      <span class="k">const</span> { ID } = <span class="k">await</span> INSERT.into(<span class="s">'pizza.Orders'</span>).entries({ pizza, address, status: <span class="s">'PAID'</span> });
+      <span class="k">return</span> { orderId: ID, status: <span class="s">'OUT_FOR_DELIVERY'</span> };
+    });
+
+    <span class="k">return</span> <span class="k">super</span>.init();
+  }
+};</div>
+        <div class="callout key">
+          <span class="tag">Same pattern, any domain</span>
+          <p>
+            Notice the shape: a <b>governed read</b> (menu), a <b>deterministic rule</b> (<code>checkDeliveryArea</code>),
+            and a <b>money write behind human approval</b> (<code>placeOrder</code> + <code>@agent.hitl</code>).
+            That's <em>exactly</em> the enterprise write-off flow in the next section — only the words change.
+          </p>
+        </div>
+
+        <div class="callout info">
+          <span class="tag">Now scale the same idea to the enterprise</span>
+          <p>
+            Swap "pizza shop" for a <b>SAP Sales Cloud / CRM extension on BTP</b> and the pattern is identical:
+            an assistant helps an account manager handle an <b>overdue balance write-off</b>. Reading the account
+            and checking entitlements are the "menu &amp; delivery-area" steps; approving the write-off is the
+            "place &amp; pay" step — a governed write with a stronger role and human approval. Same rules, higher stakes.
+            The next section shows that exact enterprise version running end-to-end, with real code and output.
           </p>
         </div>
       </section>
@@ -1364,6 +1454,100 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
           <b>request/response JSON</b>, and the <b>audit trail</b> CAP produces. Nothing is hand-waved — this is
           what actually flows across the wire.
         </p>
+
+        <!-- ---------- CAP NODE.JS IMPLEMENTATION ---------- -->
+        <h3>The CAP Node.js implementation behind these scenarios</h3>
+        <p>
+          Everything below runs on this one small CAP app. Three files — a data model, a service with
+          <code>@mcp</code>/<code>@agent</code>, and the business logic — produce all the responses in Scenarios A &amp; B.
+        </p>
+
+        <h4>1 · Data model — <code>db/schema.cds</code></h4>
+        <div class="code"><span class="k">namespace</span> crm;
+<span class="k">using</span> { managed, cuid } <span class="k">from</span> <span class="s">'@sap/cds/common'</span>;
+
+<span class="c">/** A customer account with receivable exposure. */</span>
+<span class="k">entity</span> Accounts : cuid, managed {
+  name    : String;
+  overdue : Decimal(15,2);
+  tier    : String <span class="k">enum</span> { bronze; silver; gold };
+}
+
+<span class="c">/** Immutable log of write-off approval requests. */</span>
+<span class="k">entity</span> ApprovalRequests : cuid, managed {
+  account : String;
+  amount  : Decimal(15,2);
+  status  : String <span class="k">enum</span> { PENDING; APPROVED; REJECTED } <span class="k">default</span> <span class="s">'PENDING'</span>;
+}</div>
+
+        <h4>2 · Service + MCP + Agent — <code>srv/account-service.cds</code></h4>
+        <div class="code"><span class="k">using</span> crm <span class="k">from</span> <span class="s">'../db/schema'</span>;
+
+<span class="a">@odata</span> <span class="a">@mcp</span> <span class="a">@agent</span>
+<span class="a">@requires</span>: <span class="s">'AccountAnalyst'</span>
+<span class="k">service</span> AccountIntelligenceService {
+  <span class="k">entity</span> Accounts <span class="k">as projection on</span> crm.Accounts;
+
+  <span class="c">/** Deterministic entitlement rule — decided by CAP, not the LLM. */</span>
+  <span class="k">function</span> evaluateEntitlements(account: Accounts:ID) <span class="k">returns</span> {
+    eligible: Boolean; maxWriteOff: Decimal(15,2); reason: String;
+  };
+
+  <span class="c">/** Controlled write — stronger role + human approval. */</span>
+  <span class="a">@requires</span>: <span class="s">'AccountManager'</span>
+  <span class="k">action</span> requestWriteOffApproval(account: Accounts:ID, amount: Decimal(15,2))
+    <span class="k">returns</span> { status: String; };
+}
+
+<span class="c">// require a human before the agent may run the write action</span>
+<span class="k">annotate</span> AccountIntelligenceService.requestWriteOffApproval <span class="k">with</span> <span class="a">@agent.hitl</span>;</div>
+
+        <h4>3 · Business logic — <code>srv/account-service.js</code></h4>
+        <div class="code"><span class="k">const</span> cds = <span class="k">require</span>(<span class="s">'@sap/cds'</span>);
+
+<span class="k">module</span>.exports = <span class="k">class</span> AccountIntelligenceService <span class="k">extends</span> cds.ApplicationService {
+  init() {
+    <span class="k">const</span> { Accounts, ApprovalRequests } = <span class="k">this</span>.entities;
+    <span class="k">const</span> CAP = { bronze: 0, silver: 500, gold: 5000 };
+
+    <span class="c">// ---- deterministic entitlement rule (Scenario A step 3 / Scenario B step 2)</span>
+    <span class="k">this</span>.on(<span class="s">'evaluateEntitlements'</span>, <span class="k">async</span> req =&gt; {
+      <span class="k">const</span> a = <span class="k">await</span> SELECT.one.from(Accounts).where({ ID: req.data.account });
+      <span class="k">if</span> (!a) <span class="k">return</span> req.error(404, <span class="s">'Account not found'</span>);
+      <span class="k">const</span> cap = CAP[a.tier] ?? 0;
+      <span class="k">return</span> {
+        eligible: cap &gt; 0 &amp;&amp; a.overdue &lt;= cap,
+        maxWriteOff: cap,
+        reason: <span class="s">`tier=${a.tier}, overdue=${a.overdue}, cap=${cap}`</span>
+      };
+    });
+
+    <span class="c">// ---- governed write with server-side guard + audit (Scenario A step 4 / B step 3)</span>
+    <span class="k">this</span>.on(<span class="s">'requestWriteOffApproval'</span>, <span class="k">async</span> req =&gt; {
+      <span class="k">const</span> { account, amount } = req.data;
+      <span class="k">if</span> (amount &lt;= 0) <span class="k">return</span> req.error(400, <span class="s">'Amount must be positive'</span>);
+
+      <span class="c">// re-check the rule on the server — never trust the agent's intent</span>
+      <span class="k">const</span> ent = <span class="k">await</span> <span class="k">this</span>.evaluateEntitlements(account);
+      <span class="k">if</span> (!ent.eligible || amount &gt; ent.maxWriteOff)
+        <span class="k">return</span> req.error(403, <span class="s">`Amount ${amount} exceeds cap ${ent.maxWriteOff}`</span>);
+
+      <span class="c">// create the immutable, identity-stamped approval record</span>
+      <span class="k">await</span> INSERT.into(ApprovalRequests).entries({ account, amount, status: <span class="s">'PENDING'</span> });
+      <span class="k">return</span> { status: <span class="s">'PENDING_APPROVAL'</span> };
+    });
+
+    <span class="k">return</span> <span class="k">super</span>.init();
+  }
+};</div>
+        <div class="callout key">
+          <span class="tag">Read the code, then the JSON</span>
+          <p>
+            The two <code>this.on(...)</code> handlers above are the <b>only</b> place decisions are made. Every JSON
+            response in Scenarios A &amp; B — the <code>eligible</code> flag, the <code>PENDING_APPROVAL</code> status,
+            the <code>403</code> over-cap error — comes straight out of this deterministic CAP logic, not the LLM.
+          </p>
+        </div>
 
         <!-- ---------- SCENARIO A ---------- -->
         <h3>Scenario A · Overdue write-off under human approval</h3>
