@@ -340,16 +340,17 @@
         <li><a href="#agent-arch">5 · Agent architecture</a></li>
         <li><a href="#btp-cap">6 · SAP BTP + CAP architecture</a></li>
         <li><a href="#cap-adapter">7 · CAP MCP Protocol Adapter</a></li>
-        <li><a href="#custom-fastmcp">8 · Custom MCP &amp; FastMCP</a></li>
-        <li><a href="#patterns">9 · Enterprise integration patterns</a></li>
-        <li><a href="#scenario">10 · Realistic business scenario</a></li>
-        <li><a href="#security">11 · Security &amp; governance</a></li>
-        <li><a href="#anti">12 · Anti-patterns</a></li>
-        <li><a href="#matrix">13 · Decision matrix</a></li>
-        <li><a href="#prod">14 · Production-readiness</a></li>
-        <li><a href="#architect">15 · Think like an architect</a></li>
-        <li><a href="#takeaways">16 · Key takeaways</a></li>
-        <li><a href="#refs">17 · References</a></li>
+        <li><a href="#cap-agents">8 · CAP Agents (@agent)</a></li>
+        <li><a href="#custom-fastmcp">9 · Custom MCP &amp; FastMCP</a></li>
+        <li><a href="#patterns">10 · Enterprise integration patterns</a></li>
+        <li><a href="#scenario">11 · Realistic business scenario</a></li>
+        <li><a href="#security">12 · Security &amp; governance</a></li>
+        <li><a href="#anti">13 · Anti-patterns</a></li>
+        <li><a href="#matrix">14 · Decision matrix</a></li>
+        <li><a href="#prod">15 · Production-readiness</a></li>
+        <li><a href="#architect">16 · Think like an architect</a></li>
+        <li><a href="#takeaways">17 · Key takeaways</a></li>
+        <li><a href="#refs">18 · References</a></li>
       </ol>
     </nav>
 
@@ -405,13 +406,13 @@
           contract between the reasoning layer and the capability layer.
         </p>
         <figure>
-          <img src="../1-MCP-New.png" alt="Model Context Protocol overview diagram" loading="lazy" />
-          <figcaption>MCP as the standardized bridge between AI agents and enterprise capabilities.</figcaption>
+          <img src="../01-MCP-Overview.png" alt="Model Context Protocol overview diagram" loading="lazy" />
+          <figcaption>Figure 1 — MCP as the standardized bridge between AI agents and enterprise capabilities.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
         <figure>
-          <img src="../2-MCP-SDKs.png" alt="MCP SDKs and framework landscape across languages" loading="lazy" />
-          <figcaption>The MCP SDK/framework landscape — Node.js, Python (FastMCP), Java / Spring AI and more.</figcaption>
+          <img src="../02-MCP-SDKs.png" alt="MCP SDKs and framework landscape across languages" loading="lazy" />
+          <figcaption>Figure 2 — The MCP SDK/framework landscape — Node.js, Python (FastMCP), Java / Spring AI and more.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
         <div class="callout key">
@@ -474,6 +475,11 @@
             </tbody>
           </table>
         </div>
+        <figure>
+          <img src="../03-MCP-Implementation-Steps.png" alt="Step-by-step MCP implementation flow for a CAP service" loading="lazy" />
+          <figcaption>Figure 3 — From annotation to running MCP server: the practical steps to expose a service over MCP.</figcaption>
+          <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
+        </figure>
 
         <h3>The end-to-end chain</h3>
         <div class="diagram" role="img" aria-label="End-to-end MCP request chain from user to enterprise systems">
@@ -545,6 +551,11 @@ CAP / BTP / SAP / Non-SAP  ← domain rules, validation, authorization, data</pr
           protocol core, multi-round-trip requests, cacheable discovery, and authorization hardening. Treat
           the protocol surface as a moving target and keep your stable contracts in APIs.
         </p>
+        <figure>
+          <img src="../04-MCP-Framework-Reference.png" alt="Reference map of the MCP, A2A and agent framework ecosystem" loading="lazy" />
+          <figcaption>Figure 4 — Ecosystem reference: how MCP, A2A, WebMCP and agent frameworks relate across the interoperability landscape.</figcaption>
+          <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
+        </figure>
       </section>
 
       <!-- =================== 5. AGENT ARCHITECTURE =================== -->
@@ -581,6 +592,11 @@ CAP / BTP / SAP / Non-SAP  ← domain rules, validation, authorization, data</pr
               │ Integration | SAP | Non-SAP    │   authorization + audit
               └────────────────────────────────┘</pre>
         </div>
+        <figure>
+          <img src="../05-MCP-Why.png" alt="Why the reasoning vs business-authority boundary matters" loading="lazy" />
+          <figcaption>Figure 5 — Why the split matters: reasoning stays in the agent; authorization, validation, and audit stay in the enterprise layer.</figcaption>
+          <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
+        </figure>
         <div class="callout info">
           <span class="tag">Where the reasoning happens</span>
           <p>
@@ -607,8 +623,8 @@ CAP / BTP / SAP / Non-SAP  ← domain rules, validation, authorization, data</pr
           <div class="card"><h3>Clean core &amp; lifecycle</h3><p>Side-by-side extensions keep S/4 clean; services version and evolve independently.</p></div>
         </div>
         <figure>
-          <img src="../4-MCP-CAP.png" alt="CAP acting as the governed capability layer exposed through MCP" loading="lazy" />
-          <figcaption>CAP owns the domain model, rules, and authorization; MCP is just another protocol on top — alongside OData, REST, and GraphQL.</figcaption>
+          <img src="../06-MCP-CAP.png" alt="CAP acting as the governed capability layer exposed through MCP" loading="lazy" />
+          <figcaption>Figure 6 — CAP owns the domain model, rules, and authorization; MCP is just another protocol on top — alongside OData, REST, and GraphQL.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
         <div class="callout key">
@@ -629,11 +645,6 @@ CAP / BTP / SAP / Non-SAP  ← domain rules, validation, authorization, data</pr
           Any CAP service can be turned into an MCP server by annotating it with <code>@mcp</code> — agents
           and LLM-powered tools can then interact with it without additional implementation work.
         </p>
-        <figure>
-          <img src="../2.1-MCP-ImplementationSteps-New.png" alt="Step-by-step MCP implementation flow for a CAP service" loading="lazy" />
-          <figcaption>From annotation to running MCP server: the practical implementation steps for a CAP service.</figcaption>
-          <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
-        </figure>
 
         <h3>Node.js</h3>
         <div class="code"><span class="c"># add the plugin</span>
@@ -716,20 +727,173 @@ npm add @cap-js/mcp
         </details>
 
         <div class="callout info">
-          <span class="tag">Companion plugin — cap-js/agents</span>
+          <span class="tag">From tools to autonomous agents</span>
           <p>
-            <span class="pill community">community / evolving</span> <code>@cap-js/agents</code> can mount an
-            A2A endpoint and even agentify a CAP service (<code>annotate CatalogService with @agent;</code>),
-            with Markdown-defined identity/skills and <code>@agent.hitl</code> for human-in-the-loop approval.
-            Treat this as an emerging capability, distinct from the MCP adapter, and validate against the
-            official repos before production use.
+            <code>@mcp</code> exposes a service so an <em>external</em> agent can use it as a tool. Its sibling
+            plugin <code>@cap-js/agents</code> goes one step further — it turns a CAP service into a running
+            <b>agent</b> with an A2A endpoint, again from a single annotation. That's the focus of the next section.
           </p>
         </div>
       </section>
 
-      <!-- =================== 8. CUSTOM / FASTMCP =================== -->
+      <!-- =================== 8. CAP AGENTS =================== -->
+      <section class="block" id="cap-agents">
+        <h2><span class="num">8</span> CAP Agents — one annotation, a running agent (<code>@agent</code>)</h2>
+        <p>
+          Where <code>@mcp</code> makes a service <em>callable by</em> an agent, <code>@cap-js/agents</code>
+          <span class="pill community">community / evolving</span> makes the service <em>be</em> an agent.
+          Annotate a CDS service with <code>@agent</code> and the plugin mounts an <b>A2A endpoint</b> for it —
+          lots of capability for one annotation, with no custom agent-loop code to build or maintain.
+        </p>
+
+        <figure>
+          <svg viewBox="0 0 760 340" xmlns="http://www.w3.org/2000/svg" role="img"
+               aria-label="One @agent annotation turns a CAP service into a governed A2A agent with three build modes"
+               font-family="'Segoe UI', Roboto, Arial, sans-serif">
+            <defs>
+              <linearGradient id="agHead" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#0a2540"/><stop offset="1" stop-color="#0a6ed1"/>
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="760" height="340" rx="14" fill="#f7fbff" stroke="#b9d2ee" stroke-dasharray="4 4"/>
+
+            <!-- Left: existing CAP service -->
+            <rect x="24" y="60" width="230" height="130" rx="12" fill="#ffffff" stroke="#cfe0f3"/>
+            <text x="139" y="48" text-anchor="middle" font-size="12" fill="#5e6b7a">Existing CAP service</text>
+            <text x="42" y="92" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#0a3a63">service CatalogService {</text>
+            <text x="58" y="116" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#33414f">entity Books …</text>
+            <text x="58" y="140" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#33414f">action submitOrder(…)</text>
+            <text x="42" y="164" font-size="13" font-family="ui-monospace, Menlo, monospace" fill="#0a3a63">}</text>
+
+            <!-- Arrow with @agent -->
+            <rect x="286" y="108" width="96" height="34" rx="17" fill="#eaf6ee" stroke="#bfe3cb"/>
+            <text x="334" y="130" text-anchor="middle" font-size="15" font-family="ui-monospace, Menlo, monospace" fill="#107e3e" font-weight="bold">@agent</text>
+            <text x="334" y="92" text-anchor="middle" font-size="11" fill="#5e6b7a">one line</text>
+            <text x="334" y="168" text-anchor="middle" font-size="26" fill="#4473a3">→</text>
+
+            <!-- Right: running A2A agent -->
+            <rect x="414" y="60" width="322" height="130" rx="12" fill="#eef8f1" stroke="#bfe3cb"/>
+            <text x="575" y="48" text-anchor="middle" font-size="12" fill="#5e6b7a">Running remote agent</text>
+            <rect x="430" y="78" width="120" height="26" rx="13" fill="url(#agHead)"/>
+            <text x="490" y="96" text-anchor="middle" font-size="12" fill="#eaf2ff" font-weight="bold">A2A endpoint</text>
+            <text x="430" y="128" font-size="12.5" fill="#33414f">• auto tools from entities &amp; actions</text>
+            <text x="430" y="150" font-size="12.5" fill="#33414f">• ReAct reasoning loop</text>
+            <text x="430" y="172" font-size="12.5" fill="#33414f">• governed by CAP authz &amp; validation</text>
+
+            <!-- Three build modes -->
+            <text x="380" y="222" text-anchor="middle" font-size="12.5" fill="#5e6b7a">Three ways to define behaviour — same <tspan font-family="ui-monospace, Menlo, monospace" fill="#107e3e">@agent</tspan> starting point</text>
+            <rect x="24" y="238" width="228" height="82" rx="10" fill="#ffffff" stroke="#cfe0f3"/>
+            <text x="40" y="262" font-size="13" fill="#0a3a63" font-weight="bold">1 · Agentify</text>
+            <text x="40" y="284" font-size="12" fill="#33414f">Auto tools + ReAct loop</text>
+            <text x="40" y="302" font-size="12" fill="#33414f">from @agent alone — no code</text>
+
+            <rect x="266" y="238" width="228" height="82" rx="10" fill="#ffffff" stroke="#cfe0f3"/>
+            <text x="282" y="262" font-size="13" fill="#0a3a63" font-weight="bold">2 · Markdown-based</text>
+            <text x="282" y="284" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#33414f">AGENTS.md + skills/</text>
+            <text x="282" y="302" font-size="12" fill="#33414f">identity, behaviour, skills</text>
+
+            <rect x="508" y="238" width="228" height="82" rx="10" fill="#fff4e6" stroke="#f2d3a8"/>
+            <text x="524" y="262" font-size="13" fill="#b95c00" font-weight="bold">3 · Human-in-the-loop</text>
+            <text x="524" y="284" font-size="12" font-family="ui-monospace, Menlo, monospace" fill="#33414f">@agent.hitl</text>
+            <text x="524" y="302" font-size="12" fill="#33414f">approval before write actions</text>
+          </svg>
+          <figcaption>Figure 8 — CAP Agents: one <code>@agent</code> annotation turns an existing CAP service into a governed, A2A-exposed agent — with three ways to define behaviour.</figcaption>
+          <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
+        </figure>
+
+        <div class="code"><span class="c"># add the plugin</span>
+npm add @cap-js/agents
+
+<span class="c"># that's the whole wiring — @cap-js/agents mounts an A2A endpoint for the service</span>
+<span class="k">annotate</span> CatalogService <span class="k">with</span> <span class="a">@agent</span>;</div>
+
+        <h3>Three ways to build agents</h3>
+        <p>
+          All approaches start from a CDS service annotated with <code>@agent</code>. They differ only in
+          <em>how the agent's behaviour is defined</em>. (Current capabilities — more may arrive as the plugin evolves.)
+        </p>
+
+        <h4>1 · Agentify existing CAP services</h4>
+        <p>
+          With <code>@agent</code> alone, the plugin auto-generates tools from the service's entities and
+          actions, creates a <b>ReAct</b> agent loop, and serves it as a remote agent — no code required.
+        </p>
+        <div class="code"><span class="a">@agent</span>
+<span class="k">service</span> CatalogService {
+  <span class="k">entity</span> Books <span class="k">as projection on</span> my.Books;
+  <span class="k">action</span> submitOrder(book: Books:ID, quantity: Integer) <span class="k">returns</span> { stock: Integer };
+}</div>
+
+        <h4>2 · Markdown-based agents</h4>
+        <p>
+          To define an agent's identity, behaviour, and skills explicitly, add a sibling directory matching the
+          slugified service name. When present, it replaces the default agentification: instead of the
+          auto-generated ReAct agent, the plugin auto-builds the agent from the directory at startup — no
+          JavaScript handler required.
+        </p>
+        <div class="code">srv/
+├─ cat-service.cds
+└─ catalog-agent/                <span class="c">← matches the slugified service name</span>
+   ├─ AGENTS.md                  <span class="c">← agent identity + behaviour</span>
+   └─ skills/
+      └─ book-purchase/
+         └─ SKILL.md             <span class="c">← workflow + examples</span></div>
+        <p>
+          <code>AGENTS.md</code> defines <em>who the agent is</em>. The frontmatter populates the agent card;
+          the body becomes the agent's system prompt.
+        </p>
+        <div class="code"><span class="c">---</span>
+<span class="a">name</span>: catalog-agent
+<span class="a">version</span>: <span class="s">"1.0.0"</span>
+<span class="a">description</span>: &gt;
+  Bookshop assistant for placing book orders on behalf of the user.
+<span class="c">---</span>
+
+<span class="c"># Catalog Agent</span>
+
+<span class="c">## Identity</span>
+You are the <span class="s">**Catalog Agent**</span>, a helpful assistant for the capire bookshop.
+…</div>
+
+        <h4>3 · Human-in-the-loop (<code>@agent.hitl</code>)</h4>
+        <p>
+          Annotate a CDS action with <code>@agent.hitl</code> to require human approval before the agent may
+          execute it. When the agent decides to call the action, the task pauses and transitions to the A2A
+          <code>input-required</code> state instead of running immediately.
+        </p>
+        <div class="code"><span class="c">// srv/cat-service.cds</span>
+<span class="k">annotate</span> CatalogService.submitOrder <span class="k">with</span> <span class="a">@agent.hitl</span>;</div>
+
+        <div class="callout key">
+          <span class="tag">Why this matters</span>
+          <p>
+            No custom code, no custom MCP adapter, no hand-built agent loop. You can turn an <em>existing</em>
+            CAP project into both an <b>MCP server</b> (<code>@mcp</code>) and a governed <b>agent</b>
+            (<code>@agent</code>) with single annotations — keeping business logic, validation, and
+            authorization in CAP while reducing code to build, maintain, and secure. That's the SAP CAP goal:
+            capabilities out of the box, lower TCO.
+          </p>
+        </div>
+        <div class="callout warn">
+          <span class="tag">Status &amp; boundary</span>
+          <p>
+            <code>@cap-js/agents</code> is a community, <b>evolving</b> plugin — not a GA SAP product feature.
+            Validate against the official repo before production, and remember: <code>@agent</code> exposes an
+            interaction surface, while <b>authorization and business rules still live in CAP</b>.
+            Use <code>@agent.hitl</code> for any high-impact write.
+          </p>
+        </div>
+        <p class="links" style="font-size:14px">
+          Reference:
+          <a href="https://github.com/cap-js/agents" target="_blank" rel="noreferrer">github.com/cap-js/agents</a> ·
+          <a href="https://www.npmjs.com/package/@cap-js/agents" target="_blank" rel="noreferrer">npm @cap-js/agents</a>
+          (includes a sample working project).
+        </p>
+      </section>
+
+      <!-- =================== 9. CUSTOM / FASTMCP =================== -->
       <section class="block" id="custom-fastmcp">
-        <h2><span class="num">8</span> Custom MCP servers &amp; FastMCP — when they are the right tool</h2>
+        <h2><span class="num">9</span> Custom MCP servers &amp; FastMCP — when they are the right tool</h2>
         <p>
           For CAP applications, the <strong>default should be the native CAP MCP adapter</strong> — it covers
           the large majority of standard scenarios without a separate custom layer. But custom MCP servers
@@ -761,15 +925,20 @@ npm add @cap-js/mcp
           </p>
         </div>
         <figure>
-          <img src="../6-MCP-SAP-Build.png" alt="MCP in the context of SAP Build and the wider SAP platform" loading="lazy" />
-          <figcaption>Where custom MCP fits alongside SAP Build and platform capabilities — compose with, don't bypass, governed services.</figcaption>
+          <img src="../07-MCP-Beyond-CAP.png" alt="MCP scenarios that extend beyond a single CAP service" loading="lazy" />
+          <figcaption>Figure 7 — Beyond CAP: custom/composed MCP for cross-system and non-SAP scenarios that still honor CAP governance.</figcaption>
+          <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
+        </figure>
+        <figure>
+          <img src="../08-MCP-Fiori-Server.png" alt="SAP Fiori app consuming an MCP server exposed from CAP" loading="lazy" />
+          <figcaption>Figure 9 — Fiori MCP Server: an SAP Fiori / UI5 front end acting as an MCP-aware host over governed CAP capabilities.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
       </section>
 
       <!-- =================== 9. PATTERNS =================== -->
       <section class="block" id="patterns">
-        <h2><span class="num">9</span> Enterprise integration patterns</h2>
+        <h2><span class="num">10</span> Enterprise integration patterns</h2>
 
         <h3>Pattern 1 — CAP service exposed through MCP</h3>
         <p><b>Architecture:</b> annotate an existing CAP service with <code>@mcp</code>; agents consume generated tools.</p>
@@ -833,15 +1002,15 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
           </p>
         </div>
         <figure>
-          <img src="../5-MCP-Beyond-CAP.png" alt="Agent orchestrating CAP capabilities beyond a single service" loading="lazy" />
-          <figcaption>Beyond a single service: agents orchestrate governed CAP capabilities across an enterprise landscape.</figcaption>
+          <img src="../09-MCP-SAP-Build.png" alt="MCP and agents orchestrated with SAP Build and the wider SAP platform" loading="lazy" />
+          <figcaption>Figure 10 — Enterprise orchestration: agents and MCP composed with SAP Build and platform capabilities across SAP and non-SAP systems.</figcaption>
           <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
         </figure>
       </section>
 
       <!-- =================== 10. SCENARIO =================== -->
       <section class="block" id="scenario">
-        <h2><span class="num">10</span> Realistic business scenario — Account &amp; Contract Intelligence assistant</h2>
+        <h2><span class="num">11</span> Realistic business scenario — Account &amp; Contract Intelligence assistant</h2>
         <p>
           A SAP Sales Cloud / CRM extension on BTP helps account managers handle <strong>overdue receivable
           exceptions and write-off requests</strong>. The assistant must be helpful <em>and</em> strictly governed.
@@ -871,7 +1040,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 11. SECURITY =================== -->
       <section class="block" id="security">
-        <h2><span class="num">11</span> Security &amp; governance — the heart of the architecture</h2>
+        <h2><span class="num">12</span> Security &amp; governance — the heart of the architecture</h2>
         <div class="callout danger">
           <span class="tag">Principle</span>
           <p>
@@ -914,11 +1083,6 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
             </ul>
           </div>
         </div>
-        <figure>
-          <img src="../3.1-MCP-Why.png" alt="Security boundaries and governance around MCP-exposed capabilities" loading="lazy" />
-          <figcaption>Governance is not a layer you add later — authorization, validation, and audit are part of the capability itself.</figcaption>
-          <div class="credit"><img src="../MyLinkedIn-Post-Profile.png" alt="" loading="lazy" /><span>by <b>Showkath Naseem</b> · MCP + Agents Engineering</span></div>
-        </figure>
         <div class="callout key">
           <span class="tag">Write &gt; read</span>
           <p>
@@ -930,7 +1094,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 12. ANTI-PATTERNS =================== -->
       <section class="block" id="anti">
-        <h2><span class="num">12</span> MCP &amp; agentic architecture anti-patterns</h2>
+        <h2><span class="num">13</span> MCP &amp; agentic architecture anti-patterns</h2>
         <div class="anti">
           <div class="item"><h4><span class="x">✕</span> 1. Logic in the prompt</h4><p>Encoding eligibility/pricing/approval rules in prompt text.</p><div class="fix"><b>Fix:</b> put rules in CAP functions/handlers — deterministic &amp; auditable.</div></div>
           <div class="item"><h4><span class="x">✕</span> 2. Agent → database directly</h4><p>Pointing an agent at tables or the persistence layer.</p><div class="fix"><b>Fix:</b> go through CAP services that enforce validation &amp; authorization.</div></div>
@@ -947,7 +1111,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 13. DECISION MATRIX =================== -->
       <section class="block" id="matrix">
-        <h2><span class="num">13</span> Architecture decision matrix</h2>
+        <h2><span class="num">14</span> Architecture decision matrix</h2>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Approach</th><th>Best fit</th><th>Advantages</th><th>Trade-offs</th></tr></thead>
@@ -997,7 +1161,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 14. PRODUCTION =================== -->
       <section class="block" id="prod">
-        <h2><span class="num">14</span> Production-readiness checklist</h2>
+        <h2><span class="num">15</span> Production-readiness checklist</h2>
         <ul class="check">
           <li>Business capability, owner, and authorization model defined <em>before</em> building the agent.</li>
           <li>Authentication (XSUAA/IAS) and <b>identity propagation</b> verified end-to-end.</li>
@@ -1016,7 +1180,7 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 15. THINK LIKE AN ARCHITECT =================== -->
       <section class="block" id="architect">
-        <h2><span class="num">15</span> Think like an architect — questions before protocol</h2>
+        <h2><span class="num">16</span> Think like an architect — questions before protocol</h2>
         <p>Ask these <em>before</em> writing a single MCP tool. Architecture comes before protocol implementation.</p>
         <div class="qgrid">
           <div class="q">What business capability are we exposing?<span>Not “what tool”, but “what governed function”.</span></div>
@@ -1036,17 +1200,17 @@ Audit / Human Approval                ← @agent.hitl + audit log</pre>
 
       <!-- =================== 16. TAKEAWAYS =================== -->
       <section class="block" id="takeaways">
-        <h2><span class="num">16</span> Key takeaways</h2>
+        <h2><span class="num">17</span> Key takeaways</h2>
         <div class="callout key"><span class="tag">1</span><p>MCP is an <b>interoperability/tool-access protocol</b>, not an agent and not intelligence. The agent reasons; CAP/BTP governs.</p></div>
         <div class="callout key"><span class="tag">2</span><p><b>MCP does not replace APIs.</b> APIs stay as stable system contracts; MCP is the AI access layer over governed capabilities.</p></div>
-        <div class="callout key"><span class="tag">3</span><p>In CAP projects, <b>default to the CAP MCP adapter</b> (<code>@mcp</code>). Use custom/FastMCP by exception, and compose with CAP — never bypass it.</p></div>
+        <div class="callout key"><span class="tag">3</span><p>In CAP projects, <b>default to the CAP MCP adapter</b> (<code>@mcp</code>), and turn services into governed agents with <code>@agent</code> (<code>@cap-js/agents</code>). Use custom/FastMCP by exception, and compose with CAP — never bypass it.</p></div>
         <div class="callout key"><span class="tag">4</span><p><b>Tool availability ≠ authorization.</b> Exposing a capability to an agent is a governance decision; writes need stronger controls than reads.</p></div>
         <div class="callout key"><span class="tag">5</span><p>Keep <b>deterministic decisions in business rules</b>; let the LLM explain and orchestrate, not decide eligibility or manipulate data directly.</p></div>
       </section>
 
       <!-- =================== 17. REFERENCES =================== -->
       <section class="block links" id="refs">
-        <h2><span class="num">17</span> References &amp; further reading</h2>
+        <h2><span class="num">18</span> References &amp; further reading</h2>
         <h4>Official SAP</h4>
         <ul class="ref-list">
           <li><a href="https://cap.cloud.sap" target="_blank" rel="noreferrer">SAP Cloud Application Programming Model (CAP)</a><span class="src">official</span></li>
