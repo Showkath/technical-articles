@@ -235,7 +235,17 @@
     }
     .hero-author .who { line-height: 1.35; }
     .hero-author .who b { color: #fff; font-size: 15px; display: block; }
-    .hero-author .who span { color: #bfd7f5; font-size: 12.5px; }
+    .hero-author .who span { color: #bfd7f5; font-size: 12.5px; display: block; }
+    .hero-author .who .links {
+      margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px 16px;
+    }
+    .hero-author .who .links a {
+      color: #eaf2ff; font-size: 12.5px; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 5px;
+      border-bottom: 1px dotted rgba(255,255,255,.4);
+    }
+    .hero-author .who .links a:hover { color: #fff; border-bottom-color: #fff; }
+    .hero-author .who .links a .li-icon { flex: none; color: #0a66c2; background: #fff; border-radius: 3px; padding: 1px; }
 
     .grid {
       margin-top: 8px;
@@ -441,7 +451,12 @@
           <img src="../Showkath Final Photo SAP Linkedin .png" alt="Showkath — author portrait" loading="lazy" />
           <div class="who">
             <b>Showkath Naseem</b>
-            <span>SAP Principal Architect (BAIP/BTP) · AI Engineer</span>
+            <span>SAP Principal Architect (SAP BAIP/BTP) · AI Engineer · 12+ yrs @ SAP · AI, GenAI, BTP, Cloud, Integration</span>
+            <div class="links">
+              <a href="https://profile.sap.com/u/showkath_naseem" target="_blank" rel="noopener noreferrer">👤 SAP Community</a>
+              <a href="https://www.linkedin.com/in/showkath/" target="_blank" rel="noopener noreferrer"><svg class="li-icon" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.049c.476-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM7.114 20.452H3.558V9h3.556v11.452z"/></svg> LinkedIn</a>
+              <a href="https://showkath.github.io/technical-articles" target="_blank" rel="noopener noreferrer">📚 Technical Articles</a>
+            </div>
           </div>
         </div>
       </header>
@@ -764,6 +779,76 @@ CAP / BTP / SAP / Non-SAP  ← domain rules, validation, authorization, data</pr
           Any CAP service can be turned into an MCP server by annotating it with <code>@mcp</code> — agents
           and LLM-powered tools can then interact with it without additional implementation work.
         </p>
+
+        <h3>CAP: one model, many protocols</h3>
+        <p>
+          One CAP principle I find especially powerful:
+        </p>
+        <div class="plain-line"><span class="lbl">CAP principle 💡</span><span>
+          <b>Model once. Annotate what you need. Let CAP handle the plumbing.</b>
+          — see the <a href="https://cap.cloud.sap/docs/cds/annotations" target="_blank" rel="noopener noreferrer">CDS annotations reference</a>.
+        </span></div>
+        <p>
+          CAP is <strong>model-driven + metadata/annotation-driven + generic runtime</strong>: you define your
+          domain and service model once, and CAP provides many capabilities around that same model — without
+          re-implementing anything per protocol. For example:
+        </p>
+        <div class="code"><span class="k">service</span> SalesService {
+  <span class="k">entity</span> Orders {
+    <span class="k">key</span> ID     : UUID;
+    status : String;
+    total  : Decimal;
+  }
+}</div>
+        <p>Then protocol exposure is configured <em>declaratively</em>, on top of the same model:</p>
+        <div class="code"><span class="k">annotate</span> SalesService <span class="k">with</span> <span class="a">@odata</span>;
+<span class="k">annotate</span> SalesService <span class="k">with</span> <span class="a">@rest</span>;
+<span class="k">annotate</span> SalesService <span class="k">with</span> <span class="a">@graphql</span>;
+<span class="k">annotate</span> SalesService <span class="k">with</span> <span class="a">@mcp</span>;</div>
+        <p>
+          With capabilities such as <code>@odata</code>, <code>@rest</code>, <code>@graphql</code> and now
+          <code>@mcp</code>, CAP continues to bring more protocol coverage out of the box with minimal
+          implementation effort:
+        </p>
+        <div class="diagram" role="img" aria-label="CAP one model exposed through OData, REST, GraphQL and MCP protocols">
+<pre>                CDS
+      Domain + Service Model
+                │
+     ┌──────────┼──────────┐
+     ▼          ▼          ▼
+   OData       REST      GraphQL
+   @odata      @rest     @graphql
+     │          │          │
+     └──────────┼──────────┘
+                ▼
+              MCP
+              @mcp
+                ▼
+           AI Agents</pre>
+        </div>
+        <p>CAP supports the following service protocols out of the box:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Protocol</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td>Core Data APIs</td><td>Programmatic access to your data models, independent of the exposure protocol.</td></tr>
+              <tr><td>OData (v2 / v4)</td><td>Widely used protocol for building and consuming RESTful APIs; built-in CAP support.</td></tr>
+              <tr><td>OpenAPI</td><td>Generated API specification for your services — endpoints, request/response shapes, auth methods.</td></tr>
+              <tr><td>AsyncAPI</td><td>Specification for event-driven / messaging-based APIs, for integrating with async systems.</td></tr>
+              <tr><td>MCP</td><td>Open protocol for LLM applications to discover and call tools over your services — see below.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout info">
+          <span class="tag">Why this matters for MCP</span>
+          <p>
+            <strong>MCP</strong> (Model Context Protocol) is an open protocol that enables seamless integration
+            between LLM applications and external data sources and tools. Because CAP already treats protocol
+            exposure as an annotation on a shared model, adding <code>@mcp</code> is not a new integration —
+            it's the same pattern you already use for <code>@odata</code>/<code>@rest</code>/<code>@graphql</code>.
+            <b>Don't reinvent the protocol. Let CAP do the plumbing. Focus on the capability.</b>
+          </p>
+        </div>
 
         <h3>Node.js</h3>
         <div class="code"><span class="c"># add the plugin</span>
