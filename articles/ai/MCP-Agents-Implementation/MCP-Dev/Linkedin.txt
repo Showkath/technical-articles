@@ -1,0 +1,17 @@
+Engineering MCP & AI Agents with SAP BTP and CAP
+
+Following up on my previous post, “MCP: Beyond APIs — Building the Capability Layer for AI.”
+https://www.linkedin.com/feed/update/urn:li:activity:7494110774186053632/
+
+This time, I’m going beyond the theory and one level deeper to focus on how to actually engineer MCP and AI-agent solutions with SAP BTP and CAP.
+
+As you all know, CAP provides a lot of capabilities out of the box, allowing developers to focus on business capabilities rather than reinventing the underlying plumbing.
+
+With the evolving @mcp and agent capabilities, CAP continues to make AI integration simpler through a model- and annotation-driven approach.
+
+My article covers practical implementation, architecture, CAP’s native MCP capabilities, custom MCP scenarios, and considerations for moving from code to production.
+
+📖 Read the article:
+https://showkath.github.io/technical-articles/articles/ai/MCP-Agents-Implementation/MCP-Dev/BTP-CAP-MCP-and-Agents-Engineering.html
+
+Don’t reinvent the protocol. Focus on the business capability.

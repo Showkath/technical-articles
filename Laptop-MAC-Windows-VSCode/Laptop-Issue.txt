@@ -1,0 +1,155 @@
+AI Is Increasing the Velocity of Engineering — But Can the Ecosystem Keep Up?
+
+AI is increasing the velocity of engineering.
+
+We can now generate and explore ideas, concepts, code, patches and implementations much faster.
+
+That's a huge opportunity.
+
+But increased velocity also makes quality, architectural alignment and organizational priorities even more important.
+
+Not every idea needs to become another application, service or infrastructure component. Ideas and implementations still need to align with company strategy, organizational goals, architecture principles, security requirements and available resources.
+
+Otherwise, the bottleneck simply moves downstream:
+
+Ideas → Development → Git → CI/CD → Security → Review → Architecture → Infrastructure → Operations → Monitoring
+
+Every stage — including the teams and resources supporting those stages — can potentially become overloaded.
+
+I recently heard a team describe an “unprecedented increase in received IDFs” this year.
+
+That made me think that the challenge isn't necessarily the number of ideas.
+
+The real challenge is:
+
+How do we maintain quality, focus and alignment when our ability to create increases so dramatically?
+
+And this brings me to a rather simple example from my own experience over the last couple of days.
+
+My developer laptop became the system I had to troubleshoot. 🙂
+
+As developers and architects, we regularly troubleshoot performance problems in applications, services and infrastructure.
+
+This time, the system was my own workstation.
+
+Instead of immediately assuming that I needed higher-end hardware, I followed the same approach I would use for a production system:
+
+Measure → Understand → Identify the right culprit → Optimize → Measure again → Scale when necessary
+
+Initially, I found VS Code processes consuming extremely high CPU. After investigation and some configuration changes, that particular load dropped significantly.
+
+But that wasn't the whole story.
+
+Further investigation pointed to filesystem activity, OneDrive synchronization, File Provider processes and macOS background services as additional contributors.
+
+The interesting part was that the right culprit wasn't necessarily the first culprit I found.
+
+And I think there is a broader lesson here.
+
+Whether we are troubleshooting a laptop, application, service, platform or enterprise infrastructure, the principle is similar:
+
+Don't just react to the symptom. Find the right source of the load.
+
+Optimize and scale — we need both.
+
+If the workload genuinely requires more CPU, memory, infrastructure or capacity, scale it.
+
+But when resources are constrained, or before making a significant investment, it is worth understanding whether there are unnecessary workloads, configuration issues, duplicated activities or background processes contributing to the problem.
+
+In my case, spending time investigating the workstation made a noticeable difference.
+
+I'm sharing the complete troubleshooting journey, measurements, fixes, VS Code configuration, filesystem/OneDrive observations, useful commands and developer-workstation best practices separately.
+
+Hopefully it helps someone facing a similar problem — particularly when an immediate high-end laptop upgrade isn't possible because of budget or infrastructure constraints.
+
+Sometimes the answer is to scale.
+Sometimes the answer is to optimize.
+And sometimes, the most important step is simply finding the right culprit first.
+
+#AI #ArtificialIntelligence #DeveloperProductivity #DeveloperExperience #SoftwareEngineering #SoftwareArchitecture #EngineeringLeadership #DevOps #CloudComputing #AIAssistedDevelopment #Technology #Scalability #ContinuousImprovement #EngineeringProductivity
+
+############################################################################################################################################################################################
+############################################################################################################################################################################################
+############################################################################################################################################################################################
+
+AI Is Increasing the Velocity of Engineering — But Can the Ecosystem Keep Up?
+
+AI is increasing the velocity of engineering.
+
+We can now generate and explore ideas, concepts, code, patches and implementations much faster.
+
+That's a huge opportunity.
+
+But increased velocity also makes quality, architectural alignment and organizational priorities even more important.
+
+Not every idea needs to become another application, service or infrastructure component. Ideas and implementations still need to align with company strategy, organizational goals, architecture principles, security requirements and available resources.
+
+Otherwise, the bottleneck simply moves downstream:
+
+Ideas → Development → Git → CI/CD → Security → Review → Architecture → Infrastructure → Operations → Monitoring
+
+Every stage — including the teams and resources supporting those stages — can potentially become overloaded.
+
+I recently heard a team describe an “unprecedented increase in received IDFs” this year.
+
+That made me think that the challenge isn't necessarily the number of ideas.
+
+The real challenge is:
+
+How do we maintain quality, focus and alignment when our ability to create increases so dramatically?
+
+And this brings me to a rather simple example from my own experience over the last couple of days.
+
+My developer laptop became the system I had to troubleshoot. 🙂
+
+As developers and architects, we regularly troubleshoot performance issues in applications, services and infrastructure.
+
+This time, the system was my own workstation.
+
+Instead of immediately assuming that I needed higher-end hardware, I followed the same approach I would use for any technical system:
+
+Measure → Understand → Identify the right culprit → Optimize → Measure again → Scale when necessary
+
+Initially, I found multiple VS Code processes consuming around 97% CPU each.
+
+After investigation and some targeted changes, that particular CPU usage dropped to around 0.3%.
+
+But that wasn't the whole story.
+
+Further investigation showed significant activity from OneDrive, File Provider processes, fileproviderd and macOS background services.
+
+The interesting part was that the first symptom wasn't necessarily the complete root cause.
+
+And that's where I see the connection to the bigger engineering challenge.
+
+Whether we are troubleshooting a developer workstation, application, service, platform or enterprise infrastructure, the principle is similar:
+
+Don't just react to the symptom. Find the right source of the load.
+
+Scale when needed. Optimize where possible.
+
+If the workload genuinely requires more CPU, memory, infrastructure, people or capacity, we should scale.
+
+But before adding more resources, it is worth understanding whether configuration issues, unnecessary workloads, duplicated activities, process inefficiencies or other bottlenecks are contributing to the problem.
+
+The same thinking can apply to the broader engineering ecosystem as AI accelerates our ability to create.
+
+More ideas and more velocity are valuable — but quality, alignment, capacity and sustainable execution matter just as much.
+
+Sometimes the answer is to scale.
+
+Sometimes the answer is to optimize.
+
+And sometimes, the most important step is simply finding the right culprit first.
+
+I’m sharing the complete troubleshooting journey, measurements, fixes, VS Code configuration, filesystem/OneDrive observations, useful commands and developer-workstation best practices in a detailed document.
+
+Hopefully it helps someone facing a similar performance issue — particularly when an immediate high-end hardware upgrade isn't possible because of budget or infrastructure constraints.
+
+A special thanks to [Name] for the ongoing efforts around patent awareness, working with patent buddies/champions, and encouraging meaningful innovation. Your perspective on focusing on quality and meaningful opportunities was one of the things that made me think more deeply about this topic. (I’ll include this only with your permission.)
+
+The bigger lesson for me:
+
+As AI increases our ability to create, we also need to make sure the ecosystem around us can absorb that velocity — without losing quality, focus and alignment.
+
+#AI #ArtificialIntelligence #DeveloperProductivity #DeveloperExperience #SoftwareEngineering #SoftwareArchitecture #EngineeringLeadership #DevOps #CloudComputing #AIAssistedDevelopment #Technology #Scalability #Innovation #ContinuousImprovement #EngineeringProductivity
