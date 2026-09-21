@@ -1,0 +1,52 @@
+disable OneDrive sync temporarily and run from the original location
+
+1. Quit Teams completely
+
+Since Teams is your largest individual process:
+
+osascript -e 'quit app "Microsoft Teams"'
+
+Wait 10–20 seconds, then check:
+
+memory_pressure
+
+If Teams doesn't quit:
+
+pkill -f "Microsoft Teams"
+
+I'd use the first command first.
+
+
+
+2. Reduce Chrome
+
+You have a lot of Chrome renderer processes.
+
+First check how many:
+
+pgrep -fl "Google Chrome"
+
+If you're finished with Chrome temporarily, you can close it completely:
+
+osascript -e 'quit app "Google Chrome"'
+
+Then check:
+
+memory_pressure
+
+
+
+
+3. OneDrive is also significant
+
+You're using about 770 MB for OneDrive.
+
+If you don't need OneDrive syncing right now:
+
+osascript -e 'quit app "OneDrive"'
+
+Then:
+
+memory_pressure
+
+You can restart OneDrive later normally from Applications.

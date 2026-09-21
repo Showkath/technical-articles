@@ -8,7 +8,7 @@
 #   SAP BTP / Cloud Foundry / CAP / Node.js / UI5 / MTA development.
 #
 # IMPORTANT:
-#   - Review this script before running it (Don't run it blindly yet. In particular, check the Java/JDK section against the JDK version your current CAP/BTP projects require. Also compare your old CF CLI plugins, Node version, npm global packages, and VS Code extensions before installing everything.)
+#   - Review this script before running it.
 #   - It intentionally does NOT copy credentials, SSH private keys, tokens,
 #     certificates, or CF login sessions from the old Mac.
 #   - Some corporate applications (VPN, security agents, endpoint tools)

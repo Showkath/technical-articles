@@ -2,7 +2,7 @@
 #Run a script to inventory a Mac for migration to another Mac. The script will create a text file with the inventory information.
 # Inventory — what is installed/configured on the old Mac.
 # Migration checklist — what needs to be installed/configured on the new Mac.
-# chmod +x mac-migration-inventory.sh
+#chmod +x mac-migration-inventory.sh
 #./mac-migration-inventory.sh
 # It will create: ~/Desktop/Mac-Migration-Inventory.txt
 # open ~/Desktop/Mac-Migration-Inventory.txt

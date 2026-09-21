@@ -1,0 +1,174 @@
+
+Launch VS Code from Applications
+
+Terminal : Run only 
+
+open "/Applications/Visual Studio Code.app"
+
+Open vs code 
+
+
+Check running processes 
+ps aux | grep "Code Helper (Plugin)"
+
+
+
+First, completely quit VS Code:
+
+osascript -e 'quit app "Visual Studio Code"'
+
+Then remove the quarantine attribute from the application:
+
+xattr -dr com.apple.quarantine "/Applications/Visual Studio Code.app"
+
+
+You can verify it with:
+
+xattr "/Applications/Visual Studio Code.app"
+
+If there is no output, that's fine.
+
+Then launch it again:
+
+open -a "Visual Studio Code"
+---------------
+
+
+Step 1 — Quit VS Code completely
+
+Run:
+
+osascript -e 'quit app "Visual Studio Code"'
+
+Then verify no VS Code process remains:
+
+pgrep -fl "Visual Studio Code"
+
+If you get output, paste it here. If nothing is returned, that's what we want.
+
+Step 2 — Check the Applications copy
+
+Run:
+
+ls -ld "/Applications/Visual Studio Code.app"
+
+You already confirmed this exists, so no need to move it again.
+
+
+Developer: Open Process Explorer
+
+Code Helper (Plugin) process is currently consuming more than one CPU core. So the original performance problem is still present — it's just no longer caused by AppTranslocation.
+
+Now let's identify the extension causing it
+
+Don't kill the process yet.
+
+In VS Code:
+
+Press ⌘ + Shift + P
+Search for:
+Developer: Open Process Explorer
+Open it.
+Look for Extension Host.
+
+It should show which extension is consuming CPU.
+-------------------------
+
+onedrive stop
+
+killall OneDrive
+
+killall OneDrive
+
+Wait about 10 seconds:
+
+pgrep -fl OneDrive
+
+You may still see the File Provider process. That's okay for now.
+
+2. Start OneDrive again:
+
+open -a OneDrive
+
+Wait 1–2 minutes.
+
+Then:
+
+ps aux | grep -i OneDrive
+
+Look at the CPU percentage for the main:
+
+/Applications/OneDrive.app/Contents/MacOS/OneDrive
+
+If it drops from ~217% to something much lower, that's a good sign.
+
+
+
+The important one is Code Helper (Plugin). VS Code uses this process to run its extensions/plugins and their supporting Node.js processes. Microsoft has documented multiple cases where a VS Code extension can cause Code Helper (Plugin) to consume excessive CPU.
+https://github.com/microsoft/vscode/issues/296681
+
+Why this is particularly relevant in your case
+
+Your screenshot also shows:
+
+Parent Process: Code (4608)
+Process Group: Code (4608)
+
+So this is definitely associated with Visual Studio Code.
+
+The process itself isn't necessarily the problem. An extension running inside VS Code is a likely cause. For example, recent reports have implicated extensions such as Cline, Codex, Pylance, JSON language support, and others in high CPU situations.
+
+First thing I would do
+
+In VS Code:
+
+Command Palette → Developer: Show Running Extensions
+
+This will show which extensions are actually running and how much time they are consuming.
+
+Then, as a quick test:
+
+Command Palette → Developer: Restart Extension Host
+
+If CPU immediately drops and later climbs again, that strongly points toward an extension.
+
+Even better — identify the exact extension
+
+Quit VS Code completely:
+
+⌘ + Q
+
+Then open Terminal and run:
+
+ps aux | grep "Code Helper (Plugin)"
+
+You may see something like:
+
+Code Helper (Plugin) ... ~/.vscode/extensions/xxxxx/...
+
+The path after .vscode/extensions/ will tell us exactly which extension is responsible.
+
+For example, if you see:
+
+~/.vscode/extensions/openai.chatgpt-...
+
+then the OpenAI/Codex extension is involved.
+
+If you see:
+
+~/.vscode/extensions/...
+
+with another extension name, that's the one we investigate.
+
+One important point
+
+Don't start deleting Code Helper (Plugin) itself. It's part of VS Code. The goal is to identify the extension/process running under it.
+
+Given that you're on a 16 GB Mac, having two Code Helper processes around 97% CPU each can absolutely make the machine feel hot, slow, and memory-constrained. There are also recent reports of persistent high CPU from VS Code extension hosts on Apple Silicon Macs.
+
+If you paste the output of this command here:
+
+ps aux | grep "Code Helper (Plugin)"
+
+
+
